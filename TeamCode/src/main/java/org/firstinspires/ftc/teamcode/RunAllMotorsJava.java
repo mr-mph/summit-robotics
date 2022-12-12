@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "RunAllMotors (Blocks to Java)")
-public class RunAllMotors extends LinearOpMode {
+public class RunAllMotorsJava extends LinearOpMode {
 
   private DcMotor leftfront;
   private DcMotor rightfront;
@@ -27,10 +27,33 @@ public class RunAllMotors extends LinearOpMode {
       // Put run blocks here.
       while (opModeIsActive()) {
         // Put loop blocks here.
+        telemetry.addLine("Running leftfront motor");
         leftfront.setPower(0.4);
+        telemetry.update();
+        sleep(3000);
+        leftfront.setPower(0.0);
+        telemetry.clear();
+
+        telemetry.addLine("Running rightfront motor");
         rightfront.setPower(0.4);
+        telemetry.update();
+        sleep(3000);
+        rightfront.setPower(0.0);
+        telemetry.clear();
+
+        telemetry.addLine("Running rightback motor");
         rightback.setPower(0.4);
+        telemetry.update();
+        sleep(3000);
+        rightback.setPower(0.0);
+        telemetry.clear();
+
+        telemetry.addLine("Running leftback motor");
         leftback.setPower(0.4);
+        telemetry.update();
+        sleep(3000);
+        leftback.setPower(0.0);
+        telemetry.clear();
       }
     }
   }

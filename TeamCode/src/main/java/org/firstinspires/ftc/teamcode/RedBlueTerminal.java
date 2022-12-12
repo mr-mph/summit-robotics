@@ -20,7 +20,7 @@ public class RedBlueTerminal extends LinearOpMode {
   private DcMotor rightback;
   private DcMotor leftback;
   private DcMotor rightfront;
-  private ColorSensor colorsensor_REV_ColorRangeSensor;
+  private ColorSensor colorsensor;
 
   /**
    * This function is executed when this Op Mode is selected from the Driver Station.
@@ -39,7 +39,7 @@ public class RedBlueTerminal extends LinearOpMode {
     rightback = hardwareMap.get(DcMotor.class, "rightback");
     leftback = hardwareMap.get(DcMotor.class, "leftback");
     rightfront = hardwareMap.get(DcMotor.class, "rightfront");
-    colorsensor_REV_ColorRangeSensor = hardwareMap.get(ColorSensor.class, "colorsensor");
+    colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
 
     leftfront.setDirection(DcMotorSimple.Direction.REVERSE);
     claw.setDirection(Servo.Direction.REVERSE);
@@ -89,9 +89,9 @@ public class RedBlueTerminal extends LinearOpMode {
       // Put run blocks here.
       while (opModeIsActive()) {
         // Display reflected light.
-        telemetry.addData("Light detected", ((OpticalDistanceSensor) colorsensor_REV_ColorRangeSensor).getLightDetected());
+        telemetry.addData("Light detected", ((OpticalDistanceSensor) colorsensor).getLightDetected());
         // Read color from the sensor.
-        normalizedColors = ((NormalizedColorSensor) colorsensor_REV_ColorRangeSensor).getNormalizedColors();
+        normalizedColors = ((NormalizedColorSensor) colorsensor).getNormalizedColors();
         telemetry.addData("Red", Double.parseDouble(JavaUtil.formatNumber(normalizedColors.red, 3)));
         telemetry.addData("Green", Double.parseDouble(JavaUtil.formatNumber(normalizedColors.green, 3)));
         telemetry.addData("Blue", Double.parseDouble(JavaUtil.formatNumber(normalizedColors.blue, 3)));

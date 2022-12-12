@@ -19,7 +19,7 @@ public class BlueBlueTerminal extends LinearOpMode {
   private DcMotor rightback;
   private DcMotor leftback;
   private DcMotor rightfront;
-  private ColorSensor colorsensor_REV_ColorRangeSensor;
+  private ColorSensor colorsensor;
 
   /**
    * This function is executed when this Op Mode is selected from the Driver Station.
@@ -38,7 +38,7 @@ public class BlueBlueTerminal extends LinearOpMode {
     rightback = hardwareMap.get(DcMotor.class, "rightback");
     leftback = hardwareMap.get(DcMotor.class, "leftback");
     rightfront = hardwareMap.get(DcMotor.class, "rightfront");
-    colorsensor_REV_ColorRangeSensor = hardwareMap.get(ColorSensor.class, "colorsensor");
+    colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
 
     // This op mode demonstrates the color and distance features of the REV sensor.
     gain = 2;
@@ -82,9 +82,9 @@ public class BlueBlueTerminal extends LinearOpMode {
       }
       while (opModeIsActive()) {
         // Display reflected light.
-        telemetry.addData("Light detected", ((OpticalDistanceSensor) colorsensor_REV_ColorRangeSensor).getLightDetected());
+        telemetry.addData("Light detected", ((OpticalDistanceSensor) colorsensor).getLightDetected());
         // Read color from the sensor.
-        normalizedColors = ((NormalizedColorSensor) colorsensor_REV_ColorRangeSensor).getNormalizedColors();
+        normalizedColors = ((NormalizedColorSensor) colorsensor).getNormalizedColors();
         telemetry.addData("Red", Double.parseDouble(JavaUtil.formatNumber(normalizedColors.red, 3)));
         telemetry.addData("Green", Double.parseDouble(JavaUtil.formatNumber(normalizedColors.green, 3)));
         telemetry.addData("Blue", Double.parseDouble(JavaUtil.formatNumber(normalizedColors.blue, 3)));
@@ -104,7 +104,7 @@ public class BlueBlueTerminal extends LinearOpMode {
         telemetry.update();
         if (saturation > 0) {
           if (hue < 30) {
-            telemetry.addData("Color", "Red");
+            telemetry.addData("Color", "Red"); // Strafes to the right
             leftback.setPower(-0.25);
             leftfront.setPower(0.25);
             rightback.setPower(0.25);
@@ -113,7 +113,7 @@ public class BlueBlueTerminal extends LinearOpMode {
             requestOpModeStop();
             telemetry.update();
           } else if (hue < 150) {
-            telemetry.addData("Color", "Green");
+            telemetry.addData("Color", "Green"); // Stays in place
             leftback.setPower(0);
             leftfront.setPower(0);
             rightback.setPower(0);
@@ -121,7 +121,7 @@ public class BlueBlueTerminal extends LinearOpMode {
             requestOpModeStop();
             telemetry.update();
           } else if (hue < 225) {
-            telemetry.addData("Color", "Blue");
+            telemetry.addData("Color", "Blue"); // Strafes to the left
             rightback.setPower(-0.25);
             rightfront.setPower(0.25);
             leftback.setPower(0.25);

@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
 @Autonomous(name = "Autonomous1 (Blocks to Java)")
-public class Autonomous1 extends LinearOpMode {
+public class AutonomousJava extends LinearOpMode {
 
   private DcMotor leftfront;
   private Servo claw;
