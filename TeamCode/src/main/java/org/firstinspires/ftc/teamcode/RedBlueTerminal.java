@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
-@Autonomous(name = "RedBlueTerminal (Blocks to Java)")
+@Autonomous(name = "RedBlueTerminal (Old)")
 public class RedBlueTerminal extends LinearOpMode {
 
   private DcMotor leftfront;

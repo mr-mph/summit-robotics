@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
-@Autonomous(name = "RedRedTerminal (Blocks to Java)")
+@Autonomous(name = "RedRedTerminal (Old)")
 public class RedRedTerminal extends LinearOpMode {
 
   private Servo claw;

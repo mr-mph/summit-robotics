@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "Robot (Blocks to Java)")
+@TeleOp(name = "RobotJava")
 public class RobotJava extends LinearOpMode {
 
   private DcMotor rightback;

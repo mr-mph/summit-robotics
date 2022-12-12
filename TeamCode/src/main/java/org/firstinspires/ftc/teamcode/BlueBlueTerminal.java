@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
-@Autonomous(name = "BlueBlueTerminal (Blocks to Java)")
+@Autonomous(name = "BlueBlueTerminal (Old)")
 public class BlueBlueTerminal extends LinearOpMode {
 
   private Servo claw;

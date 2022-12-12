@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
-@Autonomous(name = "Autonomous1 (Blocks to Java)")
+@Autonomous(name = "Autonomous (Broken)")
 public class AutonomousJava extends LinearOpMode {
 
   private DcMotor leftfront;
