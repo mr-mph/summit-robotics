@@ -33,8 +33,8 @@ public class RobotJava extends LinearOpMode {
 
     waitForStart();
 
-    rightback.setDirection(DcMotorSimple.Direction.REVERSE);
-    rightfront.setDirection(DcMotorSimple.Direction.REVERSE);
+    leftback.setDirection(DcMotorSimple.Direction.REVERSE);
+    leftfront.setDirection(DcMotorSimple.Direction.REVERSE);
 
     rightback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     leftback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -47,13 +47,13 @@ public class RobotJava extends LinearOpMode {
     if (opModeIsActive()) {
       // Put run code here.
       while (opModeIsActive()) {
-        if (gamepad1.left_trigger == 1) {
+        if (gamepad1.share) {
           if (speedState.equals("slow")) {
             speedState = "normal";
           } else {
             speedState = "slow";
           }
-        } else if (gamepad1.right_trigger == 1) {
+        } else if (gamepad1.start) {
           if (speedState.equals("fast")) {
             speedState = "normal";
           } else {
@@ -111,7 +111,7 @@ public class RobotJava extends LinearOpMode {
         } else if (gamepad2.dpad_down) {
           Slide.setPower(-1);
         } else {
-          Slide.setPower(0.15);
+          Slide.setPower(0.01d);
         }
 //        if (Slide.getCurrentPosition() > 600) {
 //          Slide.setPower(0.15);
