@@ -111,7 +111,7 @@ public class RobotJava extends LinearOpMode {
         } else if (gamepad2.dpad_down) {
           Slide.setPower(-1);
         } else {
-          Slide.setPower(0.01d);
+          Slide.setPower(0);
         }
 //        if (Slide.getCurrentPosition() > 600) {
 //          Slide.setPower(0.15);
