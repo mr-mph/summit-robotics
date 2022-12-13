@@ -90,15 +90,15 @@ public class RobotJava extends LinearOpMode {
           leftfront.setPower(Speed);
           rightfront.setPower(-Speed);
         } else if (gamepad1.right_bumper) {
-          rightback.setPower(Speed);
-          rightfront.setPower(Speed);
-          leftfront.setPower(-Speed);
-          leftback.setPower(-Speed);
-        } else if (gamepad1.left_bumper) {
           rightback.setPower(-Speed);
           rightfront.setPower(-Speed);
           leftfront.setPower(Speed);
           leftback.setPower(Speed);
+        } else if (gamepad1.left_bumper) {
+          rightback.setPower(Speed);
+          rightfront.setPower(Speed);
+          leftfront.setPower(-Speed);
+          leftback.setPower(-Speed);
         } else {
           rightback.setPower(0);
           leftback.setPower(0);
