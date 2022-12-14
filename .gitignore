@@ -85,4 +85,5 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
-FtcRobotController/src/main/.DS_Store
+.DS_Store
+*.hprof

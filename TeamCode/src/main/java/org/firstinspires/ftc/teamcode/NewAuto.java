@@ -69,26 +69,15 @@ public class NewAuto extends LinearOpMode {
             // Use hue to determine if it's red, green, blue, etc..
             if (hue < 30) {
                 telemetry.addData("Color", "Red"); // Strafes to the right
-                leftback.setPower(-0.25);
-                leftfront.setPower(0.25);
-                rightback.setPower(0.25);
-                rightfront.setPower(-0.25);
-                sleep(2600);
+                strafeRight(0.25, 2600);
                 requestOpModeStop();
             } else if (hue < 150) {
                 telemetry.addData("Color", "Green"); // Stays in place
-                leftback.setPower(0);
-                leftfront.setPower(0);
-                rightback.setPower(0);
-                rightfront.setPower(0);
+                stopMotors();
                 requestOpModeStop();
             } else if (hue < 225) {
                 telemetry.addData("Color", "Blue"); // Strafes to the left
-                rightback.setPower(-0.25);
-                rightfront.setPower(0.25);
-                leftback.setPower(0.25);
-                leftfront.setPower(-0.25);
-                sleep(2600);
+                strafeLeft(0.25, 2600);
                 requestOpModeStop();
             }
             telemetry.update();
