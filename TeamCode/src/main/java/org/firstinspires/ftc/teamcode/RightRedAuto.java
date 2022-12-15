@@ -7,18 +7,18 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
-@Autonomous(name = "New Auto (needs work)")
-public class NewAuto extends LinearOpMode {
+@Autonomous(name = "Right Side Red")
+public class RightRedAuto extends LinearOpMode {
 
     private Servo claw;
     private DcMotor leftfront;
     private DcMotor rightback;
     private DcMotor leftback;
     private DcMotor rightfront;
+    private DcMotor Slide;
     private ColorSensor colorsensor;
 
     /**
@@ -32,55 +32,68 @@ public class NewAuto extends LinearOpMode {
         float value;
 
         claw = hardwareMap.get(Servo.class, "claw");
+
         leftfront = hardwareMap.get(DcMotor.class, "leftfront");
         rightback = hardwareMap.get(DcMotor.class, "rightback");
         leftback = hardwareMap.get(DcMotor.class, "leftback");
         rightfront = hardwareMap.get(DcMotor.class, "rightfront");
+
+        Slide = hardwareMap.get(DcMotor.class, "Slide");
+
         colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
-        
-        claw.setDirection(Servo.Direction.REVERSE);
+
+        Slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        leftback.setDirection(DcMotorSimple.Direction.REVERSE);
         leftfront.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        rightback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftfront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightfront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         waitForStart();
-        
+
         if (opModeIsActive()) {
-            
+
             claw.setPosition(1);
-            moveForward(0.25, 2800);
+            setSlide(0.1, 100);
+            strafeRight(0.25, 1400);
             claw.setPosition(0);
-            moveBackward(0.25, 1800);
-            strafeRight(0.25, 250);
-            rotateRight(0.25, 1950);
-            moveForward(0.25, 2600);
-            stopMotors();
-        }
-        while (opModeIsActive()) {
-            // Display reflected light.
-            telemetry.addData("Light detected", ((OpticalDistanceSensor) colorsensor).getLightDetected());
-            // Read color from the sensor.
-            normalizedColors = ((NormalizedColorSensor) colorsensor).getNormalizedColors();
-            // Convert RGB values to Hue, Saturation, and Value.
-            // See https://en.wikipedia.org/wiki/HSL_and_HSV for details on HSV color model.
-            color = normalizedColors.toColor();
-            hue = JavaUtil.colorToHue(color);
-            value = JavaUtil.colorToValue(color);
-            telemetry.addData("Hue", Double.parseDouble(JavaUtil.formatNumber(hue, 0)));
-            telemetry.addData("Value", Double.parseDouble(JavaUtil.formatNumber(value, 3)));// Show the color on the Robot Controller screen.
-            JavaUtil.showColor(hardwareMap.appContext, color);
-            // Use hue to determine if it's red, green, blue, etc..
-            if (hue < 30) {
-                telemetry.addData("Color", "Red"); // Strafes to the right
-                strafeRight(0.25, 2600);
-                requestOpModeStop();
-            } else if (hue < 150) {
-                telemetry.addData("Color", "Green"); // Stays in place
-                stopMotors();
-                requestOpModeStop();
-            } else if (hue < 225) {
-                telemetry.addData("Color", "Blue"); // Strafes to the left
-                strafeLeft(0.25, 2600);
-                requestOpModeStop();
+            strafeLeft(0.25, 1400);
+            while (opModeIsActive()) {
+                rightback.setPower(0.25);
+                leftback.setPower(0.25);
+                leftfront.setPower(0.25);
+                rightfront.setPower(0.25);
+
+                telemetry.addData("Slide encoder", Slide.getCurrentPosition());
+                normalizedColors = ((NormalizedColorSensor) colorsensor).getNormalizedColors();
+                color = normalizedColors.toColor();
+                hue = JavaUtil.colorToHue(color);
+
+                value = JavaUtil.colorToValue(color);
+                telemetry.addData("Hue", Double.parseDouble(JavaUtil.formatNumber(hue, 0)));
+                telemetry.addData("Value", Double.parseDouble(JavaUtil.formatNumber(value, 3)));// Show the color on the Robot Controller screen.
+                JavaUtil.showColor(hardwareMap.appContext, color);
+                // Use hue to determine if it's red, green, blue, etc..
+                moveForward(0.25, 0);
+                if (hue < 30) {
+                    telemetry.addData("Color", "Red"); // location 1
+                    strafeLeft(0.25, 2600);
+                    requestOpModeStop();
+                } else if (hue < 150) {
+                    telemetry.addData("Color", "Green"); // location 2
+                    stopMotors();
+                    requestOpModeStop();
+                } else if (hue < 225) {
+                    telemetry.addData("Color", "Blue"); // location 3
+                    strafeRight(0.25, 2600);
+                    requestOpModeStop();
+                }
+                telemetry.update();
             }
-            telemetry.update();
         }
     }
 
@@ -143,5 +156,11 @@ public class NewAuto extends LinearOpMode {
         rightfront.setPower(-speed);
         sleep((long) (milliseconds));
         stopMotors();
+    }
+
+    private void setSlide(double power, int milliseconds) {
+        Slide.setPower(power);
+        sleep(milliseconds);
+        Slide.setPower(0);
     }
 }
