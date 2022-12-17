@@ -1,15 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.transition.Slide;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
-import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
 @Autonomous(name = "Right Side Red")
@@ -19,8 +19,8 @@ public class RightRedAuto extends LinearOpMode {
     private DcMotor rightback;
     private DcMotor leftback;
     private DcMotor rightfront;
-    private Servo clawleft;
-    private Servo clawright;
+    private CRServo clawleft;
+    private CRServo clawright;
     private DcMotor slideleft;
     private DcMotor slideright;
     private ColorSensor colorsensor;
@@ -35,15 +35,13 @@ public class RightRedAuto extends LinearOpMode {
         float hue;
         float value;
 
-
-
         leftfront = hardwareMap.get(DcMotor.class, "leftfront");
         rightback = hardwareMap.get(DcMotor.class, "rightback");
         leftback = hardwareMap.get(DcMotor.class, "leftback");
         rightfront = hardwareMap.get(DcMotor.class, "rightfront");
 
-        clawleft = hardwareMap.get(Servo.class, "clawleft");
-        clawright = hardwareMap.get(Servo.class, "clawright");
+        clawleft = hardwareMap.get(CRServo.class, "clawleft");
+        clawright = hardwareMap.get(CRServo.class, "clawright");
         slideleft = hardwareMap.get(DcMotor.class, "slideleft");
         slideright = hardwareMap.get(DcMotor.class, "slideright");
 
@@ -67,18 +65,20 @@ public class RightRedAuto extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            clawleft.setPosition(1);
-            clawright.setPosition(1);
+            clawleft.setPower(-0.5);
+            clawright.setPower(0.5);
             setSlide(0.1, 100);
             strafeRight(0.25, 1400);
-            clawleft.setPosition(0);
-            clawright.setPosition(0);
+            clawleft.setPower(0);
+            clawright.setPower(0);
             strafeLeft(0.25, 1400);
+
             while (opModeIsActive()) {
                 rightback.setPower(0.25);
                 leftback.setPower(0.25);
                 leftfront.setPower(0.25);
                 rightfront.setPower(0.25);
+                setSlide(0.5, 200);
 
                 telemetry.addData("Slide encoder", slideleft.getCurrentPosition());
                 normalizedColors = ((NormalizedColorSensor) colorsensor).getNormalizedColors();
@@ -172,7 +172,7 @@ public class RightRedAuto extends LinearOpMode {
 
     private void setSlide(double power, int milliseconds) {
         slideleft.setPower(power);
-        slideright.setPower(power);
+        slideright.setPower(-power);
         sleep(milliseconds);
         slideleft.setPower(0);
         slideright.setPower(0);

@@ -3,22 +3,23 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "RobotJava")
+@TeleOp(name = "Robot Java")
 public class RobotJava extends LinearOpMode {
 
   private DcMotor rightback;
   private DcMotor rightfront;
   private DcMotor leftback;
   private DcMotor leftfront;
-//  private Servo clawleft;
-//  private Servo clawright;
+  private CRServo clawleft;
+  private CRServo clawright;
   private DcMotor slideleft;
   private DcMotor slideright;
   private String speedState = "normal";
+  private boolean IsClawClosed = false;
 
   /**
    * This function is executed when this Op Mode is selected from the Driver Station.
@@ -31,8 +32,8 @@ public class RobotJava extends LinearOpMode {
     rightfront = hardwareMap.get(DcMotor.class, "rightfront");
     leftback = hardwareMap.get(DcMotor.class, "leftback");
     leftfront = hardwareMap.get(DcMotor.class, "leftfront");
-//    clawleft = hardwareMap.get(Servo.class, "clawleft");
-//    clawright = hardwareMap.get(Servo.class, "clawright");
+    clawleft = hardwareMap.get(CRServo.class, "clawleft");
+    clawright = hardwareMap.get(CRServo.class, "clawright");
     slideleft = hardwareMap.get(DcMotor.class, "slideleft");
     slideright = hardwareMap.get(DcMotor.class, "slideright");
 
@@ -47,9 +48,11 @@ public class RobotJava extends LinearOpMode {
     rightfront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     slideleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    slideleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     slideleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     slideright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    slideright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     slideright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     if (opModeIsActive()) {
@@ -61,16 +64,18 @@ public class RobotJava extends LinearOpMode {
           } else {
             speedState = "slow";
           }
+          while (gamepad1.share) {}
         } else if (gamepad1.start) {
           if (speedState.equals("fast")) {
             speedState = "normal";
           } else {
             speedState = "fast";
           }
+          while (gamepad1.start) {}
         }
 
         if (speedState.equals("slow")) {
-          Speed = 0.2;
+          Speed = 0.1;
         } else if (speedState.equals("fast")) {
           Speed = 0.8;
         } else {
@@ -115,29 +120,41 @@ public class RobotJava extends LinearOpMode {
         }
 
         if (gamepad2.dpad_up) {
-          slideleft.setPower(1);
-          slideright.setPower(1);
+          slideleft.setPower(0.6);
+          slideright.setPower(0.6);
+          slideright.setTargetPosition(-1800);
+          slideleft.setTargetPosition(1800);
+          slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         } else if (gamepad2.dpad_down) {
-          slideleft.setPower(-1);
-          slideright.setPower(-1);
+          slideleft.setPower(0.6);
+          slideright.setPower(0.6);
+          slideright.setTargetPosition(0);
+          slideleft.setTargetPosition(0);
+          slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+
+        if (IsClawClosed) {
+          clawleft.setPower(-0.5);
+          clawright.setPower(0.5);
         } else {
-          slideleft.setPower(0);
-          slideright.setPower(0);
+          clawleft.setPower(0);
+          clawright.setPower(0);
         }
 
         if (gamepad2.dpad_left) {
-//          clawleft.setPosition(0);
-//          clawright.setPosition(0);
+          IsClawClosed = false;
         } else if (gamepad2.dpad_right) {
-//          clawleft.setPosition(1);
-//          clawright.setPosition(1);
+          IsClawClosed = true;
         }
 
-        telemetry.addData("rightback", rightback.getPower());
-        telemetry.addData("leftback", leftback.getPower());
-        telemetry.addData("leftfront", leftfront.getPower());
-        telemetry.addData("rightfront", rightfront.getPower());
         telemetry.addData("slideleft", slideleft.getCurrentPosition());
+        telemetry.addData("slideright", slideright.getCurrentPosition());
+        telemetry.addData("servoleft", clawleft.getPower());
+        telemetry.addData("servoright", clawright.getPower());
+        telemetry.addData("speedState", speedState);
         telemetry.update();
       }
     }
