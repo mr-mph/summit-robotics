@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.transition.Slide;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -13,12 +15,14 @@ import org.firstinspires.ftc.robotcore.external.JavaUtil;
 @Autonomous(name = "Right Side Red")
 public class RightRedAuto extends LinearOpMode {
 
-    private Servo claw;
     private DcMotor leftfront;
     private DcMotor rightback;
     private DcMotor leftback;
     private DcMotor rightfront;
-    private DcMotor Slide;
+    private Servo clawleft;
+    private Servo clawright;
+    private DcMotor slideleft;
+    private DcMotor slideright;
     private ColorSensor colorsensor;
 
     /**
@@ -31,22 +35,28 @@ public class RightRedAuto extends LinearOpMode {
         float hue;
         float value;
 
-        claw = hardwareMap.get(Servo.class, "claw");
+
 
         leftfront = hardwareMap.get(DcMotor.class, "leftfront");
         rightback = hardwareMap.get(DcMotor.class, "rightback");
         leftback = hardwareMap.get(DcMotor.class, "leftback");
         rightfront = hardwareMap.get(DcMotor.class, "rightfront");
 
-        Slide = hardwareMap.get(DcMotor.class, "Slide");
+        clawleft = hardwareMap.get(Servo.class, "clawleft");
+        clawright = hardwareMap.get(Servo.class, "clawright");
+        slideleft = hardwareMap.get(DcMotor.class, "slideleft");
+        slideright = hardwareMap.get(DcMotor.class, "slideright");
 
         colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
 
-        Slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        Slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slideleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        leftback.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftfront.setDirection(DcMotorSimple.Direction.REVERSE);
+        slideright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        rightback.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightfront.setDirection(DcMotorSimple.Direction.REVERSE);
 
         rightback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -57,10 +67,12 @@ public class RightRedAuto extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            claw.setPosition(1);
+            clawleft.setPosition(1);
+            clawright.setPosition(1);
             setSlide(0.1, 100);
             strafeRight(0.25, 1400);
-            claw.setPosition(0);
+            clawleft.setPosition(0);
+            clawright.setPosition(0);
             strafeLeft(0.25, 1400);
             while (opModeIsActive()) {
                 rightback.setPower(0.25);
@@ -68,7 +80,7 @@ public class RightRedAuto extends LinearOpMode {
                 leftfront.setPower(0.25);
                 rightfront.setPower(0.25);
 
-                telemetry.addData("Slide encoder", Slide.getCurrentPosition());
+                telemetry.addData("Slide encoder", slideleft.getCurrentPosition());
                 normalizedColors = ((NormalizedColorSensor) colorsensor).getNormalizedColors();
                 color = normalizedColors.toColor();
                 hue = JavaUtil.colorToHue(color);
@@ -141,15 +153,6 @@ public class RightRedAuto extends LinearOpMode {
     }
 
     private void rotateLeft(double speed, int milliseconds) {
-        rightback.setPower(speed);
-        leftback.setPower(-speed);
-        leftfront.setPower(-speed);
-        rightfront.setPower(speed);
-        sleep((long) (milliseconds));
-        stopMotors();
-    }
-
-    private void rotateRight(double speed, int milliseconds) {
         rightback.setPower(-speed);
         leftback.setPower(speed);
         leftfront.setPower(speed);
@@ -158,9 +161,20 @@ public class RightRedAuto extends LinearOpMode {
         stopMotors();
     }
 
+    private void rotateRight(double speed, int milliseconds) {
+        rightback.setPower(speed);
+        leftback.setPower(-speed);
+        leftfront.setPower(-speed);
+        rightfront.setPower(speed);
+        sleep((long) (milliseconds));
+        stopMotors();
+    }
+
     private void setSlide(double power, int milliseconds) {
-        Slide.setPower(power);
+        slideleft.setPower(power);
+        slideright.setPower(power);
         sleep(milliseconds);
-        Slide.setPower(0);
+        slideleft.setPower(0);
+        slideright.setPower(0);
     }
 }
