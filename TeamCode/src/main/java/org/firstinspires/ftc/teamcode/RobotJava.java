@@ -119,22 +119,35 @@ public class RobotJava extends LinearOpMode {
           rightfront.setPower(0);
         }
 
-        if (gamepad2.dpad_up) {
-          slideleft.setPower(0.6);
-          slideright.setPower(0.6);
+        if (gamepad2.dpad_up || gamepad1.y) {
+          slideleft.setPower(0.3);
+          slideright.setPower(0.3);
           slideright.setTargetPosition(-1800);
           slideleft.setTargetPosition(1800);
           slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
           slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else if (gamepad2.dpad_down) {
-          slideleft.setPower(0.6);
-          slideright.setPower(0.6);
+        } else if (gamepad2.dpad_down  || gamepad1.a) {
+          slideleft.setPower(0.3);
+          slideright.setPower(0.3);
           slideright.setTargetPosition(0);
           slideleft.setTargetPosition(0);
           slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
           slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-
+        } else if (gamepad2.share || gamepad1.left_bumper) {
+          slideleft.setPower(0.3);
+          slideright.setPower(0.3);
+          slideright.setTargetPosition(-1000);
+          slideleft.setTargetPosition(1000);
+          slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else if (gamepad2.start || gamepad1.right_bumper) {
+        slideleft.setPower(0.3);
+        slideright.setPower(0.3);
+        slideright.setTargetPosition(-1400);
+        slideleft.setTargetPosition(1400);
+        slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      }
 
         if (IsClawClosed) {
           clawleft.setPower(-0.5);
@@ -144,9 +157,9 @@ public class RobotJava extends LinearOpMode {
           clawright.setPower(0);
         }
 
-        if (gamepad2.dpad_left) {
+        if (gamepad2.dpad_left || gamepad1.x) {
           IsClawClosed = false;
-        } else if (gamepad2.dpad_right) {
+        } else if (gamepad2.dpad_right || gamepad1.b) {
           IsClawClosed = true;
         }
 

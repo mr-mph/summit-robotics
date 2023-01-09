@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
-@Autonomous(name = "Right Side Red")
+@Autonomous(name = "RightRed (Dont Use)")
 public class RightRedAuto extends LinearOpMode {
 
     private DcMotor leftfront;
@@ -65,20 +65,8 @@ public class RightRedAuto extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            clawleft.setPower(-0.5);
-            clawright.setPower(0.5);
-            setSlide(0.1, 100);
-            strafeRight(0.25, 1400);
-            clawleft.setPower(0);
-            clawright.setPower(0);
-            strafeLeft(0.25, 1400);
-
             while (opModeIsActive()) {
-                rightback.setPower(0.25);
-                leftback.setPower(0.25);
-                leftfront.setPower(0.25);
-                rightfront.setPower(0.25);
-                setSlide(0.5, 200);
+                moveBackward(-1, 0);
 
                 telemetry.addData("Slide encoder", slideleft.getCurrentPosition());
                 normalizedColors = ((NormalizedColorSensor) colorsensor).getNormalizedColors();
