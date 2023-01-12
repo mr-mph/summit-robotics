@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -49,11 +51,16 @@ public class RobotJava extends LinearOpMode {
 
     slideleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     slideleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    slideleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    slideleft.setTargetPosition(0);
+    slideleft.setPower(0.5);
+    slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
     slideright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     slideright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    slideright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    slideright.setTargetPosition(0);
+    slideright.setPower(0.5);
+    slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
     if (opModeIsActive()) {
       // Put run code here.
@@ -120,33 +127,17 @@ public class RobotJava extends LinearOpMode {
         }
 
         if (gamepad2.dpad_up || gamepad1.y) {
-          slideleft.setPower(0.3);
-          slideright.setPower(0.3);
           slideright.setTargetPosition(-1800);
           slideleft.setTargetPosition(1800);
-          slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-          slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         } else if (gamepad2.dpad_down  || gamepad1.a) {
-          slideleft.setPower(0.3);
-          slideright.setPower(0.3);
           slideright.setTargetPosition(0);
           slideleft.setTargetPosition(0);
-          slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-          slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else if (gamepad2.share || gamepad1.left_bumper) {
-          slideleft.setPower(0.3);
-          slideright.setPower(0.3);
+        } else if (gamepad2.share) {
           slideright.setTargetPosition(-1000);
           slideleft.setTargetPosition(1000);
-          slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-          slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else if (gamepad2.start || gamepad1.right_bumper) {
-        slideleft.setPower(0.3);
-        slideright.setPower(0.3);
+        } else if (gamepad2.start) {
         slideright.setTargetPosition(-1400);
         slideleft.setTargetPosition(1400);
-        slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
       }
 
         if (IsClawClosed) {
