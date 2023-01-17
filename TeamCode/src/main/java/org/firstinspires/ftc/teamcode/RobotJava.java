@@ -41,8 +41,8 @@ public class RobotJava extends LinearOpMode {
 
     waitForStart();
 
-    rightback.setDirection(DcMotorSimple.Direction.REVERSE);
-    rightfront.setDirection(DcMotorSimple.Direction.REVERSE);
+    leftback.setDirection(DcMotorSimple.Direction.REVERSE);
+    leftfront.setDirection(DcMotorSimple.Direction.REVERSE);
 
     rightback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     leftback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -90,35 +90,35 @@ public class RobotJava extends LinearOpMode {
         }
 
         if (gamepad1.dpad_down) {
-          rightback.setPower(Speed);
-          leftback.setPower(Speed);
-          leftfront.setPower(Speed);
-          rightfront.setPower(Speed);
+          rightback.setPower(-Speed);
+          leftback.setPower(-Speed);
+          leftfront.setPower(-Speed);
+          rightfront.setPower(-Speed);
         } else if (gamepad1.dpad_up) {
-          rightback.setPower(-Speed);
-          leftback.setPower(-Speed);
-          leftfront.setPower(-Speed);
-          rightfront.setPower(-Speed);
+          rightback.setPower(Speed);
+          leftback.setPower(Speed);
+          leftfront.setPower(Speed);
+          rightfront.setPower(Speed);
         } else if (gamepad1.dpad_right) {
-          rightback.setPower(-Speed);
-          leftback.setPower(Speed);
-          leftfront.setPower(-Speed);
-          rightfront.setPower(Speed);
+          rightback.setPower(Speed * 1.2);
+          leftback.setPower(-Speed * 1.2);
+          leftfront.setPower(Speed);
+          rightfront.setPower(-Speed);
         } else if (gamepad1.dpad_left) {
-          rightback.setPower(Speed);
-          leftback.setPower(-Speed);
-          leftfront.setPower(Speed);
-          rightfront.setPower(-Speed);
-        } else if (gamepad1.right_bumper) {
-          rightback.setPower(Speed);
-          rightfront.setPower(Speed);
+          rightback.setPower(-Speed * 1.2);
+          leftback.setPower(Speed * 1.2);
           leftfront.setPower(-Speed);
-          leftback.setPower(-Speed);
-        } else if (gamepad1.left_bumper) {
+          rightfront.setPower(Speed);
+        } else if (gamepad1.right_bumper) {
           rightback.setPower(-Speed);
           rightfront.setPower(-Speed);
           leftfront.setPower(Speed);
           leftback.setPower(Speed);
+        } else if (gamepad1.left_bumper) {
+          rightback.setPower(Speed);
+          rightfront.setPower(Speed);
+          leftfront.setPower(-Speed);
+          leftback.setPower(-Speed);
         } else {
           rightback.setPower(0);
           leftback.setPower(0);
