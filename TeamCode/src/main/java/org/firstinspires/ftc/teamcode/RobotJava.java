@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,9 +9,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
+@Config
 @TeleOp(name = "Robot Java")
 public class RobotJava extends LinearOpMode {
+
+  public static double LEFT_SERVO_CLOSED = 0.0;
+  public static double RIGHT_SERVO_CLOSED = 0.0;
+  public static double SPEED;
 
   private DcMotor rightback;
   private DcMotor rightfront;
@@ -28,7 +33,6 @@ public class RobotJava extends LinearOpMode {
    */
   @Override
   public void runOpMode() {
-    double Speed;
 
     rightback = hardwareMap.get(DcMotor.class, "rightback");
     rightfront = hardwareMap.get(DcMotor.class, "rightfront");
@@ -52,13 +56,13 @@ public class RobotJava extends LinearOpMode {
     slideleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     slideleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     slideleft.setTargetPosition(0);
-    slideleft.setPower(0.5);
+    slideleft.setPower(0.8);
     slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
     slideright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     slideright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     slideright.setTargetPosition(0);
-    slideright.setPower(0.5);
+    slideright.setPower(0.8);
     slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
@@ -82,43 +86,43 @@ public class RobotJava extends LinearOpMode {
         }
 
         if (speedState.equals("slow")) {
-          Speed = 0.1;
+          SPEED = 0.1;
         } else if (speedState.equals("fast")) {
-          Speed = 0.8;
+          SPEED = 0.8;
         } else {
-          Speed = 0.4;
+          SPEED = 0.4;
         }
 
         if (gamepad1.dpad_down) {
-          rightback.setPower(-Speed);
-          leftback.setPower(-Speed);
-          leftfront.setPower(-Speed);
-          rightfront.setPower(-Speed);
+          rightback.setPower(-SPEED);
+          leftback.setPower(-SPEED);
+          leftfront.setPower(-SPEED);
+          rightfront.setPower(-SPEED);
         } else if (gamepad1.dpad_up) {
-          rightback.setPower(Speed);
-          leftback.setPower(Speed);
-          leftfront.setPower(Speed);
-          rightfront.setPower(Speed);
+          rightback.setPower(SPEED);
+          leftback.setPower(SPEED);
+          leftfront.setPower(SPEED);
+          rightfront.setPower(SPEED);
         } else if (gamepad1.dpad_right) {
-          rightback.setPower(Speed * 1.2);
-          leftback.setPower(-Speed * 1.2);
-          leftfront.setPower(Speed);
-          rightfront.setPower(-Speed);
+          rightback.setPower(SPEED * 1.2);
+          leftback.setPower(-SPEED * 1.2);
+          leftfront.setPower(SPEED);
+          rightfront.setPower(-SPEED);
         } else if (gamepad1.dpad_left) {
-          rightback.setPower(-Speed * 1.2);
-          leftback.setPower(Speed * 1.2);
-          leftfront.setPower(-Speed);
-          rightfront.setPower(Speed);
+          rightback.setPower(-SPEED * 1.2);
+          leftback.setPower(SPEED * 1.2);
+          leftfront.setPower(-SPEED);
+          rightfront.setPower(SPEED);
         } else if (gamepad1.right_bumper) {
-          rightback.setPower(-Speed);
-          rightfront.setPower(-Speed);
-          leftfront.setPower(Speed);
-          leftback.setPower(Speed);
+          rightback.setPower(-SPEED);
+          rightfront.setPower(-SPEED);
+          leftfront.setPower(SPEED);
+          leftback.setPower(SPEED);
         } else if (gamepad1.left_bumper) {
-          rightback.setPower(Speed);
-          rightfront.setPower(Speed);
-          leftfront.setPower(-Speed);
-          leftback.setPower(-Speed);
+          rightback.setPower(SPEED);
+          rightfront.setPower(SPEED);
+          leftfront.setPower(-SPEED);
+          leftback.setPower(-SPEED);
         } else {
           rightback.setPower(0);
           leftback.setPower(0);
@@ -141,11 +145,11 @@ public class RobotJava extends LinearOpMode {
       }
 
         if (IsClawClosed) {
-          clawleft.setPower(-0.5);
-          clawright.setPower(0.5);
+          clawleft.setPower(LEFT_SERVO_CLOSED);
+          clawright.setPower(RIGHT_SERVO_CLOSED);
         } else {
-          clawleft.setPower(0);
-          clawright.setPower(0);
+          clawleft.setPower(LEFT_SERVO_CLOSED-0.5);
+          clawright.setPower(RIGHT_SERVO_CLOSED+0.5);
         }
 
         if (gamepad2.dpad_left || gamepad1.x) {
