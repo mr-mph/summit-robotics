@@ -14,17 +14,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class RobotJava extends LinearOpMode {
 
   public static double LEFT_SERVO_CLOSED = 0.0;
+  public static double LEFT_SERVO_OPEN = -0.5;
+  public static double RIGHT_SERVO_OPEN = 0.5;
   public static double RIGHT_SERVO_CLOSED = 0.0;
-  public static double SPEED;
 
-  private DcMotor rightback;
-  private DcMotor rightfront;
-  private DcMotor leftback;
-  private DcMotor leftfront;
-  private CRServo clawleft;
-  private CRServo clawright;
-  private DcMotor slideleft;
-  private DcMotor slideright;
   private String speedState = "normal";
   private boolean IsClawClosed = false;
 
@@ -34,14 +27,16 @@ public class RobotJava extends LinearOpMode {
   @Override
   public void runOpMode() {
 
-    rightback = hardwareMap.get(DcMotor.class, "rightback");
-    rightfront = hardwareMap.get(DcMotor.class, "rightfront");
-    leftback = hardwareMap.get(DcMotor.class, "leftback");
-    leftfront = hardwareMap.get(DcMotor.class, "leftfront");
-    clawleft = hardwareMap.get(CRServo.class, "clawleft");
-    clawright = hardwareMap.get(CRServo.class, "clawright");
-    slideleft = hardwareMap.get(DcMotor.class, "slideleft");
-    slideright = hardwareMap.get(DcMotor.class, "slideright");
+    double SPEED;
+
+    DcMotor rightback = hardwareMap.get(DcMotor.class, "rightback");
+    DcMotor rightfront = hardwareMap.get(DcMotor.class, "rightfront");
+    DcMotor leftback = hardwareMap.get(DcMotor.class, "leftback");
+    DcMotor leftfront = hardwareMap.get(DcMotor.class, "leftfront");
+    CRServo clawleft = hardwareMap.get(CRServo.class, "clawleft");
+    CRServo clawright = hardwareMap.get(CRServo.class, "clawright");
+    DcMotor slideleft = hardwareMap.get(DcMotor.class, "slideleft");
+    DcMotor slideright = hardwareMap.get(DcMotor.class, "slideright");
 
     waitForStart();
 
@@ -148,8 +143,8 @@ public class RobotJava extends LinearOpMode {
           clawleft.setPower(LEFT_SERVO_CLOSED);
           clawright.setPower(RIGHT_SERVO_CLOSED);
         } else {
-          clawleft.setPower(LEFT_SERVO_CLOSED-0.5);
-          clawright.setPower(RIGHT_SERVO_CLOSED+0.5);
+          clawleft.setPower(LEFT_SERVO_OPEN);
+          clawright.setPower(RIGHT_SERVO_OPEN);
         }
 
         if (gamepad2.dpad_left || gamepad1.x) {
@@ -163,6 +158,7 @@ public class RobotJava extends LinearOpMode {
         telemetry.addData("servoleft", clawleft.getPower());
         telemetry.addData("servoright", clawright.getPower());
         telemetry.addData("speedState", speedState);
+        telemetry.addData("IsClawClosed", IsClawClosed);
         telemetry.update();
       }
     }
