@@ -13,12 +13,16 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 @TeleOp(name = "Robot Java")
 public class RobotJava extends LinearOpMode {
 
-  public static double LEFT_SERVO_CLOSED = 0.0;
-  public static double LEFT_SERVO_OPEN = -0.5;
-  public static double RIGHT_SERVO_OPEN = 0.5;
-  public static double RIGHT_SERVO_CLOSED = 0.0;
+  public static double SERVO_CLOSED = 0.1;
+  public static double SERVO_OPEN = -0.5;
+  public static int HIGH_JUNCTION_TICKS = 1550;
+  public static int MEDIUM_JUNCTION_TICKS = 1150;
+  public static int LOW_JUNCTION_TICKS = 650;
+  public static int GROUND_JUNCTION_TICKS = 50;
+  public static double SLIDE_UP_SPEED = 0.8;
+  public static double SLIDE_DOWN_SPEED = 0.6;
+  public static double SENSITIVITY = 0.4;
 
-  private String speedState = "normal";
   private boolean IsClawClosed = false;
 
   /**
@@ -26,8 +30,6 @@ public class RobotJava extends LinearOpMode {
    */
   @Override
   public void runOpMode() {
-
-    double SPEED;
 
     DcMotor rightback = hardwareMap.get(DcMotor.class, "rightback");
     DcMotor rightfront = hardwareMap.get(DcMotor.class, "rightfront");
@@ -51,73 +53,48 @@ public class RobotJava extends LinearOpMode {
     slideleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     slideleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     slideleft.setTargetPosition(0);
-    slideleft.setPower(0.8);
     slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
     slideright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     slideright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     slideright.setTargetPosition(0);
-    slideright.setPower(0.8);
     slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
     if (opModeIsActive()) {
       // Put run code here.
       while (opModeIsActive()) {
-        if (gamepad1.share) {
-          if (speedState.equals("slow")) {
-            speedState = "normal";
-          } else {
-            speedState = "slow";
-          }
-          while (gamepad1.share) {}
-        } else if (gamepad1.start) {
-          if (speedState.equals("fast")) {
-            speedState = "normal";
-          } else {
-            speedState = "fast";
-          }
-          while (gamepad1.start) {}
-        }
 
-        if (speedState.equals("slow")) {
-          SPEED = 0.1;
-        } else if (speedState.equals("fast")) {
-          SPEED = 0.8;
-        } else {
-          SPEED = 0.4;
-        }
-
-        if (gamepad1.dpad_down) {
-          rightback.setPower(-SPEED);
-          leftback.setPower(-SPEED);
-          leftfront.setPower(-SPEED);
-          rightfront.setPower(-SPEED);
-        } else if (gamepad1.dpad_up) {
-          rightback.setPower(SPEED);
-          leftback.setPower(SPEED);
-          leftfront.setPower(SPEED);
-          rightfront.setPower(SPEED);
-        } else if (gamepad1.dpad_right) {
-          rightback.setPower(SPEED * 1.2);
-          leftback.setPower(-SPEED * 1.2);
-          leftfront.setPower(SPEED);
-          rightfront.setPower(-SPEED);
-        } else if (gamepad1.dpad_left) {
-          rightback.setPower(-SPEED * 1.2);
-          leftback.setPower(SPEED * 1.2);
-          leftfront.setPower(-SPEED);
-          rightfront.setPower(SPEED);
-        } else if (gamepad1.right_bumper) {
-          rightback.setPower(-SPEED);
-          rightfront.setPower(-SPEED);
-          leftfront.setPower(SPEED);
-          leftback.setPower(SPEED);
-        } else if (gamepad1.left_bumper) {
-          rightback.setPower(SPEED);
-          rightfront.setPower(SPEED);
-          leftfront.setPower(-SPEED);
-          leftback.setPower(-SPEED);
+        if (gamepad1.dpad_down || gamepad2.dpad_down) {
+          rightback.setPower(-SENSITIVITY);
+          leftback.setPower(-SENSITIVITY);
+          leftfront.setPower(-SENSITIVITY);
+          rightfront.setPower(-SENSITIVITY);
+        } else if (gamepad1.dpad_up || gamepad2.dpad_up) {
+          rightback.setPower(SENSITIVITY);
+          leftback.setPower(SENSITIVITY);
+          leftfront.setPower(SENSITIVITY);
+          rightfront.setPower(SENSITIVITY);
+        } else if (gamepad1.dpad_right || gamepad2.dpad_right) {
+          rightback.setPower(SENSITIVITY * 1.15);
+          leftback.setPower(-SENSITIVITY * 1.15);
+          leftfront.setPower(SENSITIVITY);
+          rightfront.setPower(-SENSITIVITY);
+        } else if (gamepad1.dpad_left || gamepad2.dpad_left) {
+          rightback.setPower(-SENSITIVITY * 1.15);
+          leftback.setPower(SENSITIVITY * 1.15);
+          leftfront.setPower(-SENSITIVITY);
+          rightfront.setPower(SENSITIVITY);
+        } else if (gamepad1.right_bumper || gamepad2.right_bumper) {
+          rightback.setPower(-SENSITIVITY * 1.2);
+          rightfront.setPower(-SENSITIVITY * 1.2);
+          leftfront.setPower(SENSITIVITY * 1.2);
+          leftback.setPower(SENSITIVITY * 1.2);
+        } else if (gamepad1.left_bumper || gamepad2.left_bumper) {
+          rightback.setPower(SENSITIVITY * 1.2);
+          rightfront.setPower(SENSITIVITY * 1.2);
+          leftfront.setPower(-SENSITIVITY * 1.2);
+          leftback.setPower(-SENSITIVITY * 1.2);
         } else {
           rightback.setPower(0);
           leftback.setPower(0);
@@ -125,31 +102,44 @@ public class RobotJava extends LinearOpMode {
           rightfront.setPower(0);
         }
 
-        if (gamepad2.dpad_up || gamepad1.y) {
-          slideright.setTargetPosition(-1800);
-          slideleft.setTargetPosition(1800);
-        } else if (gamepad2.dpad_down  || gamepad1.a) {
+        if (gamepad1.y || gamepad2.y) {
+          slideright.setPower(SLIDE_UP_SPEED);
+          slideleft.setPower(SLIDE_UP_SPEED);
+          slideright.setTargetPosition(-HIGH_JUNCTION_TICKS);
+          slideleft.setTargetPosition(HIGH_JUNCTION_TICKS);
+        } else if (gamepad1.a || gamepad2.a) {
+          slideright.setPower(SLIDE_DOWN_SPEED);
+          slideleft.setPower(SLIDE_DOWN_SPEED);
           slideright.setTargetPosition(0);
           slideleft.setTargetPosition(0);
-        } else if (gamepad2.share) {
-          slideright.setTargetPosition(-1000);
-          slideleft.setTargetPosition(1000);
-        } else if (gamepad2.start) {
-        slideright.setTargetPosition(-1400);
-        slideleft.setTargetPosition(1400);
-      }
-
-        if (IsClawClosed) {
-          clawleft.setPower(LEFT_SERVO_CLOSED);
-          clawright.setPower(RIGHT_SERVO_CLOSED);
-        } else {
-          clawleft.setPower(LEFT_SERVO_OPEN);
-          clawright.setPower(RIGHT_SERVO_OPEN);
+        } else if (gamepad1.start || gamepad2.start) {
+          slideright.setPower(SLIDE_UP_SPEED);
+          slideleft.setPower(SLIDE_UP_SPEED);
+          slideright.setTargetPosition(-MEDIUM_JUNCTION_TICKS);
+          slideleft.setTargetPosition(MEDIUM_JUNCTION_TICKS);
+        } else if (gamepad1.share || gamepad2.share) {
+          slideright.setPower(SLIDE_UP_SPEED);
+          slideleft.setPower(SLIDE_UP_SPEED);
+          slideright.setTargetPosition(-LOW_JUNCTION_TICKS);
+          slideleft.setTargetPosition(LOW_JUNCTION_TICKS);
+        } else if (gamepad1.ps || gamepad2.ps) {
+          slideright.setPower(SLIDE_UP_SPEED);
+          slideleft.setPower(SLIDE_UP_SPEED);
+          slideright.setTargetPosition(-GROUND_JUNCTION_TICKS);
+          slideleft.setTargetPosition(GROUND_JUNCTION_TICKS);
         }
 
-        if (gamepad2.dpad_left || gamepad1.x) {
+        if (IsClawClosed) {
+          clawleft.setPower(SERVO_CLOSED);
+          clawright.setPower(-SERVO_CLOSED);
+        } else {
+          clawleft.setPower(SERVO_OPEN);
+          clawright.setPower(-SERVO_OPEN);
+        }
+
+        if (gamepad2.x || gamepad1.x) {
           IsClawClosed = false;
-        } else if (gamepad2.dpad_right || gamepad1.b) {
+        } else if (gamepad2.b || gamepad1.b) {
           IsClawClosed = true;
         }
 
@@ -157,7 +147,6 @@ public class RobotJava extends LinearOpMode {
         telemetry.addData("slideright", slideright.getCurrentPosition());
         telemetry.addData("servoleft", clawleft.getPower());
         telemetry.addData("servoright", clawright.getPower());
-        telemetry.addData("speedState", speedState);
         telemetry.addData("IsClawClosed", IsClawClosed);
         telemetry.update();
       }
