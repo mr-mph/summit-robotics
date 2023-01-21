@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -11,19 +13,19 @@ import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous(name = "RightRed (Dont Use)")
+@Autonomous(name = "BlueBlue")
 public class RightRedAuto extends LinearOpMode {
 
-    private DcMotor leftfront;
-    private DcMotor rightback;
-    private DcMotor leftback;
-    private DcMotor rightfront;
     private CRServo clawleft;
     private CRServo clawright;
     private DcMotor slideleft;
     private DcMotor slideright;
     private ColorSensor colorsensor;
+
+    SampleMecanumDrive drive;
+
 
     /**
      * This function is executed when this Op Mode is selected from the Driver Station.
@@ -34,18 +36,17 @@ public class RightRedAuto extends LinearOpMode {
         int color;
         float hue;
         float value;
+        String path;
 
-        leftfront = hardwareMap.get(DcMotor.class, "leftfront");
-        rightback = hardwareMap.get(DcMotor.class, "rightback");
-        leftback = hardwareMap.get(DcMotor.class, "leftback");
-        rightfront = hardwareMap.get(DcMotor.class, "rightfront");
+        CRServo clawleft = hardwareMap.get(CRServo.class, "clawleft");
+        CRServo clawright = hardwareMap.get(CRServo.class, "clawright");
+        DcMotor slideleft = hardwareMap.get(DcMotor.class, "slideleft");
+        DcMotor slideright = hardwareMap.get(DcMotor.class, "slideright");
 
-        clawleft = hardwareMap.get(CRServo.class, "clawleft");
-        clawright = hardwareMap.get(CRServo.class, "clawright");
-        slideleft = hardwareMap.get(DcMotor.class, "slideleft");
-        slideright = hardwareMap.get(DcMotor.class, "slideright");
+        drive = new SampleMecanumDrive(hardwareMap);
 
-        colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
+        ColorSensor colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
+
 
         slideleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -53,20 +54,22 @@ public class RightRedAuto extends LinearOpMode {
         slideright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        rightback.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightfront.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        rightback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftfront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightfront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         waitForStart();
 
         if (opModeIsActive()) {
 
             while (opModeIsActive()) {
-                moveBackward(-1, 0);
+
+                //close claw
+                clawleft.setPower(0.1);
+                clawright.setPower(-0.1);
+
+
+                Trajectory myTrajectory = drive.trajectoryBuilder(new Pose2d())
+                        .back(35)
+                        .build();
+                drive.followTrajectory(myTrajectory); //go backwards & stop right in front of color sleeve
 
                 telemetry.addData("Slide encoder", slideleft.getCurrentPosition());
                 normalizedColors = ((NormalizedColorSensor) colorsensor).getNormalizedColors();
@@ -78,91 +81,103 @@ public class RightRedAuto extends LinearOpMode {
                 telemetry.addData("Value", Double.parseDouble(JavaUtil.formatNumber(value, 3)));// Show the color on the Robot Controller screen.
                 JavaUtil.showColor(hardwareMap.appContext, color);
                 // Use hue to determine if it's red, green, blue, etc..
-                moveForward(0.25, 0);
                 if (hue < 30) {
                     telemetry.addData("Color", "Red"); // location 1
-                    strafeLeft(0.25, 2600);
-                    requestOpModeStop();
+                    redpath();
                 } else if (hue < 150) {
                     telemetry.addData("Color", "Green"); // location 2
-                    stopMotors();
-                    requestOpModeStop();
+                    greenpath();
                 } else if (hue < 225) {
+                    bluepath();
                     telemetry.addData("Color", "Blue"); // location 3
-                    strafeRight(0.25, 2600);
-                    requestOpModeStop();
                 }
                 telemetry.update();
             }
         }
     }
 
-    private void stopMotors() {
-        rightback.setPower(0);
-        leftback.setPower(0);
-        leftfront.setPower(0);
-        rightfront.setPower(0);
+    private void redpath() {
+        Trajectory myTrajectory = drive.trajectoryBuilder(new Pose2d())
+                .strafeRight(30)
+                .build();
+        //strafe left slightly to be in location 1, put trajectory inside
+        drive.followTrajectory(myTrajectory);
     }
 
-    private void moveForward(double speed, int milliseconds) {
-        rightback.setPower(speed);
-        leftback.setPower(speed);
-        leftfront.setPower(speed);
-        rightfront.setPower(speed);
-        sleep((long) (milliseconds));
-        stopMotors();
+    private void greenpath() {
+        //strafe right(more than 1 tile, 30 ish inches?), put trajectory inside
     }
 
-    private void moveBackward(double speed, int milliseconds) {
-        rightback.setPower(-speed);
-        leftback.setPower(-speed);
-        leftfront.setPower(-speed);
-        rightfront.setPower(-speed);
-        sleep((long) (milliseconds));
-        stopMotors();
+    private void bluepath() {
+        //strafe right(more than 2 tile, 54 inches?), put trajectory inside
     }
 
-    private void strafeRight(double speed, int milliseconds) {
-        rightback.setPower(-speed);
-        leftback.setPower(speed);
-        leftfront.setPower(-speed);
-        rightfront.setPower(speed);
-        sleep((long) (milliseconds));
-        stopMotors();
+    //private void stopMotors() {
+        //rightRear.setPower(0);
+        //leftRear.setPower(0);
+        //leftFront.setPower(0);
+        //rightFront.setPower(0);
     }
 
-    private void strafeLeft(double speed, int milliseconds) {
-        rightback.setPower(speed);
-        leftback.setPower(-speed);
-        leftfront.setPower(speed);
-        rightfront.setPower(-speed);
-        sleep((long) (milliseconds));
-        stopMotors();
-    }
+    //private void moveForward(double speed, int milliseconds) {
+        //rightRear.setPower(speed);
+        //leftRear.setPower(speed);
+        //leftFront.setPower(speed);
+        //rightFront.setPower(speed);
+        //sleep((long) (milliseconds));
+        //stopMotors();
+    //}
 
-    private void rotateLeft(double speed, int milliseconds) {
-        rightback.setPower(-speed);
-        leftback.setPower(speed);
-        leftfront.setPower(speed);
-        rightfront.setPower(-speed);
-        sleep((long) (milliseconds));
-        stopMotors();
-    }
+    //private void moveBackward(double speed, int milliseconds) {
+        //rightRear.setPower(-speed);
+        //leftRear.setPower(-speed);
+        //leftFront.setPower(-speed);
+        //rightFront.setPower(-speed);
+        //sleep((long) (milliseconds));
+        //stopMotors();
+    //}
 
-    private void rotateRight(double speed, int milliseconds) {
-        rightback.setPower(speed);
-        leftback.setPower(-speed);
-        leftfront.setPower(-speed);
-        rightfront.setPower(speed);
-        sleep((long) (milliseconds));
-        stopMotors();
-    }
+    //private void strafeRight(double speed, int milliseconds) {
+        //rightback.setPower(-speed);
+        //leftback.setPower(speed);
+        //leftfront.setPower(-speed);
+        //rightfront.setPower(speed);
+        //sleep((long) (milliseconds));
+        //stopMotors();
+    //}
 
-    private void setSlide(double power, int milliseconds) {
-        slideleft.setPower(power);
-        slideright.setPower(-power);
-        sleep(milliseconds);
-        slideleft.setPower(0);
-        slideright.setPower(0);
-    }
-}
+    //private void strafeLeft(double speed, int milliseconds) {
+        //rightback.setPower(speed);
+        //leftback.setPower(-speed);
+        //leftfront.setPower(speed);
+        //rightfront.setPower(-speed);
+        //sleep((long) (milliseconds));
+        //stopMotors();
+    //}
+
+    //private void rotateLeft(double speed, int milliseconds) {
+        //rightback.setPower(-speed);
+        //leftback.setPower(speed);
+        //leftfront.setPower(speed);
+        //rightfront.setPower(-speed);
+        //sleep((long) (milliseconds));
+        //stopMotors();
+    //}
+
+    //private void rotateRight(double speed, int milliseconds) {
+        //rightback.setPower(speed);
+        //leftback.setPower(-speed);
+        //leftfront.setPower(-speed);
+        //rightfront.setPower(speed);
+        //sleep((long) (milliseconds));
+        //stopMotors();
+    //}
+//why make a function for the slide again?
+    //private void setSlide(double power, int milliseconds) {
+        //slideleft.setPower(power);
+        //slideright.setPower(-power);
+        //sleep(milliseconds);
+        //slideleft.setPower(0);
+        //slideright.setPower(0);
+    //}
+//}
