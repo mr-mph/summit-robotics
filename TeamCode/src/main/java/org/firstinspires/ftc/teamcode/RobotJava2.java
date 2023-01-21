@@ -129,7 +129,7 @@ public class RobotJava2 extends LinearOpMode {
       } else {
         SENSITIVITY = 0.4;
       }
-      
+
 
       telemetry.addData("slideleft", slideleft.getCurrentPosition());
       telemetry.addData("slideright", slideright.getCurrentPosition());
