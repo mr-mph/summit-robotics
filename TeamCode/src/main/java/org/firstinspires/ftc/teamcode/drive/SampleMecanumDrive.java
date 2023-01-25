@@ -24,6 +24,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
@@ -54,7 +55,6 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
 /*
  * Simple mecanum drive hardware implementation for REV hardware.
  */
-@Disabled
 @Config
 public class SampleMecanumDrive extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
@@ -293,8 +293,8 @@ public class SampleMecanumDrive extends MecanumDrive {
     @Override
     public void setMotorPowers(double v, double v1, double v2, double v3) {
         leftFront.setPower(v);
-        leftRear.setPower(v1*1.15);
-        rightRear.setPower(v2*1.15);
+        leftRear.setPower(v1*1.1);
+        rightRear.setPower(v2*1.1);
         rightFront.setPower(v3);
     }
 
