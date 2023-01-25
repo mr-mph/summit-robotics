@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -34,22 +35,21 @@ public class AutonomousJava extends LinearOpMode {
 		colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
 		drive = new SampleMecanumDrive(hardwareMap);
 
-		Trajectory location2 = drive.trajectoryBuilder(new Pose2d()) // middle
-				.back(25)
+		Trajectory toColorsensor = drive.trajectoryBuilder(new Pose2d(35.5,62, Math.toRadians(90)))
+				.lineTo(new Vector2d(36,36))
 				.build();
 
-		Trajectory location1 = drive.trajectoryBuilder(location2.end()) // left
-				.strafeRight(20)
+		Trajectory location1 = drive.trajectoryBuilder(toColorsensor.end())
+				.lineTo(new Vector2d(60,36))
 				.build();
 
-
-		Trajectory location3 = drive.trajectoryBuilder(location2.end()) // right
-				.strafeLeft(25)
+		Trajectory location3 = drive.trajectoryBuilder(toColorsensor.end())
+				.lineTo(new Vector2d(12,36))
 				.build();
 
 		waitForStart();
 //		initializeSlide();
-		drive.followTrajectory(location2);
+		drive.followTrajectory(toColorsensor);
 
 		while (!isStopRequested()) {
 			int color = ((NormalizedColorSensor) colorsensor).getNormalizedColors().toColor();

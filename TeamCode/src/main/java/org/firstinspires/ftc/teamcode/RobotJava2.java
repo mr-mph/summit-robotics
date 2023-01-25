@@ -22,10 +22,11 @@ public class RobotJava2 extends LinearOpMode {
 	public static int GROUND_JUNCTION_TICKS = 50;
 	public static double SLIDE_UP_SPEED = 0.8;
 	public static double SLIDE_DOWN_SPEED = 0.6;
-	public static double SENSITIVITY = 0.4;
+	public static double SPEED = 0.4;
 
 	private CRServo clawleft;
 	private CRServo clawright;
+
 	private DcMotor slideleft;
 	private DcMotor slideright;
 
@@ -46,54 +47,35 @@ public class RobotJava2 extends LinearOpMode {
 		slideright = hardwareMap.get(DcMotor.class, "slideright");
 
 		waitForStart();
-
 		initializeSlide();
 
 		while (!isStopRequested()) {
 
 			drive.setWeightedDrivePower(
 					new Pose2d(
-							(-gamepad1.left_stick_y - gamepad2.left_stick_y) * SENSITIVITY,
-							(-gamepad1.left_stick_x - gamepad2.left_stick_x) * SENSITIVITY,
-							(-gamepad1.right_stick_x - gamepad2.right_stick_x) * (SENSITIVITY * 1.3)
+							(-gamepad1.left_stick_y - gamepad2.left_stick_y) * SPEED,
+							(-gamepad1.left_stick_x - gamepad2.left_stick_x) * SPEED,
+							(-gamepad1.right_stick_x - gamepad2.right_stick_x) * SPEED * 1.2
 					)
 			);
-
 			drive.update();
 
 			if (gamepad1.y || gamepad2.y) {
-				slideright.setPower(SLIDE_UP_SPEED);
-				slideleft.setPower(SLIDE_UP_SPEED);
-				slideright.setTargetPosition(-HIGH_JUNCTION_TICKS);
-				slideleft.setTargetPosition(HIGH_JUNCTION_TICKS);
-			} else if (gamepad1.a || gamepad2.a) {
-				slideright.setPower(SLIDE_DOWN_SPEED);
-				slideleft.setPower(SLIDE_DOWN_SPEED);
-				slideright.setTargetPosition(0);
-				slideleft.setTargetPosition(0);
+				slideToTicks(HIGH_JUNCTION_TICKS);
 			} else if (gamepad1.start || gamepad2.start) {
-				slideright.setPower(SLIDE_UP_SPEED);
-				slideleft.setPower(SLIDE_UP_SPEED);
-				slideright.setTargetPosition(-MEDIUM_JUNCTION_TICKS);
-				slideleft.setTargetPosition(MEDIUM_JUNCTION_TICKS);
+				slideToTicks(MEDIUM_JUNCTION_TICKS);
 			} else if (gamepad1.share || gamepad2.share) {
-				slideright.setPower(SLIDE_UP_SPEED);
-				slideleft.setPower(SLIDE_UP_SPEED);
-				slideright.setTargetPosition(-LOW_JUNCTION_TICKS);
-				slideleft.setTargetPosition(LOW_JUNCTION_TICKS);
+				slideToTicks(LOW_JUNCTION_TICKS);
 			} else if (gamepad1.ps || gamepad2.ps) {
-				slideright.setPower(SLIDE_UP_SPEED);
-				slideleft.setPower(SLIDE_UP_SPEED);
-				slideright.setTargetPosition(-GROUND_JUNCTION_TICKS);
-				slideleft.setTargetPosition(GROUND_JUNCTION_TICKS);
+				slideToTicks(GROUND_JUNCTION_TICKS);
+			} else if (gamepad1.a || gamepad2.a) {
+				slideDown();
 			}
 
 			if (clawClosed) {
-				clawleft.setPower(SERVO_CLOSED);
-				clawright.setPower(-SERVO_CLOSED);
+				clawClosed();
 			} else {
-				clawleft.setPower(SERVO_OPEN);
-				clawright.setPower(-SERVO_OPEN);
+				clawOpen();
 			}
 
 			if (gamepad1.x || gamepad2.x) {
@@ -102,6 +84,7 @@ public class RobotJava2 extends LinearOpMode {
 				clawClosed = true;
 			}
 
+			// Speed toggle logic
 			if (gamepad1.left_bumper || gamepad2.left_bumper) {
 				if (speedState.equals("slow")) {
 					speedState = "normal";
@@ -121,18 +104,15 @@ public class RobotJava2 extends LinearOpMode {
 			}
 
 			if (speedState.equals("slow")) {
-				SENSITIVITY = 0.2;
+				SPEED = 0.2;
 			} else if (speedState.equals("fast")) {
-				SENSITIVITY = 0.6;
+				SPEED = 0.6;
 			} else {
-				SENSITIVITY = 0.4;
+				SPEED = 0.4;
 			}
-
 
 			telemetry.addData("slideleft", slideleft.getCurrentPosition());
 			telemetry.addData("slideright", slideright.getCurrentPosition());
-			telemetry.addData("servoleft", clawleft.getPower());
-			telemetry.addData("servoright", clawright.getPower());
 			telemetry.addData("IsClawClosed", clawClosed);
 			telemetry.update();
 		}
@@ -147,5 +127,29 @@ public class RobotJava2 extends LinearOpMode {
 		slideright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 		slideright.setTargetPosition(0);
 		slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+	}
+
+	private void slideToTicks(int ticks) {
+		slideright.setPower(SLIDE_UP_SPEED);
+		slideleft.setPower(SLIDE_UP_SPEED);
+		slideright.setTargetPosition(-ticks);
+		slideleft.setTargetPosition(ticks);
+	}
+
+	private void slideDown() {
+		slideright.setPower(SLIDE_DOWN_SPEED);
+		slideleft.setPower(SLIDE_DOWN_SPEED);
+		slideright.setTargetPosition(0);
+		slideleft.setTargetPosition(0);
+	}
+
+	private void clawOpen() {
+		clawleft.setPower(SERVO_OPEN);
+		clawright.setPower(-SERVO_OPEN);
+	}
+
+	private void clawClosed() {
+		clawleft.setPower(SERVO_CLOSED);
+		clawright.setPower(-SERVO_CLOSED);
 	}
 }
