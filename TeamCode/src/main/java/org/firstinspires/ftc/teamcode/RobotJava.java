@@ -66,7 +66,6 @@ public class RobotJava extends LinearOpMode {
 				driveStrafe(-1);
 			} else if (gamepad1.right_bumper || gamepad2.right_bumper) {
 				driveTurn(1.2);
-				leftback.setPower(SENSITIVITY * 1.2);
 			} else if (gamepad1.left_bumper || gamepad2.left_bumper) {
 				driveTurn(-1.2);
 			} else {

@@ -17,11 +17,19 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Autonomous(name = "Autonomous")
 public class AutonomousJava extends LinearOpMode {
 
+	public static double SERVO_CLOSED = 0.1;
+	public static double SERVO_OPEN = -0.5;
+	public static double SLIDE_UP_SPEED = 0.8;
+	public static double SLIDE_DOWN_SPEED = 0.6;
+
 	private CRServo clawleft;
 	private CRServo clawright;
+
 	private DcMotor slideleft;
 	private DcMotor slideright;
+
 	private ColorSensor colorsensor;
+
 	private SampleMecanumDrive drive;
 
 
@@ -80,5 +88,28 @@ public class AutonomousJava extends LinearOpMode {
 		slideright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 		slideright.setTargetPosition(0);
 		slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+	}
+	private void slideToTicks(int ticks) {
+		slideright.setPower(SLIDE_UP_SPEED);
+		slideleft.setPower(SLIDE_UP_SPEED);
+		slideright.setTargetPosition(-ticks);
+		slideleft.setTargetPosition(ticks);
+	}
+
+	private void slideDown() {
+		slideright.setPower(SLIDE_DOWN_SPEED);
+		slideleft.setPower(SLIDE_DOWN_SPEED);
+		slideright.setTargetPosition(0);
+		slideleft.setTargetPosition(0);
+	}
+
+	private void clawOpen() {
+		clawleft.setPower(SERVO_OPEN);
+		clawright.setPower(-SERVO_OPEN);
+	}
+
+	private void clawClosed() {
+		clawleft.setPower(SERVO_CLOSED);
+		clawright.setPower(-SERVO_CLOSED);
 	}
 }
