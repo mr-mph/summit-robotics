@@ -88,4 +88,6 @@ lint/tmp/
 
 .DS_Store
 .idea
-*/build/
+FtcRobotController/build
+TeamCode/build
+.gradle
