@@ -43,16 +43,16 @@ public class AutonomousJava extends LinearOpMode {
 		colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
 		drive = new SampleMecanumDrive(hardwareMap);
 
-		Trajectory toColorsensor = drive.trajectoryBuilder(new Pose2d(35.5,62, Math.toRadians(90)))
-				.lineTo(new Vector2d(36,36))
+		Trajectory toColorsensor = drive.trajectoryBuilder(new Pose2d(-36,-60, Math.toRadians(-90)))
+				.lineTo(new Vector2d(-36,-36))
 				.build();
 
 		Trajectory location1 = drive.trajectoryBuilder(toColorsensor.end())
-				.lineTo(new Vector2d(60,36))
+				.lineTo(new Vector2d(-60,-36))
 				.build();
 
 		Trajectory location3 = drive.trajectoryBuilder(toColorsensor.end())
-				.lineTo(new Vector2d(12,36))
+				.lineTo(new Vector2d(-12,-36))
 				.build();
 
 		waitForStart();
