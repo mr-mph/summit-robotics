@@ -20,7 +20,7 @@ public class RobotJava extends LinearOpMode {
 	public static int GROUND_JUNCTION_TICKS = 50;
 	public static double SLIDE_UP_SPEED = 0.8;
 	public static double SLIDE_DOWN_SPEED = 0.6;
-	public static double SENSITIVITY = 0.4;
+	public static double SPEED = 0.4;
 
 	private DcMotor rightback;
 	private DcMotor rightfront;
@@ -34,6 +34,8 @@ public class RobotJava extends LinearOpMode {
 	private DcMotor slideright;
 
 	private boolean clawClosed = false;
+
+	private String speedState = "normal";
 
 
 	@Override
@@ -96,6 +98,33 @@ public class RobotJava extends LinearOpMode {
 				clawClosed = true;
 			}
 
+			// Speed toggle logic
+			if (gamepad1.left_trigger == 1 || gamepad2.left_trigger == 1) {
+				if (speedState.equals("slow")) {
+					speedState = "normal";
+				} else {
+					speedState = "slow";
+				}
+				while (gamepad1.left_trigger == 1 || gamepad2.left_trigger == 1) {
+				}
+			} else if (gamepad1.right_trigger == 1 || gamepad2.right_trigger == 1 ) {
+				if (speedState.equals("fast")) {
+					speedState = "normal";
+				} else {
+					speedState = "fast";
+				}
+				while (gamepad1.right_trigger == 1 || gamepad2.right_trigger == 1 ) {
+				}
+			}
+
+			if (speedState.equals("slow")) {
+				SPEED = 0.2;
+			} else if (speedState.equals("fast")) {
+				SPEED = 0.6;
+			} else {
+				SPEED = 0.4;
+			}
+
 			telemetry.addData("slideleft", slideleft.getCurrentPosition());
 			telemetry.addData("slideright", slideright.getCurrentPosition());
 			telemetry.addData("IsClawClosed", clawClosed);
@@ -126,24 +155,24 @@ public class RobotJava extends LinearOpMode {
 	}
 
 	private void driveStraight(double multiplier) {
-		rightback.setPower(SENSITIVITY * multiplier);
-		leftback.setPower(SENSITIVITY * multiplier);
-		leftfront.setPower(SENSITIVITY * multiplier);
-		rightfront.setPower(SENSITIVITY * multiplier);
+		rightback.setPower(SPEED * multiplier);
+		leftback.setPower(SPEED * multiplier);
+		leftfront.setPower(SPEED * multiplier);
+		rightfront.setPower(SPEED * multiplier);
 	}
 
 	private void driveStrafe(double multiplier) {
-		rightback.setPower(SENSITIVITY * multiplier * 1.1);
-		leftback.setPower(-SENSITIVITY * multiplier * 1.1);
-		leftfront.setPower(SENSITIVITY * multiplier);
-		rightfront.setPower(-SENSITIVITY * multiplier);
+		rightback.setPower(SPEED * multiplier * 1.1);
+		leftback.setPower(-SPEED * multiplier * 1.1);
+		leftfront.setPower(SPEED * multiplier);
+		rightfront.setPower(-SPEED * multiplier);
 	}
 
 	private void driveTurn(double multiplier) {
-		rightback.setPower(-SENSITIVITY * multiplier);
-		leftback.setPower(SENSITIVITY * multiplier);
-		leftfront.setPower(SENSITIVITY * multiplier);
-		rightfront.setPower(-SENSITIVITY * multiplier);
+		rightback.setPower(-SPEED * multiplier);
+		leftback.setPower(SPEED * multiplier);
+		leftfront.setPower(SPEED * multiplier);
+		rightfront.setPower(-SPEED * multiplier);
 	}
 
 	private void stopRobot() {
