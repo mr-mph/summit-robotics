@@ -1,19 +1,27 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import com.acmerobotics.dashboard.FtcDashboard;
+
 
 
 @TeleOp(name = "Robot Java")
 public class RobotJava extends LinearOpMode {
+	private final FtcDashboard dashboard = FtcDashboard.getInstance();
 	@Override
 	public void runOpMode() {
 
+		Telemetry telemetry = new MultipleTelemetry(this.telemetry, dashboard.getTelemetry());
 		Robot robot = new Robot(hardwareMap);
 
 		waitForStart();
 		robot.initializeDrivetrain();
+		robot.initializeClaw();
 		robot.initializeSlide();
 
 		while (!isStopRequested()) {
@@ -35,13 +43,13 @@ public class RobotJava extends LinearOpMode {
 			}
 
 			if (gamepad1.y || gamepad2.y) {
-				robot.slideToTicks(Robot.HIGH_JUNCTION_TICKS);
+				robot.slideToTicks(robot.HIGH_JUNCTION_TICKS);
 			} else if (gamepad1.start || gamepad2.start) {
-				robot.slideToTicks(Robot.MEDIUM_JUNCTION_TICKS);
+				robot.slideToTicks(robot.MEDIUM_JUNCTION_TICKS);
 			} else if (gamepad1.share || gamepad2.share) {
-				robot.slideToTicks(Robot.LOW_JUNCTION_TICKS);
+				robot.slideToTicks(robot.LOW_JUNCTION_TICKS);
 			} else if (gamepad1.ps || gamepad2.ps) {
-				robot.slideToTicks(Robot.GROUND_JUNCTION_TICKS);
+				robot.slideToTicks(robot.GROUND_JUNCTION_TICKS);
 			} else if (gamepad1.a || gamepad2.a) {
 				robot.slideDown();
 			}
@@ -78,11 +86,11 @@ public class RobotJava extends LinearOpMode {
 			}
 
 			if (robot.speedState.equals("slow")) {
-				Robot.SPEED = 0.2;
+				robot.SPEED = 0.2;
 			} else if (robot.speedState.equals("fast")) {
-				Robot.SPEED = 0.6;
+				robot.SPEED = 0.6;
 			} else {
-				Robot.SPEED = 0.4;
+				robot.SPEED = 0.4;
 			}
 
 			telemetry.addData("slideleft", robot.slideleft.getCurrentPosition());

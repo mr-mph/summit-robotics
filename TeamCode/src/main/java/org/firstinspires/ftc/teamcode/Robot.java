@@ -13,15 +13,15 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
 public class Robot {
-	public static double SERVO_CLOSED = 0.1;
-	public static double SERVO_OPEN = -0.5;
-	public static int HIGH_JUNCTION_TICKS = 1600;
-	public static int MEDIUM_JUNCTION_TICKS = 1150;
-	public static int LOW_JUNCTION_TICKS = 650;
-	public static int GROUND_JUNCTION_TICKS = 50;
-	public static double SLIDE_UP_SPEED = 0.8;
-	public static double SLIDE_DOWN_SPEED = 0.6;
-	public static double SPEED = 0.4;
+	public double SERVO_CLOSED = 0.1;
+	public double SERVO_OPEN = -0.5;
+	public int HIGH_JUNCTION_TICKS = 1600;
+	public int MEDIUM_JUNCTION_TICKS = 1150;
+	public int LOW_JUNCTION_TICKS = 650;
+	public int GROUND_JUNCTION_TICKS = 50;
+	public double SLIDE_UP_SPEED = 0.8;
+	public double SLIDE_DOWN_SPEED = 0.6;
+	public double SPEED = 0.4;
 
 	public DcMotor rightback;
 	public DcMotor rightfront;
@@ -51,13 +51,15 @@ public class Robot {
 		slideleft = hardwareMap.get(DcMotor.class, "slideleft");
 		slideright = hardwareMap.get(DcMotor.class, "slideright");
 		slideleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-		slideleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-		slideleft.setTargetPosition(0);
-		slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
 		slideright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+		slideleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 		slideright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+		slideright.setDirection(DcMotorSimple.Direction.REVERSE);
+
+		slideleft.setTargetPosition(0);
 		slideright.setTargetPosition(0);
+		slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 		slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 	}
 	public void initializeClaw() {
@@ -68,13 +70,13 @@ public class Robot {
 	public void initializeDrivetrain() {
 		colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
 
-		drive = new SampleMecanumDrive(hardwareMap);
-		drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
 		rightback = hardwareMap.get(DcMotor.class, "rightback");
 		rightfront = hardwareMap.get(DcMotor.class, "rightfront");
 		leftback = hardwareMap.get(DcMotor.class, "leftback");
 		leftfront = hardwareMap.get(DcMotor.class, "leftfront");
+
+		drive = new SampleMecanumDrive(hardwareMap);
+		drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 		leftback.setDirection(DcMotorSimple.Direction.REVERSE);
 		leftfront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -116,7 +118,7 @@ public class Robot {
 	public void slideToTicks(int ticks) {
 		slideright.setPower(SLIDE_UP_SPEED);
 		slideleft.setPower(SLIDE_UP_SPEED);
-		slideright.setTargetPosition(-ticks);
+		slideright.setTargetPosition(ticks);
 		slideleft.setTargetPosition(ticks);
 	}
 
