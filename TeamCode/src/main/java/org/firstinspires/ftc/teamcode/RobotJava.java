@@ -43,13 +43,13 @@ public class RobotJava extends LinearOpMode {
 			}
 
 			if (gamepad1.y || gamepad2.y) {
-				robot.slideToTicks(robot.HIGH_JUNCTION_TICKS);
+				robot.slideToTicks(Robot.HIGH_JUNCTION_TICKS);
 			} else if (gamepad1.start || gamepad2.start) {
-				robot.slideToTicks(robot.MEDIUM_JUNCTION_TICKS);
+				robot.slideToTicks(Robot.MEDIUM_JUNCTION_TICKS);
 			} else if (gamepad1.share || gamepad2.share) {
-				robot.slideToTicks(robot.LOW_JUNCTION_TICKS);
+				robot.slideToTicks(Robot.LOW_JUNCTION_TICKS);
 			} else if (gamepad1.ps || gamepad2.ps) {
-				robot.slideToTicks(robot.GROUND_JUNCTION_TICKS);
+				robot.slideToTicks(Robot.GROUND_JUNCTION_TICKS);
 			} else if (gamepad1.a || gamepad2.a) {
 				robot.slideDown();
 			}
@@ -86,11 +86,11 @@ public class RobotJava extends LinearOpMode {
 			}
 
 			if (robot.speedState.equals("slow")) {
-				robot.SPEED = 0.2;
+				Robot.SPEED = 0.2;
 			} else if (robot.speedState.equals("fast")) {
-				robot.SPEED = 0.6;
+				Robot.SPEED = 0.6;
 			} else {
-				robot.SPEED = 0.4;
+				Robot.SPEED = 0.4;
 			}
 
 			telemetry.addData("slideleft", robot.slideleft.getCurrentPosition());
