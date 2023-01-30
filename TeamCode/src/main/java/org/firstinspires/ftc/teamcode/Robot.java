@@ -13,15 +13,15 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
 public class Robot {
-	public double SERVO_CLOSED = 0.1;
-	public double SERVO_OPEN = -0.5;
-	public int HIGH_JUNCTION_TICKS = 1600;
-	public int MEDIUM_JUNCTION_TICKS = 1150;
-	public int LOW_JUNCTION_TICKS = 650;
-	public int GROUND_JUNCTION_TICKS = 50;
-	public double SLIDE_UP_SPEED = 0.8;
-	public double SLIDE_DOWN_SPEED = 0.6;
-	public double SPEED = 0.4;
+	public static double SERVO_CLOSED = 0.1;
+	public static double SERVO_OPEN = -0.5;
+	public static int HIGH_JUNCTION_TICKS = 1600;
+	public static int MEDIUM_JUNCTION_TICKS = 1150;
+	public static int LOW_JUNCTION_TICKS = 650;
+	public static int GROUND_JUNCTION_TICKS = 50;
+	public static double SLIDE_UP_SPEED = 0.8;
+	public static double SLIDE_DOWN_SPEED = 0.6;
+	public static double SPEED = 0.4;
 
 	public DcMotor rightback;
 	public DcMotor rightfront;
