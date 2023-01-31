@@ -45,8 +45,8 @@ public class Robot {
 	public SampleMecanumDrive drive;
 	private final HardwareMap hardwareMap;
 
-	public Robot(HardwareMap hardwareMapParam) {
-		hardwareMap = hardwareMapParam;
+	public Robot(HardwareMap hardwareMap) {
+		this.hardwareMap = hardwareMap;
 	}
 
 	public void initializeSlide() {
