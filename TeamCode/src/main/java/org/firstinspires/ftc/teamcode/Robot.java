@@ -19,6 +19,8 @@ public class Robot {
 	public static int MEDIUM_JUNCTION_TICKS = 1150;
 	public static int LOW_JUNCTION_TICKS = 650;
 	public static int GROUND_JUNCTION_TICKS = 50;
+	public static int BASE_TICKS = 0;
+
 	public static double SLIDE_UP_SPEED = 0.8;
 	public static double SLIDE_DOWN_SPEED = 0.6;
 	public static double SPEED = 0.4;
@@ -50,15 +52,13 @@ public class Robot {
 	public void initializeSlide() {
 		slideleft = hardwareMap.get(DcMotor.class, "slideleft");
 		slideright = hardwareMap.get(DcMotor.class, "slideright");
-		slideleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-		slideright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 		slideleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 		slideright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 		slideright.setDirection(DcMotorSimple.Direction.REVERSE);
 
-		slideleft.setTargetPosition(0);
-		slideright.setTargetPosition(0);
+		slideleft.setTargetPosition(BASE_TICKS);
+		slideright.setTargetPosition(BASE_TICKS);
 		slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 		slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 	}
@@ -125,8 +125,8 @@ public class Robot {
 	public void slideDown() {
 		slideright.setPower(SLIDE_DOWN_SPEED);
 		slideleft.setPower(SLIDE_DOWN_SPEED);
-		slideright.setTargetPosition(0);
-		slideleft.setTargetPosition(0);
+		slideright.setTargetPosition(BASE_TICKS);
+		slideleft.setTargetPosition(BASE_TICKS);
 	}
 
 	public void clawOpen() {

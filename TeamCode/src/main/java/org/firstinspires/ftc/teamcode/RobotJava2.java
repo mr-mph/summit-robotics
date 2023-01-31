@@ -85,12 +85,14 @@ public class RobotJava2 extends LinearOpMode {
 				Robot.SPEED = 0.4;
 			}
 
-			if (robot.slideleft.getCurrentPosition() > 200) {
-				Robot.SPEED /= ((double) robot.slideleft.getCurrentPosition() / 1500);
+			if (robot.slideleft.getCurrentPosition() > 100) {
+				Robot.SPEED *= 0.6;
 			}
 
 			telemetry.addData("slideleft", robot.slideleft.getCurrentPosition());
 			telemetry.addData("slideright", robot.slideright.getCurrentPosition());
+			telemetry.addData("slideleftpower", robot.slideleft.getPower());
+			telemetry.addData("sliderightpower", robot.slideright.getPower());
 			telemetry.addData("IsClawClosed", robot.clawClosed);
 			telemetry.update();
 		}
