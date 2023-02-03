@@ -6,15 +6,15 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-@TeleOp(name = "Robot Java 2.0")
-public class RobotJava2 extends LinearOpMode {
+@TeleOp(name = "Robot Java 3.0")
+public class RobotJava3 extends LinearOpMode {
 	@Override
 	public void runOpMode() {
 
 		Robot robot = new Robot(hardwareMap);
 
 		waitForStart();
-		robot.initializeSlide();
+		robot.newInitializeSlide();
 		robot.initializeDrivetrain();
 		robot.initializeClaw();
 
@@ -29,7 +29,7 @@ public class RobotJava2 extends LinearOpMode {
 			);
 			robot.drive.update();
 
-			robot.handleSlide(gamepad1, gamepad2);
+			robot.newHandleSlide(gamepad1, gamepad2);
 			robot.handleClaw(gamepad1, gamepad2);
 			robot.handleSpeed(gamepad1, gamepad2);
 			robot.sendTelemetry(telemetry);

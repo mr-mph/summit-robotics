@@ -1,14 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
@@ -40,6 +42,7 @@ public class Robot {
 
 	public boolean clawClosed = false;
 
+	public int targetTicks;
 	public String speedState = "normal";
 
 	public SampleMecanumDrive drive;
@@ -61,6 +64,20 @@ public class Robot {
 		slideright.setTargetPosition(BASE_TICKS);
 		slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 		slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+	}
+
+	public void newInitializeSlide() {
+		slideleft = hardwareMap.get(DcMotor.class, "slideleft");
+		slideright = hardwareMap.get(DcMotor.class, "slideright");
+		slideleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+		slideright.setDirection(DcMotorSimple.Direction.REVERSE);
+
+		targetTicks = BASE_TICKS;
+		slideleft.setTargetPosition(targetTicks);
+		slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+		slideright.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 	}
 	public void initializeClaw() {
 		clawleft = hardwareMap.get(CRServo.class, "clawleft");
@@ -116,17 +133,15 @@ public class Robot {
 	}
 
 	public void slideToTicks(int ticks) {
-		slideright.setPower(SLIDE_UP_SPEED);
-		slideleft.setPower(SLIDE_UP_SPEED);
+		if (ticks < slideleft.getCurrentPosition()) {
+			slideright.setPower(SLIDE_DOWN_SPEED);
+			slideleft.setPower(SLIDE_DOWN_SPEED);
+		} else {
+			slideright.setPower(SLIDE_UP_SPEED);
+			slideleft.setPower(SLIDE_UP_SPEED);
+		}
 		slideright.setTargetPosition(ticks);
 		slideleft.setTargetPosition(ticks);
-	}
-
-	public void slideDown() {
-		slideright.setPower(SLIDE_DOWN_SPEED);
-		slideleft.setPower(SLIDE_DOWN_SPEED);
-		slideright.setTargetPosition(BASE_TICKS);
-		slideleft.setTargetPosition(BASE_TICKS);
 	}
 
 	public void clawOpen() {
@@ -137,5 +152,97 @@ public class Robot {
 	public void clawClose() {
 		clawleft.setPower(SERVO_CLOSED);
 		clawright.setPower(-SERVO_CLOSED);
+	}
+
+	public void handleSpeed(Gamepad gamepad1, Gamepad gamepad2) {
+		if (gamepad1.left_bumper || gamepad2.left_bumper) {
+			if (speedState.equals("slow")) {
+				speedState = "normal";
+			} else {
+				speedState = "slow";
+			}
+			while (gamepad1.left_bumper || gamepad2.left_bumper);
+
+		} else if (gamepad1.right_bumper || gamepad2.right_bumper) {
+			if (speedState.equals("fast")) {
+				speedState = "normal";
+			} else {
+				speedState = "fast";
+			}
+
+			while (gamepad1.right_bumper || gamepad2.right_bumper);
+		}
+
+		if (speedState.equals("slow")) {
+			SPEED = 0.2;
+		} else if (speedState.equals("fast")) {
+			SPEED = 0.6;
+		} else {
+			SPEED = 0.4;
+		}
+
+		if (slideleft.getCurrentPosition() > 100) {
+			SPEED *= 0.6;
+		}
+	}
+
+	public void handleSlide(Gamepad gamepad1, Gamepad gamepad2) {
+		if (gamepad1.y || gamepad2.y) {
+			slideToTicks(HIGH_JUNCTION_TICKS);
+		} else if (gamepad1.start || gamepad2.start) {
+			slideToTicks(MEDIUM_JUNCTION_TICKS);
+		} else if (gamepad1.share || gamepad2.share) {
+			slideToTicks(LOW_JUNCTION_TICKS);
+		} else if (gamepad1.ps || gamepad2.ps) {
+			slideToTicks(GROUND_JUNCTION_TICKS);
+		} else if (gamepad1.a || gamepad2.a) {
+			slideToTicks(BASE_TICKS);
+		}
+	}
+
+	public void handleClaw(Gamepad gamepad1, Gamepad gamepad2) {
+		if (gamepad2.x || gamepad1.x) {
+			clawClosed = false;
+		} else if (gamepad2.b || gamepad1.b) {
+			clawClosed = true;
+		}
+
+		if (clawClosed) {
+			clawClose();
+		} else {
+			clawOpen();
+		}
+	}
+
+	public void sendTelemetry(Telemetry telemetry) {
+		telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+		telemetry.addData("slideleft", slideleft.getCurrentPosition());
+		telemetry.addData("slideright", slideright.getCurrentPosition());
+		telemetry.addData("slideleftpower", slideleft.getPower());
+		telemetry.addData("sliderightpower", slideright.getPower());
+		telemetry.addData("IsClawClosed", clawClosed);
+		telemetry.update();
+	}
+
+	public void newHandleSlide(Gamepad gamepad1, Gamepad gamepad2) {
+		if (gamepad1.y || gamepad2.y) {
+			targetTicks = HIGH_JUNCTION_TICKS;
+		} else if (gamepad1.start || gamepad2.start) {
+			targetTicks = MEDIUM_JUNCTION_TICKS;
+		} else if (gamepad1.share || gamepad2.share) {
+			targetTicks = LOW_JUNCTION_TICKS;
+		} else if (gamepad1.ps || gamepad2.ps) {
+			targetTicks = GROUND_JUNCTION_TICKS;
+		} else if (gamepad1.a || gamepad2.a) {
+			targetTicks = BASE_TICKS;
+		}
+		if (slideleft.getCurrentPosition() > targetTicks) {
+			slideleft.setPower(SLIDE_DOWN_SPEED);
+		} else {
+			slideleft.setPower(SLIDE_UP_SPEED);
+		}
+
+		slideleft.setTargetPosition(targetTicks);
+		slideright.setPower(slideleft.getPower());
 	}
 }
