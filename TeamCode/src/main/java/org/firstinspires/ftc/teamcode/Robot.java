@@ -66,19 +66,6 @@ public class Robot {
 		slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 	}
 
-	public void newInitializeSlide() {
-		slideleft = hardwareMap.get(DcMotor.class, "slideleft");
-		slideright = hardwareMap.get(DcMotor.class, "slideright");
-		slideleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-		slideright.setDirection(DcMotorSimple.Direction.REVERSE);
-
-		targetTicks = BASE_TICKS;
-		slideleft.setTargetPosition(targetTicks);
-		slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-		slideright.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-	}
 	public void initializeClaw() {
 		clawleft = hardwareMap.get(CRServo.class, "clawleft");
 		clawright = hardwareMap.get(CRServo.class, "clawright");
@@ -216,12 +203,26 @@ public class Robot {
 
 	public void sendTelemetry(Telemetry telemetry) {
 		telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-		telemetry.addData("slideleft", slideleft.getCurrentPosition());
-		telemetry.addData("slideright", slideright.getCurrentPosition());
-		telemetry.addData("slideleftpower", slideleft.getPower());
-		telemetry.addData("sliderightpower", slideright.getPower());
-		telemetry.addData("IsClawClosed", clawClosed);
+		telemetry.addData("leftpos", slideleft.getCurrentPosition());
+		telemetry.addData("rightpos", slideright.getCurrentPosition());
+		telemetry.addData("leftpower", slideleft.getPower());
+		telemetry.addData("rightpower", slideright.getPower());
 		telemetry.update();
+	}
+
+	public void newInitializeSlide() {
+		slideleft = hardwareMap.get(DcMotor.class, "slideleft");
+		slideright = hardwareMap.get(DcMotor.class, "slideright");
+		slideleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+		slideright.setDirection(DcMotorSimple.Direction.REVERSE);
+
+		targetTicks = BASE_TICKS;
+
+		slideleft.setTargetPosition(targetTicks);
+		slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+		slideright.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 	}
 
 	public void newHandleSlide(Gamepad gamepad1, Gamepad gamepad2) {
@@ -237,9 +238,11 @@ public class Robot {
 			targetTicks = BASE_TICKS;
 		}
 		if (slideleft.getCurrentPosition() > targetTicks) {
-			slideleft.setPower(SLIDE_DOWN_SPEED);
-		} else {
+			slideleft.setPower(-SLIDE_DOWN_SPEED);
+		} else if (slideleft.getCurrentPosition() < targetTicks) {
 			slideleft.setPower(SLIDE_UP_SPEED);
+		} else {
+			slideleft.setPower(0);
 		}
 
 		slideleft.setTargetPosition(targetTicks);
