@@ -150,7 +150,7 @@ public class Robot {
 			} else {
 				speedState = "slow";
 			}
-			while (gamepad1.left_bumper || gamepad2.left_bumper);
+			while (gamepad1.left_bumper || gamepad2.left_bumper) ;
 
 		} else if (gamepad1.right_bumper || gamepad2.right_bumper) {
 			if (speedState.equals("fast")) {
@@ -159,7 +159,27 @@ public class Robot {
 				speedState = "fast";
 			}
 
-			while (gamepad1.right_bumper || gamepad2.right_bumper);
+			while (gamepad1.right_bumper || gamepad2.right_bumper) ;
+		}
+	}
+
+	public void handleSpeedOriginal(Gamepad gamepad1, Gamepad gamepad2) {
+		if (gamepad1.left_trigger == 1 || gamepad2.left_trigger == 1) {
+			if (speedState.equals("slow")) {
+				speedState = "normal";
+			} else {
+				speedState = "slow";
+			}
+			while (gamepad1.left_trigger == 1 || gamepad2.left_trigger == 1);
+
+		} else if (gamepad1.right_trigger == 1 || gamepad2.right_trigger == 1) {
+			if (speedState.equals("fast")) {
+				speedState = "normal";
+			} else {
+				speedState = "fast";
+			}
+			while (gamepad1.right_trigger == 1 || gamepad2.right_trigger == 1);
+
 		}
 
 		if (speedState.equals("slow")) {
@@ -248,7 +268,7 @@ public class Robot {
 			slideleft.setVelocity(0);
 			slideleft.setTargetPosition(slideleft.getCurrentPosition());
 		}
-		
+
 		slideright.setPower(slideleft.getPower());
 		slideright.setVelocity(slideleft.getVelocity());
 	}
