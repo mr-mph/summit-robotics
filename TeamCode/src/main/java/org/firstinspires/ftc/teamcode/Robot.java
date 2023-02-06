@@ -5,8 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -27,16 +26,16 @@ public class Robot {
 	public static double SLIDE_DOWN_SPEED = 0.6;
 	public static double SPEED = 0.4;
 
-	public DcMotor rightback;
-	public DcMotor rightfront;
-	public DcMotor leftback;
-	public DcMotor leftfront;
+	public DcMotorEx rightback;
+	public DcMotorEx rightfront;
+	public DcMotorEx leftback;
+	public DcMotorEx leftfront;
 
 	public CRServo clawleft;
 	public CRServo clawright;
 
-	public DcMotor slideleft;
-	public DcMotor slideright;
+	public DcMotorEx slideleft;
+	public DcMotorEx slideright;
 
 	public ColorSensor colorsensor;
 
@@ -53,17 +52,17 @@ public class Robot {
 	}
 
 	public void initializeSlide() {
-		slideleft = hardwareMap.get(DcMotor.class, "slideleft");
-		slideright = hardwareMap.get(DcMotor.class, "slideright");
-		slideleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-		slideright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+		slideleft = hardwareMap.get(DcMotorEx.class, "slideleft");
+		slideright = hardwareMap.get(DcMotorEx.class, "slideright");
+		slideleft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+		slideright.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-		slideright.setDirection(DcMotorSimple.Direction.REVERSE);
+		slideright.setDirection(DcMotorEx.Direction.REVERSE);
 
 		slideleft.setTargetPosition(BASE_TICKS);
 		slideright.setTargetPosition(BASE_TICKS);
-		slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-		slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+		slideleft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+		slideright.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 	}
 
 	public void initializeClaw() {
@@ -74,21 +73,21 @@ public class Robot {
 	public void initializeDrivetrain() {
 		colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
 
-		rightback = hardwareMap.get(DcMotor.class, "rightback");
-		rightfront = hardwareMap.get(DcMotor.class, "rightfront");
-		leftback = hardwareMap.get(DcMotor.class, "leftback");
-		leftfront = hardwareMap.get(DcMotor.class, "leftfront");
+		rightback = hardwareMap.get(DcMotorEx.class, "rightback");
+		rightfront = hardwareMap.get(DcMotorEx.class, "rightfront");
+		leftback = hardwareMap.get(DcMotorEx.class, "leftback");
+		leftfront = hardwareMap.get(DcMotorEx.class, "leftfront");
 
 		drive = new SampleMecanumDrive(hardwareMap);
-		drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+		drive.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-		leftback.setDirection(DcMotorSimple.Direction.REVERSE);
-		leftfront.setDirection(DcMotorSimple.Direction.REVERSE);
+		leftback.setDirection(DcMotorEx.Direction.REVERSE);
+		leftfront.setDirection(DcMotorEx.Direction.REVERSE);
 
-		rightback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-		leftback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-		leftfront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-		rightfront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+		rightback.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+		leftback.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+		leftfront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+		rightfront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 	}
 
 	public void driveStraight(double multiplier) {
@@ -120,12 +119,15 @@ public class Robot {
 	}
 
 	public void slideToTicks(int ticks) {
-		if (ticks < slideleft.getCurrentPosition()) {
+		if (slideleft.getCurrentPosition() > targetTicks - 5) {
 			slideright.setPower(SLIDE_DOWN_SPEED);
 			slideleft.setPower(SLIDE_DOWN_SPEED);
-		} else {
+		} else if (slideleft.getCurrentPosition() < targetTicks - 5) {
 			slideright.setPower(SLIDE_UP_SPEED);
 			slideleft.setPower(SLIDE_UP_SPEED);
+		} else {
+			slideright.setPower(0);
+			slideleft.setPower(0);
 		}
 		slideright.setTargetPosition(ticks);
 		slideleft.setTargetPosition(ticks);
@@ -205,24 +207,23 @@ public class Robot {
 		telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 		telemetry.addData("leftpos", slideleft.getCurrentPosition());
 		telemetry.addData("rightpos", slideright.getCurrentPosition());
-		telemetry.addData("leftpower", slideleft.getPower());
-		telemetry.addData("rightpower", slideright.getPower());
+		telemetry.addData("leftvelocity", slideleft.getVelocity());
+		telemetry.addData("rightvelocity", slideright.getVelocity());
 		telemetry.update();
 	}
 
 	public void newInitializeSlide() {
-		slideleft = hardwareMap.get(DcMotor.class, "slideleft");
-		slideright = hardwareMap.get(DcMotor.class, "slideright");
-		slideleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+		slideleft = hardwareMap.get(DcMotorEx.class, "slideleft");
+		slideright = hardwareMap.get(DcMotorEx.class, "slideright");
+		slideleft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
-
-		slideright.setDirection(DcMotorSimple.Direction.REVERSE);
+		slideright.setDirection(DcMotorEx.Direction.REVERSE);
 
 		targetTicks = BASE_TICKS;
 
 		slideleft.setTargetPosition(targetTicks);
-		slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-		slideright.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+		slideleft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+		slideright.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 	}
 
 	public void newHandleSlide(Gamepad gamepad1, Gamepad gamepad2) {
@@ -237,15 +238,18 @@ public class Robot {
 		} else if (gamepad1.a || gamepad2.a) {
 			targetTicks = BASE_TICKS;
 		}
-		if (slideleft.getCurrentPosition() > targetTicks) {
+		if (slideleft.getCurrentPosition() > targetTicks + 5) {
 			slideleft.setPower(-SLIDE_DOWN_SPEED);
-		} else if (slideleft.getCurrentPosition() < targetTicks) {
+			slideleft.setTargetPosition(targetTicks);
+		} else if (slideleft.getCurrentPosition() < targetTicks - 5) {
 			slideleft.setPower(SLIDE_UP_SPEED);
+			slideleft.setTargetPosition(targetTicks);
 		} else {
-			slideleft.setPower(0);
+			slideleft.setVelocity(0);
+			slideleft.setTargetPosition(slideleft.getCurrentPosition());
 		}
-
-		slideleft.setTargetPosition(targetTicks);
+		
 		slideright.setPower(slideleft.getPower());
+		slideright.setVelocity(slideleft.getVelocity());
 	}
 }
