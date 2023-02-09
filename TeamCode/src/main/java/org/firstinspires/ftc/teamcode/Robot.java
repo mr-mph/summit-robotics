@@ -59,6 +59,8 @@ public class Robot {
 
 		slideright.setDirection(DcMotorEx.Direction.REVERSE);
 
+		slideleft.setTargetPositionTolerance(10);
+		slideright.setTargetPositionTolerance(10);
 		slideleft.setTargetPosition(BASE_TICKS);
 		slideright.setTargetPosition(BASE_TICKS);
 		slideleft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
@@ -119,7 +121,7 @@ public class Robot {
 	}
 
 	public void slideToTicks(int ticks) {
-		if (slideleft.getCurrentPosition() > targetTicks - 5) {
+		if (slideleft.getCurrentPosition() > targetTicks + 5) {
 			slideright.setPower(SLIDE_DOWN_SPEED);
 			slideleft.setPower(SLIDE_DOWN_SPEED);
 		} else if (slideleft.getCurrentPosition() < targetTicks - 5) {
@@ -150,7 +152,7 @@ public class Robot {
 			} else {
 				speedState = "slow";
 			}
-			while (gamepad1.left_bumper || gamepad2.left_bumper) ;
+			while (gamepad1.left_bumper || gamepad2.left_bumper);
 
 		} else if (gamepad1.right_bumper || gamepad2.right_bumper) {
 			if (speedState.equals("fast")) {
@@ -159,7 +161,7 @@ public class Robot {
 				speedState = "fast";
 			}
 
-			while (gamepad1.right_bumper || gamepad2.right_bumper) ;
+			while (gamepad1.right_bumper || gamepad2.right_bumper);
 		}
 	}
 
@@ -230,46 +232,5 @@ public class Robot {
 		telemetry.addData("leftvelocity", slideleft.getVelocity());
 		telemetry.addData("rightvelocity", slideright.getVelocity());
 		telemetry.update();
-	}
-
-	public void newInitializeSlide() {
-		slideleft = hardwareMap.get(DcMotorEx.class, "slideleft");
-		slideright = hardwareMap.get(DcMotorEx.class, "slideright");
-		slideleft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-
-		slideright.setDirection(DcMotorEx.Direction.REVERSE);
-
-		targetTicks = BASE_TICKS;
-
-		slideleft.setTargetPosition(targetTicks);
-		slideleft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-		slideright.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-	}
-
-	public void newHandleSlide(Gamepad gamepad1, Gamepad gamepad2) {
-		if (gamepad1.y || gamepad2.y) {
-			targetTicks = HIGH_JUNCTION_TICKS;
-		} else if (gamepad1.start || gamepad2.start) {
-			targetTicks = MEDIUM_JUNCTION_TICKS;
-		} else if (gamepad1.share || gamepad2.share) {
-			targetTicks = LOW_JUNCTION_TICKS;
-		} else if (gamepad1.ps || gamepad2.ps) {
-			targetTicks = GROUND_JUNCTION_TICKS;
-		} else if (gamepad1.a || gamepad2.a) {
-			targetTicks = BASE_TICKS;
-		}
-		if (slideleft.getCurrentPosition() > targetTicks + 5) {
-			slideleft.setPower(-SLIDE_DOWN_SPEED);
-			slideleft.setTargetPosition(targetTicks);
-		} else if (slideleft.getCurrentPosition() < targetTicks - 5) {
-			slideleft.setPower(SLIDE_UP_SPEED);
-			slideleft.setTargetPosition(targetTicks);
-		} else {
-			slideleft.setVelocity(0);
-			slideleft.setTargetPosition(slideleft.getCurrentPosition());
-		}
-
-		slideright.setPower(slideleft.getPower());
-		slideright.setVelocity(slideleft.getVelocity());
 	}
 }
