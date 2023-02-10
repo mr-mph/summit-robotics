@@ -56,8 +56,9 @@ public class Robot {
 		slideright = hardwareMap.get(DcMotorEx.class, "slideright");
 		slideleft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 		slideright.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-
 		slideright.setDirection(DcMotorEx.Direction.REVERSE);
+
+
 
 		slideleft.setTargetPositionTolerance(10);
 		slideright.setTargetPositionTolerance(10);
@@ -134,6 +135,7 @@ public class Robot {
 		slideright.setTargetPosition(ticks);
 		slideleft.setTargetPosition(ticks);
 	}
+
 
 	public void clawOpen() {
 		clawleft.setPower(SERVO_OPEN);
