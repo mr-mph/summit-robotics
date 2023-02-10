@@ -34,6 +34,8 @@ public class RobotJava extends LinearOpMode {
 				robot.driveStop();
 			}
 
+			
+
 			robot.handleSlide(gamepad1, gamepad2);
 			robot.handleClaw(gamepad1, gamepad2);
 			robot.handleSpeedOriginal(gamepad1, gamepad2);

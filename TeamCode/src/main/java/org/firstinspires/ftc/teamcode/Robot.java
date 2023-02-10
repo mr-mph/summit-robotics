@@ -51,6 +51,7 @@ public class Robot {
 		this.hardwareMap = hardwareMap;
 	}
 
+
 	public void initializeSlide() {
 		slideleft = hardwareMap.get(DcMotorEx.class, "slideleft");
 		slideright = hardwareMap.get(DcMotorEx.class, "slideright");
@@ -112,6 +113,12 @@ public class Robot {
 		leftback.setPower(SPEED * multiplier);
 		leftfront.setPower(SPEED * multiplier);
 		rightfront.setPower(-SPEED * multiplier);
+	}
+
+	public void manualSlide (Gamepad gamepad1){
+		//y axis of joystick goes from -1 to 1. Topmost position = slide going up.
+		slideleft.setPower(-gamepad1.left_stick_y);
+		slideright.setPower(-gamepad1.left_stick_y); //slideright's direction is already reversed.
 	}
 
 	public void driveStop() {

@@ -33,6 +33,7 @@ public class RobotJava2 extends LinearOpMode {
 			robot.handleClaw(gamepad1, gamepad2);
 			robot.handleSpeed(gamepad1, gamepad2);
 			robot.sendTelemetry(telemetry);
+			robot.manualSlide(gamepad1);
 		}
 	}
 }
