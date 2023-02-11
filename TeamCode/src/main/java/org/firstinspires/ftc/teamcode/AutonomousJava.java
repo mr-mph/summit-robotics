@@ -20,8 +20,10 @@ public class AutonomousJava extends LinearOpMode {
 	@Override
 	public void runOpMode() {
 
-		Robot robot = new Robot(hardwareMap);
 		Telemetry telemetry = new MultipleTelemetry(this.telemetry, dashboard.getTelemetry());
+		Robot robot = new Robot(hardwareMap);
+		robot.initializeDrivetrain();
+
 
 		Trajectory toColorsensor = robot.drive.trajectoryBuilder(new Pose2d(-36,-60, Math.toRadians(-90)))
 				.lineTo(new Vector2d(-36,-36))
@@ -36,7 +38,6 @@ public class AutonomousJava extends LinearOpMode {
 				.build();
 
 		waitForStart();
-//		initializeSlide();
 		robot.drive.followTrajectory(toColorsensor);
 
 		while (!isStopRequested()) {

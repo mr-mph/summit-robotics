@@ -62,8 +62,8 @@ public class Robot {
 
 		slideleft.setDirection(DcMotorEx.Direction.REVERSE);
 
-		((DcMotorEx) slideleft).setTargetPositionTolerance(5);
-		((DcMotorEx) slideleft).setTargetPositionTolerance(5);
+		((DcMotorEx) slideleft).setTargetPositionTolerance(10);
+		((DcMotorEx) slideleft).setTargetPositionTolerance(10);
 		slideToTicks(BASE_TICKS);
 	}
 
@@ -164,6 +164,8 @@ public class Robot {
 
 			while (gamepad1.right_bumper || gamepad2.right_bumper);
 		}
+
+		updateSpeed();
 	}
 
 	public void handleSpeedOriginal(Gamepad gamepad1, Gamepad gamepad2) {
@@ -185,6 +187,10 @@ public class Robot {
 
 		}
 
+		updateSpeed();
+	}
+
+	private void updateSpeed() {
 		if (speedState.equals("slow")) {
 			SPEED = 0.2;
 		} else if (speedState.equals("fast")) {
@@ -232,6 +238,7 @@ public class Robot {
 		telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 		telemetry.addData("leftpos", slideleft.getCurrentPosition());
 		telemetry.addData("rightpos", slideright.getCurrentPosition());
+		telemetry.addData("speedState", speedState);
 		telemetry.update();
 	}
 }
