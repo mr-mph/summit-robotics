@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-@TeleOp(name = "Robot Java")
-public class RobotJava extends LinearOpMode {
+@TeleOp(name = "Robot")
+public class RobotTeleOp extends LinearOpMode {
 	@Override
 	public void runOpMode() {
 

@@ -4,10 +4,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-@TeleOp(name = "Robot Java 2.0")
-public class RobotJava2 extends LinearOpMode {
+@TeleOp(name = "Robot V2")
+public class RobotTeleOpV2 extends LinearOpMode {
 	@Override
 	public void runOpMode() {
 
@@ -33,7 +31,6 @@ public class RobotJava2 extends LinearOpMode {
 			robot.handleClaw(gamepad1, gamepad2);
 			robot.handleSpeed(gamepad1, gamepad2);
 			robot.sendTelemetry(telemetry);
-			robot.manualSlide(gamepad1);
 		}
 	}
 }

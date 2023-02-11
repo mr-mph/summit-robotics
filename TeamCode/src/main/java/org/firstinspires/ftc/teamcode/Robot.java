@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -34,14 +35,15 @@ public class Robot {
 	public CRServo clawleft;
 	public CRServo clawright;
 
-	public DcMotorEx slideleft;
-	public DcMotorEx slideright;
+	public DcMotor slideleft;
+	public DcMotor slideright;
 
 	public ColorSensor colorsensor;
 
 	public boolean clawClosed = false;
 
 	public int targetTicks;
+
 	public String speedState = "normal";
 
 	public SampleMecanumDrive drive;
@@ -57,16 +59,12 @@ public class Robot {
 		slideright = hardwareMap.get(DcMotorEx.class, "slideright");
 		slideleft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 		slideright.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-		slideright.setDirection(DcMotorEx.Direction.REVERSE);
 
+		slideleft.setDirection(DcMotorEx.Direction.REVERSE);
 
-
-		slideleft.setTargetPositionTolerance(10);
-		slideright.setTargetPositionTolerance(10);
-		slideleft.setTargetPosition(BASE_TICKS);
-		slideright.setTargetPosition(BASE_TICKS);
-		slideleft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-		slideright.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+		((DcMotorEx) slideleft).setTargetPositionTolerance(5);
+		((DcMotorEx) slideleft).setTargetPositionTolerance(5);
+		slideToTicks(BASE_TICKS);
 	}
 
 	public void initializeClaw() {
@@ -115,12 +113,6 @@ public class Robot {
 		rightfront.setPower(-SPEED * multiplier);
 	}
 
-	public void manualSlide (Gamepad gamepad1){
-		//y axis of joystick goes from -1 to 1. Topmost position = slide going up.
-		slideleft.setPower(-gamepad1.left_stick_y);
-		slideright.setPower(-gamepad1.left_stick_y); //slideright's direction is already reversed.
-	}
-
 	public void driveStop() {
 		rightback.setPower(0);
 		leftback.setPower(0);
@@ -129,20 +121,20 @@ public class Robot {
 	}
 
 	public void slideToTicks(int ticks) {
-		if (slideleft.getCurrentPosition() > targetTicks + 5) {
+		targetTicks = ticks;
+		if (slideleft.getCurrentPosition() > targetTicks) {
 			slideright.setPower(SLIDE_DOWN_SPEED);
 			slideleft.setPower(SLIDE_DOWN_SPEED);
-		} else if (slideleft.getCurrentPosition() < targetTicks - 5) {
+		} else {
 			slideright.setPower(SLIDE_UP_SPEED);
 			slideleft.setPower(SLIDE_UP_SPEED);
-		} else {
-			slideright.setPower(0);
-			slideleft.setPower(0);
 		}
-		slideright.setTargetPosition(ticks);
-		slideleft.setTargetPosition(ticks);
-	}
 
+		slideright.setTargetPosition(targetTicks);
+		slideleft.setTargetPosition(targetTicks);
+		slideright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+		slideleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+	}
 
 	public void clawOpen() {
 		clawleft.setPower(SERVO_OPEN);
@@ -217,6 +209,8 @@ public class Robot {
 			slideToTicks(GROUND_JUNCTION_TICKS);
 		} else if (gamepad1.a || gamepad2.a) {
 			slideToTicks(BASE_TICKS);
+		} else {
+			slideToTicks(targetTicks - (int) (gamepad1.right_stick_y - gamepad2.right_stick_y) * 15);
 		}
 	}
 
@@ -238,8 +232,6 @@ public class Robot {
 		telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 		telemetry.addData("leftpos", slideleft.getCurrentPosition());
 		telemetry.addData("rightpos", slideright.getCurrentPosition());
-		telemetry.addData("leftvelocity", slideleft.getVelocity());
-		telemetry.addData("rightvelocity", slideright.getVelocity());
 		telemetry.update();
 	}
 }
