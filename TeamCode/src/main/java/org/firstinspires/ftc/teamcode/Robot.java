@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -199,7 +200,7 @@ public class Robot {
 			SPEED = 0.4;
 		}
 
-		if (slideleft.getCurrentPosition() > 100) {
+		if (slideleft.getCurrentPosition() > 600) {
 			SPEED *= 0.6;
 		}
 	}
@@ -216,7 +217,7 @@ public class Robot {
 		} else if (gamepad1.a || gamepad2.a) {
 			slideToTicks(BASE_TICKS);
 		} else {
-			slideToTicks(targetTicks - (int) (gamepad1.right_stick_y - gamepad2.right_stick_y) * 15);
+			slideToTicks(targetTicks - (int) (gamepad1.right_stick_y + gamepad2.right_stick_y) * 15);
 		}
 	}
 
