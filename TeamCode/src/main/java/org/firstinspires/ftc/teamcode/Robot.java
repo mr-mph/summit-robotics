@@ -24,8 +24,8 @@ public class Robot {
 	public static int GROUND_JUNCTION_TICKS = 50;
 	public static int BASE_TICKS = 0;
 
-	public static double SLIDE_UP_SPEED = 0.8;
-	public static double SLIDE_DOWN_SPEED = 0.6;
+	public static double SLIDE_UP_SPEED = 0.6;
+	public static double SLIDE_DOWN_SPEED = 0.4;
 	public static double SPEED = 0.4;
 
 	public DcMotorEx rightback;
