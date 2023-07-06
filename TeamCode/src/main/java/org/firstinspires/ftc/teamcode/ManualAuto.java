@@ -14,7 +14,6 @@ import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-@Disabled
 @Autonomous(name = "Manual Auto")
 public class ManualAuto extends LinearOpMode {
 	private final FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -28,25 +27,29 @@ public class ManualAuto extends LinearOpMode {
 
 
 		waitForStart();
-		robot.driveStraight(-0.4);
+		robot.driveStraight(-0.5);
 		sleep(1200);
 
 		while (!isStopRequested()) {
 			int color = ((NormalizedColorSensor) robot.colorsensor).getNormalizedColors().toColor();
 			float hue = JavaUtil.colorToHue(color);
-			if (hue < 30) {
-				telemetry.addData("Color", "Red"); // location 1 left
-				robot.driveStrafe(0.4);
-				sleep(1200);
-				requestOpModeStop();
-			} else if (hue < 150 && hue > 100) {
-				telemetry.addData("Color", "Blue"); // location 3 right
-				robot.driveStrafe(-0.4);
-				sleep(1200);
-				requestOpModeStop();
-			} else if (hue < 225) {
-				telemetry.addData("Color", "Green"); // location 2 stop
-				requestOpModeStop();
+			float val = JavaUtil.colorToValue(color);
+
+			if (val > 0.05) {
+				if (hue < 30) {
+					telemetry.addData("Color", "Red");
+					robot.driveStrafe(0.5); // location 1 left
+					sleep(1400);
+					requestOpModeStop();
+				} else if (hue < 150 && hue > 100) {
+					telemetry.addData("Color", "Green");
+					requestOpModeStop(); // location 2 stop
+				} else if (hue < 225) {
+					telemetry.addData("Color", "Blue");
+					robot.driveStrafe(-0.5); // location 3 right
+					sleep(1400);
+					requestOpModeStop();
+				}
 			}
 			telemetry.update();
 		}
