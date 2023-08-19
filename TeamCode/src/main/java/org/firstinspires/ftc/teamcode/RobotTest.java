@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @Autonomous(name = "RobotTest")
@@ -16,6 +17,8 @@ public class RobotTest extends LinearOpMode {
 		robot.initializeDrivetrain();
 		robot.initializeClaw();
 		robot.initializeSlide();
+
+
 
 		robot.sendTelemetry(telemetry);
 		robot.slideToTicks(Robot.MEDIUM_JUNCTION_TICKS);
