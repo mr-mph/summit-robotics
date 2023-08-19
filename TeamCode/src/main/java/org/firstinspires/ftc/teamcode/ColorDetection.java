@@ -33,7 +33,7 @@ public class ColorDetection extends LinearOpMode {
 			if (hue < 30) { // technically red
 				telemetry.addData("Color", "Red");
 
-			} else if (hue < 150 && hue > 100) { // technically green
+			} else if (hue < 180 && hue > 100) { // technically green
 				telemetry.addData("Color", "Green");
 
 			} else if (hue < 225) { // technically blue
