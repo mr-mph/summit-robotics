@@ -18,14 +18,14 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 public class Robot {
 	public static double SERVO_CLOSED = 0.1;
 	public static double SERVO_OPEN = -0.5;
-	public static int HIGH_JUNCTION_TICKS = 1600;
-	public static int MEDIUM_JUNCTION_TICKS = 1150;
-	public static int LOW_JUNCTION_TICKS = 650;
-	public static int GROUND_JUNCTION_TICKS = 50;
+	public static int HIGH_JUNCTION_TICKS = 1920;
+	public static int MEDIUM_JUNCTION_TICKS = 1380;
+	public static int LOW_JUNCTION_TICKS = 930;
+	public static int GROUND_JUNCTION_TICKS = 100;
 	public static int BASE_TICKS = 0;
 
-	public static double SLIDE_UP_SPEED = 0.6;
-	public static double SLIDE_DOWN_SPEED = 0.4;
+	public static double SLIDE_UP_SPEED = 1;
+	public static double SLIDE_DOWN_SPEED = 0.6;
 	public static double SPEED = 0.4;
 
 	public DcMotorEx rightback;
@@ -64,7 +64,7 @@ public class Robot {
 		slideleft.setDirection(DcMotorEx.Direction.REVERSE);
 
 		((DcMotorEx) slideleft).setTargetPositionTolerance(10);
-		((DcMotorEx) slideleft).setTargetPositionTolerance(10);
+		((DcMotorEx) slideright).setTargetPositionTolerance(10);
 		slideToTicks(BASE_TICKS);
 	}
 
@@ -200,9 +200,7 @@ public class Robot {
 			SPEED = 0.4;
 		}
 
-		if (slideleft.getCurrentPosition() > 600) {
-			SPEED *= 0.6;
-		}
+		SPEED *= 1 - slideleft.getCurrentPosition()/4000f;
 	}
 
 	public void handleSlide(Gamepad gamepad1, Gamepad gamepad2) {
@@ -223,6 +221,9 @@ public class Robot {
 
 	public void handleClaw(Gamepad gamepad1, Gamepad gamepad2) {
 		if (gamepad2.x || gamepad1.x) {
+			if (targetTicks > 600) {
+				slideToTicks(targetTicks - 200);
+			}
 			clawClosed = false;
 		} else if (gamepad2.b || gamepad1.b) {
 			clawClosed = true;
