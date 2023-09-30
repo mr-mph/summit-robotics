@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Disabled
-@Autonomous(name = "Roadrunner Auto (Broken)")
+@Autonomous(name = "!Roadrunner Auto (Broken)")
 public class RoadrunnerAuto extends LinearOpMode {
 	private final FtcDashboard dashboard = FtcDashboard.getInstance();
 	@Override

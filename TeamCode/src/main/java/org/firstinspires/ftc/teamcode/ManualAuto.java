@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-@Autonomous(name = "Manual Auto (Good)")
+@Autonomous(name = "!Manual Auto (Powerplay)")
 public class ManualAuto extends LinearOpMode {
 	private final FtcDashboard dashboard = FtcDashboard.getInstance();
 

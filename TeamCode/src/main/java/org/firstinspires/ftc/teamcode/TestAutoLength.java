@@ -4,9 +4,11 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "Seconds Measure")
+@Disabled
+@Autonomous(name = "!Seconds Measure")
 public class TestAutoLength extends LinearOpMode {
 	private final FtcDashboard dashboard = FtcDashboard.getInstance();
 
