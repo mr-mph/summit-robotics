@@ -17,10 +17,10 @@ public class TestAutoLength extends LinearOpMode {
 	@Override
 	public void runOpMode() {
 		Robot robot = new Robot(hardwareMap);
-		robot.initializeDrivetrain();
+		robot.drive.init();
 
 		waitForStart();
-		robot.driveStraight(-0.6);
+		robot.drive.driveStraight(-0.6);
 		sleep(2000);
 		requestOpModeStop();
 		}

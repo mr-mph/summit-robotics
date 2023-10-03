@@ -25,38 +25,38 @@ public class RoadrunnerAuto extends LinearOpMode {
 
 		Telemetry telemetry = new MultipleTelemetry(this.telemetry, dashboard.getTelemetry());
 		Robot robot = new Robot(hardwareMap);
-		robot.initializeDrivetrain();
+		robot.drive.init();
 
 		Pose2d startPos = new Pose2d(-36,-60, Math.toRadians(-90));
 
-		Trajectory toColorsensor = robot.drive.trajectoryBuilder(startPos)
+		Trajectory toColorsensor = robot.drive.mecanumDrive.trajectoryBuilder(startPos)
 				.lineTo(new Vector2d(-36,-36))
 				.build();
 
-		Trajectory location1 = robot.drive.trajectoryBuilder(toColorsensor.end())
+		Trajectory location1 = robot.drive.mecanumDrive.trajectoryBuilder(toColorsensor.end())
 				.lineTo(new Vector2d(-60,-36))
 				.build();
 
-		Trajectory location3 = robot.drive.trajectoryBuilder(toColorsensor.end())
+		Trajectory location3 = robot.drive.mecanumDrive.trajectoryBuilder(toColorsensor.end())
 				.lineTo(new Vector2d(-12,-36))
 				.build();
 
 		waitForStart();
-		robot.drive.followTrajectory(toColorsensor);
+		robot.drive.mecanumDrive.followTrajectory(toColorsensor);
 
 		while (!isStopRequested()) {
 			int color = ((NormalizedColorSensor) robot.colorsensor).getNormalizedColors().toColor();
 			float hue = JavaUtil.colorToHue(color);
 			if (hue < 30) {
 				telemetry.addData("Color", "Red"); // location 1 left
-				robot.drive.followTrajectory(location1);
+				robot.drive.mecanumDrive.followTrajectory(location1);
 				requestOpModeStop();
 			} else if (hue < 150) {
 				telemetry.addData("Color", "Green"); // location 2 stop
 				requestOpModeStop();
 			} else if (hue < 225) {
 				telemetry.addData("Color", "Blue"); // location 3 right
-				robot.drive.followTrajectory(location3);
+				robot.drive.mecanumDrive.followTrajectory(location3);
 				requestOpModeStop();
 			}
 			telemetry.update();

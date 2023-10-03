@@ -23,11 +23,11 @@ public class ManualAuto extends LinearOpMode {
 
 		Telemetry telemetry = new MultipleTelemetry(this.telemetry, dashboard.getTelemetry());
 		Robot robot = new Robot(hardwareMap);
-		robot.initializeDrivetrain();
+		robot.drive.init();
 
 
 		waitForStart();
-		robot.driveStraight(-0.6);
+		robot.drive.driveStraight(-0.6);
 		sleep(1000);
 		ElapsedTime timer = new ElapsedTime();
 
@@ -40,14 +40,14 @@ public class ManualAuto extends LinearOpMode {
 				sleep(500);
 				if (hue < 30) {
 					telemetry.addData("Color", "Red");
-					robot.driveStrafe(0.6); // location 1 left
+					robot.drive.driveStrafe(0.6); // location 1 left
 					sleep(3000);
 				} else if (hue < 180 && hue > 100) {
 					telemetry.addData("Color", "Green");
 					 // location 2 stop
 				} else if (hue < 225) {
 					telemetry.addData("Color", "Blue");
-					robot.driveStrafe(-0.6); // location 3 right
+					robot.drive.driveStrafe(-0.6); // location 3 right
 					sleep(3000);
 
 				}

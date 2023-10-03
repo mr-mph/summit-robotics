@@ -22,7 +22,7 @@ public class ColorDetection extends LinearOpMode {
 
 		Telemetry telemetry = new MultipleTelemetry(this.telemetry, dashboard.getTelemetry());
 		Robot robot = new Robot(hardwareMap);
-		robot.initializeDrivetrain();
+		robot.drive.init();
 
 
 		waitForStart();

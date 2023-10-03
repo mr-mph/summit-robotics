@@ -15,33 +15,33 @@ public class RobotTeleOp extends LinearOpMode {
 		Robot robot = new Robot(hardwareMap);
 
 		waitForStart();
-		robot.initializeDrivetrain();
-		robot.initializeClaw();
-		robot.initializeSlide();
+		robot.drive.init();
+		robot.claw.init();
+		robot.slide.init();
 
 		while (!isStopRequested()) {
 
 			if (gamepad1.dpad_up || gamepad2.dpad_up) {
-				robot.driveStraight(1);
+				robot.drive.driveStraight(1);
 			} else if (gamepad1.dpad_down || gamepad2.dpad_down) {
-				robot.driveStraight(-1);
+				robot.drive.driveStraight(-1);
 			} else if (gamepad1.dpad_right || gamepad2.dpad_right) {
-				robot.driveStrafe(1);
+				robot.drive.driveStrafe(1);
 			} else if (gamepad1.dpad_left || gamepad2.dpad_left) {
-				robot.driveStrafe(-1);
+				robot.drive.driveStrafe(-1);
 			} else if (gamepad1.right_bumper || gamepad2.right_bumper) {
-				robot.driveTurn(1.2);
+				robot.drive.driveTurn(1.2);
 			} else if (gamepad1.left_bumper || gamepad2.left_bumper) {
-				robot.driveTurn(-1.2);
+				robot.drive.driveTurn(-1.2);
 			} else {
-				robot.driveStop();
+				robot.drive.driveStop();
 			}
 
 			
 
-			robot.handleSlide(gamepad1, gamepad2);
-			robot.handleClaw(gamepad1, gamepad2);
-			robot.handleSpeedOriginal(gamepad1, gamepad2);
+			robot.slide.update(gamepad1, gamepad2);
+			robot.claw.gamepadInput(gamepad1, gamepad2);
+			robot.drive.gamepadInput(gamepad1, gamepad2);
 			robot.sendTelemetry(telemetry);
 		}
 	}

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
+import org.firstinspires.ftc.teamcode.centerstage.robot.Slide;
 
 
 @Disabled
@@ -16,16 +17,16 @@ public class RobotTest extends LinearOpMode {
 		Robot robot = new Robot(hardwareMap);
 
 		waitForStart();
-		robot.initializeDrivetrain();
-		robot.initializeClaw();
-		robot.initializeSlide();
+		robot.drive.init();
+		robot.claw.init();
+		robot.slide.init();
 
 
 
 		robot.sendTelemetry(telemetry);
-		robot.slideToTicks(Robot.MEDIUM_JUNCTION_TICKS);
+		robot.slide.slideToTicks(Slide.MEDIUM_JUNCTION_TICKS);
 		sleep(2000);
-		robot.slideToTicks(Robot.BASE_TICKS);
+		robot.slide.slideToTicks(Slide.BASE_TICKS);
 		sleep(2000);
 
 
