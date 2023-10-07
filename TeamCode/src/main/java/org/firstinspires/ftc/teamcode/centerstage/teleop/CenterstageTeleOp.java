@@ -14,14 +14,16 @@ public class CenterstageTeleOp extends LinearOpMode {
 
 		Robot robot = new Robot(hardwareMap);
 
+		robot.camera.init();
 		waitForStart();
 		robot.drive.init();
-		robot.arm.init();
 		robot.claw.init();
+//		robot.arm.init();
+
 
 		while (!isStopRequested()) {
-
 			robot.drive.mecanumDrive.setWeightedDrivePower(
+
 					new Pose2d(
 							(-gamepad1.left_stick_y - gamepad2.left_stick_y) * Drive.SPEED,
 							(-gamepad1.left_stick_x - gamepad2.left_stick_x) * Drive.SPEED,
@@ -30,7 +32,7 @@ public class CenterstageTeleOp extends LinearOpMode {
 			);
 			robot.drive.mecanumDrive.update();
 
-			robot.arm.gamepadInput(gamepad1, gamepad2);
+//			robot.arm.gamepadInput(gamepad1, gamepad2);
 			robot.claw.gamepadInput(gamepad1, gamepad2);
 			robot.drive.gamepadInput(gamepad1, gamepad2);
 			robot.sendTelemetry(telemetry);

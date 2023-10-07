@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.centerstage.util;
 
 import android.annotation.SuppressLint;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -15,7 +14,6 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.openftc.easyopencv.OpenCvCameraFactory;
 
 /**
  * This 2023-2024 OpMode illustrates the basics of AprilTag recognition and pose estimation, using
@@ -24,6 +22,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
+@Disabled
 @TeleOp(name = "!Original AprilTag Detection", group = "Camera")
 public class RobotAprilTagDetection extends LinearOpMode {
 

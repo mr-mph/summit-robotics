@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 
 @Config
 public class Drive {
-	public static double SPEED = 0.4;
+	public static double SPEED = 0.6;
 
 	public DcMotorEx rightback;
 	public DcMotorEx rightfront;
@@ -69,9 +69,9 @@ public class Drive {
 		if (speedState.equals("slow")) {
 			SPEED = 0.2;
 		} else if (speedState.equals("fast")) {
-			SPEED = 0.6;
+			SPEED = 1;
 		} else {
-			SPEED = 0.4;
+			SPEED = 0.6;
 		}
 	}
 
