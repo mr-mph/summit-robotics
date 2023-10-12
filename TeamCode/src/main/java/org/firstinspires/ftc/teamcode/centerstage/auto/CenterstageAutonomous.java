@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.centerstage.auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -8,12 +9,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
+import org.firstinspires.ftc.teamcode.centerstage.util.AprilTagDetectionPipeline;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 
 import java.util.ArrayList;
 
-@TeleOp(name = "!New Robot Autonomous", group = "Camera")
+@Autonomous(name = "!New Robot Autonomous", group = "Auto")
 public class CenterstageAutonomous extends LinearOpMode
 {
 	OpenCvCamera camera;

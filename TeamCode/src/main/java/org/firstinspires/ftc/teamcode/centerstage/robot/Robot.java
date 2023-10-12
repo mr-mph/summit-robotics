@@ -32,6 +32,8 @@ public class Robot {
 		telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 //		telemetry.addData("armpos", arm.armMotor.getCurrentPosition());
 		telemetry.addData("speedState", drive.speedState);
+		telemetry.addData("topClaw", claw.topClawClosed);
+		telemetry.addData("bottomClaw", claw.bottomClawClosed);
 		telemetry.update();
 	}
 }

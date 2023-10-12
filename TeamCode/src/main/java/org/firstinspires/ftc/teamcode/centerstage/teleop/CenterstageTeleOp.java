@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Drive;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
 
-@TeleOp(name = "!Robot (Main TeleOp)")
+@TeleOp(name = "!Robot (Main TeleOp)", group = "Teleop")
 public class CenterstageTeleOp extends LinearOpMode {
 	@Override
 	public void runOpMode() {

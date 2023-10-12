@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.centerstage.robot;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -33,14 +36,21 @@ public class Drive {
 
 		mecanumDrive = new SampleMecanumDrive(hardwareMap);
 		mecanumDrive.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+		mecanumDrive.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
 		leftback.setDirection(DcMotorEx.Direction.REVERSE);
 		leftfront.setDirection(DcMotorEx.Direction.REVERSE);
+	}
 
-		rightback.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-		leftback.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-		leftfront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-		rightfront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+	public void lockTo(Pose2d targetPos) {
+		// from FTC team "Don't Blink"
+		Pose2d currentPos = mecanumDrive.getPoseEstimate();
+		Pose2d difference = targetPos.minus(currentPos);
+		Vector2d deltaVec = difference.vec().rotated(-currentPos.getHeading());
+
+		double deltaHeading = Angle.normDelta(targetPos.getHeading()) - Angle.normDelta(currentPos.getHeading());
+		mecanumDrive.setWeightedDrivePower(new Pose2d(deltaVec, deltaHeading));
+		mecanumDrive.update();
 	}
 
 	public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {

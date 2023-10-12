@@ -19,7 +19,7 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode.centerstage.auto;
+package org.firstinspires.ftc.teamcode.centerstage.util;
 
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.CvType;
