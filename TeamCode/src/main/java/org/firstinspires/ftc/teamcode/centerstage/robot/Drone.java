@@ -8,10 +8,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 public class Drone {
-	public static double DRONE_RELEASED = 0.48;
-	public static double DRONE_LOCKED = 0.48;
+	public static double DRONE_RELEASED = 1;
+	public static double DRONE_LOCKED = 0;
 
-	public Servo dronelauncher;
+	public CRServo dronelauncher;
 
 	public boolean droneReleased = false;
 
@@ -22,7 +22,7 @@ public class Drone {
 	}
 
 	public void init() {
-		dronelauncher = hardwareMap.get(Servo.class, "drone");
+		dronelauncher = hardwareMap.get(CRServo.class, "dronelauncher");
 	}
 
 	public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
@@ -41,10 +41,10 @@ public class Drone {
 	}
 
 	public void release() {
-		dronelauncher.setPosition(DRONE_RELEASED);
+		dronelauncher.setPower(DRONE_RELEASED);
 	}
 
 	public void lock() {
-		dronelauncher.setPosition(DRONE_LOCKED);
+		dronelauncher.setPower(DRONE_LOCKED);
 	}
 }

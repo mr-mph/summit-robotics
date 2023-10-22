@@ -16,6 +16,7 @@ public class Robot {
 	public Drive drive;
 	public Claw claw;
 	public Camera camera;
+	public Drone drone;
 
 
 	public ColorSensor colorsensor;
@@ -26,6 +27,7 @@ public class Robot {
 		this.drive = new Drive(hardwareMap);
 		this.claw = new Claw(hardwareMap);
 		this.camera = new Camera(hardwareMap);
+		this.drone = new Drone(hardwareMap);
 	}
 
 	public void sendTelemetry(Telemetry telemetry) {

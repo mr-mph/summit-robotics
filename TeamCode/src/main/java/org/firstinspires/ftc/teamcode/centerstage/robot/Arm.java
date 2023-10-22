@@ -31,27 +31,27 @@ public class Arm {
 
 	public void init() {
 		armMotor = hardwareMap.get(DcMotorEx.class, "arm");
-		armMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-
+		armMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+		armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 		armMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
-		armToTicks(BASE_TICKS);
 	}
 
 	public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
-		if (gamepad1.y || gamepad2.y) {
-			armToTicks(HIGH_BACKDROP_TICKS);
-		} else if (gamepad1.start || gamepad2.start) {
-			armToTicks(MEDIUM_BACKDROP_TICKS);
-		} else if (gamepad1.share || gamepad2.share) {
-			armToTicks(LOW_BACKDROP_TICKS);
-		} else if (gamepad1.ps || gamepad2.ps) {
-			armToTicks(LOW_CARRY_TICKS);
-		} else if (gamepad1.a || gamepad2.a) {
-			armToTicks(BASE_TICKS);
-		} else {
-			armToTicks(targetTicks - (int) (gamepad1.right_stick_y + gamepad2.right_stick_y) * 15);
-		}
+//		if (gamepad1.y || gamepad2.y) {
+//			armToTicks(HIGH_BACKDROP_TICKS);
+//		} else if (gamepad1.start || gamepad2.start) {
+//			armToTicks(MEDIUM_BACKDROP_TICKS);
+//		} else if (gamepad1.share || gamepad2.share) {
+//			armToTicks(LOW_BACKDROP_TICKS);
+//		} else if (gamepad1.ps || gamepad2.ps) {
+//			armToTicks(LOW_CARRY_TICKS);
+//		} else if (gamepad1.a || gamepad2.a) {
+//			armToTicks(BASE_TICKS);
+//		} else {
+//			armToTicks(targetTicks - (int) (gamepad1.right_stick_y + gamepad2.right_stick_y) * 15);
+//		}
+		armMotor.setPower(-gamepad1.left_stick_y - gamepad2.left_stick_y);
 	}
 
 	public void armToTicks(int ticks) {

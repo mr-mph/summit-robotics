@@ -18,7 +18,8 @@ public class CenterstageTeleOp extends LinearOpMode {
 		waitForStart();
 		robot.drive.init();
 		robot.claw.init();
-//		robot.arm.init();
+		robot.arm.init();
+		robot.drone.init();
 
 
 		while (!isStopRequested()) {
@@ -32,9 +33,10 @@ public class CenterstageTeleOp extends LinearOpMode {
 			);
 			robot.drive.mecanumDrive.update();
 
-//			robot.arm.gamepadInput(gamepad1, gamepad2);
+			robot.arm.gamepadInput(gamepad1, gamepad2);
 			robot.claw.gamepadInput(gamepad1, gamepad2);
 			robot.drive.gamepadInput(gamepad1, gamepad2);
+			robot.drone.gamepadInput(gamepad1, gamepad2);
 			robot.sendTelemetry(telemetry);
 		}
 	}

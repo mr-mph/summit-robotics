@@ -47,8 +47,6 @@ public class CenterstageAutonomous extends LinearOpMode
 		while (opModeIsActive())
 		{
 
-
-
 			// Calling getDetectionsUpdate() will only return an object if there was a new frame
 			// processed since the last time we called it. Otherwise, it will return null. This
 			// enables us to only run logic when there has been a new frame, as opposed to the
