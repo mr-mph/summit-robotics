@@ -2,16 +2,18 @@ package org.firstinspires.ftc.teamcode.centerstage.robot;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.CRServoImplEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 public class Drone {
-	public static double DRONE_RELEASED = 1;
-	public static double DRONE_LOCKED = 0;
+	public static double DRONE_RELEASED = 0.6;
+	public static double DRONE_LOCKED = 0.4;
 
-	public CRServo dronelauncher;
+	public Servo dronelauncher;
 
 	public boolean droneReleased = false;
 
@@ -22,14 +24,14 @@ public class Drone {
 	}
 
 	public void init() {
-		dronelauncher = hardwareMap.get(CRServo.class, "dronelauncher");
+		dronelauncher = hardwareMap.get(Servo.class, "drone");
 	}
 
 	public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
-		if (gamepad2.x || gamepad1.x) {
-			droneReleased = true;
-		} else if (gamepad2.b || gamepad1.b) {
-			droneReleased = false;
+
+		if (gamepad2.a || gamepad1.a) {
+			droneReleased = !droneReleased;
+			while (gamepad2.a || gamepad1.a);
 		}
 
 		if (droneReleased) {
@@ -41,10 +43,11 @@ public class Drone {
 	}
 
 	public void release() {
-		dronelauncher.setPower(DRONE_RELEASED);
+		dronelauncher.setPosition(DRONE_RELEASED);
 	}
 
+
 	public void lock() {
-		dronelauncher.setPower(DRONE_LOCKED);
+		dronelauncher.setPosition(DRONE_LOCKED);
 	}
 }

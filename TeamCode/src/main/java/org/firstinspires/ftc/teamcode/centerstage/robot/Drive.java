@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.util.Angle;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -35,7 +36,7 @@ public class Drive {
 		leftfront = hardwareMap.get(DcMotorEx.class, "leftfront");
 
 		mecanumDrive = new SampleMecanumDrive(hardwareMap);
-		mecanumDrive.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+		mecanumDrive.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 		mecanumDrive.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
 		leftback.setDirection(DcMotorEx.Direction.REVERSE);
@@ -62,14 +63,14 @@ public class Drive {
 			}
 			while (gamepad1.left_bumper || gamepad2.left_bumper);
 
-		} else if (gamepad1.right_bumper || gamepad2.right_bumper) {
+		} else if (gamepad1.left_trigger > 0.5 || gamepad2.left_trigger > 0.5) {
 			if (speedState.equals("fast")) {
 				speedState = "normal";
 			} else {
 				speedState = "fast";
 			}
 
-			while (gamepad1.right_bumper || gamepad2.right_bumper);
+			while (gamepad1.left_trigger > 0.5 || gamepad2.left_trigger > 0.5);
 		}
 
 		updateSpeed();

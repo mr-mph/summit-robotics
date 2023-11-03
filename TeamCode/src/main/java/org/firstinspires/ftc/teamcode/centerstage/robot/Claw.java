@@ -31,19 +31,18 @@ public class Claw {
 	}
 
 	public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
-		if (gamepad2.y || gamepad1.y) {
+		if (gamepad2.right_bumper || gamepad1.right_bumper) {
 			if (!bottomClawClosed) {
 				// only allow the bottom to open if the top is open
 				topClawClosed = !topClawClosed;
-				while (gamepad2.y || gamepad1.y);
+				while (gamepad2.right_bumper || gamepad1.right_bumper);
 			}
-		} else if (gamepad2.b || gamepad1.b) {
+		} else if (gamepad2.right_trigger > 0.5 || gamepad1.right_trigger > 0.5) {
 			if (topClawClosed) {
 				// only allow the top to close if the bottom is closed
 				bottomClawClosed = !bottomClawClosed;
-				while (gamepad2.a || gamepad1.a);
+				while (gamepad2.right_trigger > 0.5 || gamepad1.right_trigger > 0.5);
 			}
-
 		}
 
 		if (topClawClosed) {
