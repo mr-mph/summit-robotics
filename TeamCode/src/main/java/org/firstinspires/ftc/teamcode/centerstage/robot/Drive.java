@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.util.Angle;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -13,7 +12,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 
 @Config
 public class Drive {
-	public static double SPEED = 0.6;
+	public static double SPEED = 0.4;
 
 	public DcMotorEx rightback;
 	public DcMotorEx rightfront;
@@ -21,6 +20,8 @@ public class Drive {
 	public DcMotorEx leftfront;
 
 	public String speedState = "normal";
+
+	public boolean initialized = false;
 
 	public SampleMecanumDrive mecanumDrive;
 	private final HardwareMap hardwareMap;
@@ -39,8 +40,11 @@ public class Drive {
 		mecanumDrive.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 		mecanumDrive.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-		leftback.setDirection(DcMotorEx.Direction.REVERSE);
 		leftfront.setDirection(DcMotorEx.Direction.REVERSE);
+		leftback.setDirection(DcMotorEx.Direction.REVERSE);
+
+		initialized = true;
+
 	}
 
 	public void lockTo(Pose2d targetPos) {
@@ -80,9 +84,9 @@ public class Drive {
 		if (speedState.equals("slow")) {
 			SPEED = 0.2;
 		} else if (speedState.equals("fast")) {
-			SPEED = 1;
-		} else {
 			SPEED = 0.6;
+		} else {
+			SPEED = 0.4;
 		}
 	}
 
@@ -94,8 +98,8 @@ public class Drive {
 	}
 
 	public void driveStrafe(double multiplier) {
-		rightback.setPower(SPEED * multiplier * 1.1);
-		leftback.setPower(-SPEED * multiplier * 1.1);
+		rightback.setPower(SPEED * multiplier);
+		leftback.setPower(-SPEED * multiplier);
 		leftfront.setPower(SPEED * multiplier);
 		rightfront.setPower(-SPEED * multiplier);
 	}

@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
-import org.firstinspires.ftc.teamcode.centerstage.robot.Slide;
 
 
 @Disabled

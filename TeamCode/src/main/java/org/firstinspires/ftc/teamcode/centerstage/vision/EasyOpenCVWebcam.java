@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.centerstage.util;
+package org.firstinspires.ftc.teamcode.centerstage.vision;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;

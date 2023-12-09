@@ -4,7 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.centerstage.util.AprilTagDetectionPipeline;
+import org.firstinspires.ftc.teamcode.centerstage.vision.AprilTagDetectionPipeline;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -25,6 +25,8 @@ public class Camera {
 
 	// UNITS ARE METERS
 	double tagsize = 0.166;
+
+	public boolean initialized = false;
 
 	public Camera(HardwareMap hardwareMap) {
 		this.hardwareMap = hardwareMap;
@@ -55,5 +57,7 @@ public class Camera {
 				 */
 			}
 		});
+		initialized = true;
+
 	}
 }

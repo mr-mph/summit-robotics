@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.centerstage.util;
+package org.firstinspires.ftc.teamcode.centerstage.vision;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

@@ -1,14 +1,17 @@
-package org.firstinspires.ftc.teamcode.centerstage.teleop;
+package org.firstinspires.ftc.teamcode.centerstage.unfinished;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.centerstage.robot.Drive;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
-
-@TeleOp(name = "!!Robot (Main TeleOp)", group = "Teleop")
-public class CenterstageTeleOp extends LinearOpMode {
+import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
+@Disabled
+@TeleOp(name = "!!Headless (Alternative TeleOp)", group = "Teleop")
+public class HeadlessTeleOp extends LinearOpMode {
 
 
 	@Override
@@ -16,40 +19,39 @@ public class CenterstageTeleOp extends LinearOpMode {
 
 		Robot robot = new Robot(hardwareMap);
 
-//		robot.camera.init();
+		robot.camera.init();
 		robot.drive.init();
 		robot.drone.init();
 		robot.claw.init();
-
 		sleep(1000);
 		robot.arm.init();
 
 		waitForStart();
+		SampleMecanumDrive drive = robot.drive.mecanumDrive;
 
 
 		while (!isStopRequested()) {
-			robot.drive.mecanumDrive.setWeightedDrivePower(
+			Pose2d poseEstimate = drive.getPoseEstimate();
 
+			Vector2d input = new Vector2d(
+					(-gamepad1.left_stick_y - gamepad2.left_stick_y) * Drive.SPEED,
+					(-gamepad1.left_stick_x - gamepad2.left_stick_x) * Drive.SPEED
+			).rotated(-poseEstimate.getHeading());
+
+			drive.setWeightedDrivePower(
 					new Pose2d(
-							(-gamepad1.left_stick_y - gamepad2.left_stick_y) * Drive.SPEED,
-							(-gamepad1.left_stick_x - gamepad2.left_stick_x) * Drive.SPEED,
+							input.getX(),
+							input.getY(),
 							(-gamepad1.right_stick_x - gamepad2.right_stick_x) * Drive.SPEED * 1.2
 					)
 			);
-			robot.drive.mecanumDrive.update();
+			drive.update();
 
 			robot.arm.gamepadInput(gamepad1, gamepad2);
 			robot.claw.gamepadInput(gamepad1, gamepad2);
 			robot.drive.gamepadInput(gamepad1, gamepad2);
 			robot.drone.gamepadInput(gamepad1, gamepad2, time);
 			robot.sendTelemetry(telemetry);
-
-//			if (gamepad1.x || gamepad2.x) {
-//				robot.arm.armToTicks(robot.arm.targetTicks - 200);
-//				robot.claw.topClawClosed = false;
-//				while (gamepad1.x || gamepad2.x) {}
-//				robot.arm.armToTicks(Arm.BACKDROP_TICKS);
-//			}
 		}
 	}
 }
