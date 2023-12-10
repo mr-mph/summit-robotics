@@ -9,10 +9,12 @@ import org.firstinspires.ftc.teamcode.centerstage.robot.Drive;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Timings;
 
+@Config
+@Autonomous(name = "!Vision Blue Back Auto", group = "Test")
+public class VisionAutoBlueBack extends LinearOpMode
 
-@Autonomous(name = "!!Red Back Auto", group = "Auto")
-public class TimingAutoRedBack extends LinearOpMode
 {
+
 	@Override
 	public void runOpMode()
 	{
@@ -30,17 +32,17 @@ public class TimingAutoRedBack extends LinearOpMode
 		robot.arm.armToTicks(Arm.BASE_TICKS);
 		sleep(1500);
 
-		drive.driveStrafe(-1);
+
+		drive.driveStrafe(1);
 		sleep(Timings.FIRST_STRAFE);
 
 		drive.driveStop();
 		sleep(Timings.DELAY);
 
-
 		drive.driveStraight(1);
 		sleep(Timings.FORWARD_FROM_BACK);
 
-		drive.driveStrafe(-1);
+		drive.driveStrafe(1);
 		sleep(Timings.BACKDROP_ALIGN_STRAFE);
 
 		drive.driveStop();
@@ -58,7 +60,7 @@ public class TimingAutoRedBack extends LinearOpMode
 		drive.driveStraight(-1);
 		sleep(Timings.BACKDROP_BACKWARD);
 
-		drive.driveTurn(-1);
+		drive.driveTurn(1);
 		sleep(Timings.TURN_AROUND);
 
 		drive.driveStraight(-1);

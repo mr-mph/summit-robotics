@@ -1,30 +1,18 @@
 package org.firstinspires.ftc.teamcode.centerstage.auto;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.centerstage.robot.Arm;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Drive;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
+import org.firstinspires.ftc.teamcode.centerstage.robot.Timings;
 
-@Config
+
 @Autonomous(name = "!!Blue Back Auto", group = "Auto")
 public class TimingAutoBlueBack extends LinearOpMode
 
 {
-	public static int FIRST_STRAFE = 300;
-	public static int FORWARD = 2950;
-	public static int BACKDROP_ALIGN_STRAFE = 1320;
-	public static int BACKDROP_FORWARD = 800;
-	public static int WAIT_FOR_ARM_TO_LIFT = 1000;
-	public static int WAIT_FOR_RELEASE = 1000;
-	public static int BACKDROP_BACKWARD = 1000;
-	public static int TURN_AROUND = 1400;
-
-	public static int FINAL_BACKWARD = 800;
-
-
 	@Override
 	public void runOpMode()
 	{
@@ -44,37 +32,37 @@ public class TimingAutoBlueBack extends LinearOpMode
 
 
 		drive.driveStrafe(1);
-		sleep(FIRST_STRAFE);
+		sleep(Timings.FIRST_STRAFE);
 
 		drive.driveStop();
-		sleep(15000); // temp
+		sleep(Timings.DELAY);
 
 		drive.driveStraight(1);
-		sleep(FORWARD);
+		sleep(Timings.FORWARD_FROM_BACK);
 
 		drive.driveStrafe(1);
-		sleep(BACKDROP_ALIGN_STRAFE);
+		sleep(Timings.BACKDROP_ALIGN_STRAFE);
 
 		drive.driveStop();
 		robot.arm.armToTicks(Arm.BACKDROP_TICKS);
-		sleep(WAIT_FOR_ARM_TO_LIFT);
+		sleep(Timings.WAIT_FOR_ARM_TO_LIFT);
 
 		drive.driveStraight(1);
-		sleep(BACKDROP_FORWARD);
+		sleep(Timings.BACKDROP_FORWARD);
 		drive.driveStop();
 
 		robot.claw.topClawClosed = false;
 		robot.claw.open(robot.claw.clawtop);
-		sleep(WAIT_FOR_RELEASE);
+		sleep(Timings.WAIT_FOR_RELEASE);
 
 		drive.driveStraight(-1);
-		sleep(BACKDROP_BACKWARD);
+		sleep(Timings.BACKDROP_BACKWARD);
 
 		drive.driveTurn(1);
-		sleep(TURN_AROUND);
+		sleep(Timings.TURN_AROUND);
 
 		drive.driveStraight(-1);
-		sleep(FINAL_BACKWARD);
+		sleep(Timings.FINAL_BACKWARD);
 
 		drive.driveStop();
 
