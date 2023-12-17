@@ -14,9 +14,9 @@ public class Arm {
 	public static int PICKUP_TICKS = 0;
 	public static int BASE_TICKS = 200;
 	public static int INIT_HEIGHT = 590;
-	public static int BACKDROP_TICKS = 800;
-	public static int BACKDROP_TICKS_2ND = 1000;
 	public static int HANG_TICKS = 1800;
+	public static int BACKDROP_TICKS = 2200;
+
 
 	public static double ARM_POSITION_SPEED = 1;
 	public static double ARM_ADJUST_SPEED = 0.1;
@@ -46,11 +46,8 @@ public class Arm {
 
 	public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
 		if (gamepad1.dpad_up || gamepad2.dpad_up) {
-			if (gamepad1.x || gamepad2.x) {
+			if (gamepad1.y || gamepad2.y) {
 				armToTicks(BACKDROP_TICKS);
-				while (gamepad1.dpad_up || gamepad2.dpad_up) {}
-			} else if (gamepad1.y || gamepad2.y) {
-				armToTicks(BACKDROP_TICKS_2ND);
 				while (gamepad1.dpad_up || gamepad2.dpad_up) {}
 			} else if (gamepad1.b || gamepad2.b) {
 				armToTicks(HANG_TICKS);

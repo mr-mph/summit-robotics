@@ -8,18 +8,24 @@ import org.firstinspires.ftc.teamcode.centerstage.robot.Arm;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Drive;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Timings;
+import org.firstinspires.ftc.teamcode.centerstage.vision.BluePropThreshold;
 
 @Config
-@Autonomous(name = "!Vision Blue Back Auto", group = "Test")
-public class VisionAutoBlueBack extends LinearOpMode
+@Autonomous(name = "!Vision Blue Front Auto", group = "Test")
+public class VisionAutoBlueFront extends LinearOpMode
 
 {
+	public static int BACKDROP_ALIGN_LEFT = 1320;
+	public static int BACKDROP_ALIGN_CENTER = 1220;
+	public static int BACKDROP_ALIGN_RIGHT = 1120;
 
 	@Override
 	public void runOpMode()
 	{
 		Robot robot = new Robot(hardwareMap);
 		Drive drive = robot.drive;
+
+		BluePropThreshold bluePropDetector = robot.camera.initBlue();
 
 		robot.drive.init();
 		robot.drone.init();
@@ -30,24 +36,28 @@ public class VisionAutoBlueBack extends LinearOpMode
 
 		waitForStart();
 		robot.arm.armToTicks(Arm.BASE_TICKS);
+
+		String teamPropPosition = bluePropDetector.getPropPosition();
 		sleep(1500);
 
-
-		drive.driveStrafe(1);
+		drive.driveStrafe(-1);
 		sleep(Timings.FIRST_STRAFE);
 
-		drive.driveStop();
-		sleep(Timings.DELAY);
-
 		drive.driveStraight(1);
-		sleep(Timings.FORWARD_FROM_BACK);
+		sleep(Timings.FORWARD_FROM_FRONT);
 
-		drive.driveStrafe(1);
-		sleep(Timings.BACKDROP_ALIGN_STRAFE);
+		drive.driveStrafe(-1);
+		if (teamPropPosition.equals("LEFT")) {
+			sleep(BACKDROP_ALIGN_LEFT);
+		}  else if (teamPropPosition.equals("RIGHT")) {
+			sleep(BACKDROP_ALIGN_RIGHT);
+		} else {
+			sleep(BACKDROP_ALIGN_CENTER);
+		}
 
 		drive.driveStop();
 		robot.arm.armToTicks(Arm.BACKDROP_TICKS);
-		sleep(Timings.WAIT_FOR_ARM_TO_LIFT);
+		sleep(1000);
 
 		drive.driveStraight(1);
 		sleep(Timings.BACKDROP_FORWARD);
@@ -55,16 +65,16 @@ public class VisionAutoBlueBack extends LinearOpMode
 
 		robot.claw.topClawClosed = false;
 		robot.claw.open(robot.claw.clawtop);
-		sleep(Timings.WAIT_FOR_RELEASE);
+		sleep(1000);
 
 		drive.driveStraight(-1);
 		sleep(Timings.BACKDROP_BACKWARD);
 
-		drive.driveTurn(1);
+		drive.driveTurn(-1);
 		sleep(Timings.TURN_AROUND);
 
 		drive.driveStraight(-1);
-		sleep(Timings.FINAL_BACKWARD);
+		sleep(Timings.PARK_BACKWARD);
 
 		drive.driveStop();
 

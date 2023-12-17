@@ -39,7 +39,7 @@ public class TimingAutoRedFront extends LinearOpMode
 
 		drive.driveStop();
 		robot.arm.armToTicks(Arm.BACKDROP_TICKS);
-		sleep(Timings.WAIT_FOR_ARM_TO_LIFT);
+		sleep(1000);
 
 		drive.driveStraight(1);
 		sleep(Timings.BACKDROP_FORWARD);
@@ -47,7 +47,7 @@ public class TimingAutoRedFront extends LinearOpMode
 
 		robot.claw.topClawClosed = false;
 		robot.claw.open(robot.claw.clawtop);
-		sleep(Timings.WAIT_FOR_RELEASE);
+		sleep(1000);
 
 		drive.driveStraight(-1);
 		sleep(Timings.BACKDROP_BACKWARD);
@@ -56,7 +56,7 @@ public class TimingAutoRedFront extends LinearOpMode
 		sleep(Timings.TURN_AROUND);
 
 		drive.driveStraight(-1);
-		sleep(Timings.FINAL_BACKWARD);
+		sleep(Timings.PARK_BACKWARD);
 
 		drive.driveStop();
 

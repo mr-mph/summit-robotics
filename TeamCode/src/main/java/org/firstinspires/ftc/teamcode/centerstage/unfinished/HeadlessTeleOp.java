@@ -19,7 +19,6 @@ public class HeadlessTeleOp extends LinearOpMode {
 
 		Robot robot = new Robot(hardwareMap);
 
-		robot.camera.init();
 		robot.drive.init();
 		robot.drone.init();
 		robot.claw.init();

@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.centerstage.unfinished;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
 
+@Disabled
 @Autonomous(name = "!Test Locking", group = "Test")
 public class LockTest extends LinearOpMode
 {
@@ -21,7 +23,7 @@ public class LockTest extends LinearOpMode
 
 		while (opModeIsActive())
 		{
-			robot.drive.lockTo(center);
+//			robot.drive.lockTo(center);
 
 		}
 	}

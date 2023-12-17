@@ -10,14 +10,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
 import org.firstinspires.ftc.teamcode.centerstage.vision.AprilTagDetectionPipeline;
-import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 
 import java.util.ArrayList;
 
 @Disabled
-@Autonomous(name = "!New Robot Autonomous", group = "Auto")
-public class CenterstageAutonomous extends LinearOpMode
+@Autonomous(name = "!April Tag Detection", group = "Auto")
+public class AprilTagDetection extends LinearOpMode
 {
 	OpenCvCamera camera;
 	AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -36,8 +35,9 @@ public class CenterstageAutonomous extends LinearOpMode
 	{
 
 		Robot robot = new Robot(hardwareMap);
+		OldCamera oldCamera = new OldCamera(hardwareMap);
 
-		robot.camera.init();
+		oldCamera.init();
 		robot.arm.init();
 		robot.claw.init();
 		robot.drive.init();
@@ -52,7 +52,7 @@ public class CenterstageAutonomous extends LinearOpMode
 			// processed since the last time we called it. Otherwise, it will return null. This
 			// enables us to only run logic when there has been a new frame, as opposed to the
 			// getLatestDetections() method which will always return an object.
-			ArrayList<AprilTagDetection> detections = aprilTagDetectionPipeline.getDetectionsUpdate();
+			ArrayList<org.openftc.apriltag.AprilTagDetection> detections = aprilTagDetectionPipeline.getDetectionsUpdate();
 
 			// If there's been a new frame...
 			if(detections != null)
@@ -85,7 +85,7 @@ public class CenterstageAutonomous extends LinearOpMode
 						aprilTagDetectionPipeline.setDecimation(DECIMATION_HIGH);
 					}
 
-					for(AprilTagDetection detection : detections)
+					for(org.openftc.apriltag.AprilTagDetection detection : detections)
 					{
 						Orientation rot = Orientation.getOrientation(detection.pose.R, AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
 

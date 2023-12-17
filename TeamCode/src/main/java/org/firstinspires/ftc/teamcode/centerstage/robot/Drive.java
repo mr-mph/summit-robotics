@@ -47,16 +47,16 @@ public class Drive {
 
 	}
 
-	public void lockTo(Pose2d targetPos) {
-		// from FTC team "Don't Blink"
-		Pose2d currentPos = mecanumDrive.getPoseEstimate();
-		Pose2d difference = targetPos.minus(currentPos);
-		Vector2d deltaVec = difference.vec().rotated(-currentPos.getHeading());
-
-		double deltaHeading = Angle.normDelta(targetPos.getHeading()) - Angle.normDelta(currentPos.getHeading());
-		mecanumDrive.setWeightedDrivePower(new Pose2d(deltaVec, deltaHeading));
-		mecanumDrive.update();
-	}
+//	public void lockTo(Pose2d targetPos) {
+//		// from FTC team "Don't Blink"
+//		Pose2d currentPos = mecanumDrive.getPoseEstimate();
+//		Pose2d difference = targetPos.minus(currentPos);
+//		Vector2d deltaVec = difference.vec().rotated(-currentPos.getHeading());
+//
+//		double deltaHeading = Angle.normDelta(targetPos.getHeading()) - Angle.normDelta(currentPos.getHeading());
+//		mecanumDrive.setWeightedDrivePower(new Pose2d(deltaVec, deltaHeading));
+//		mecanumDrive.update();
+//	}
 
 	public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
 		if (gamepad1.left_bumper || gamepad2.left_bumper) {

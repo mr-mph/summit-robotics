@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.centerstage.auto;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -34,7 +33,7 @@ public class TimingAutoRedBack extends LinearOpMode
 		sleep(Timings.FIRST_STRAFE);
 
 		drive.driveStop();
-		sleep(Timings.DELAY);
+		sleep(Timings.BACK_DELAY);
 
 
 		drive.driveStraight(1);
@@ -45,7 +44,7 @@ public class TimingAutoRedBack extends LinearOpMode
 
 		drive.driveStop();
 		robot.arm.armToTicks(Arm.BACKDROP_TICKS);
-		sleep(Timings.WAIT_FOR_ARM_TO_LIFT);
+		sleep(1000);
 
 		drive.driveStraight(1);
 		sleep(Timings.BACKDROP_FORWARD);
@@ -53,7 +52,7 @@ public class TimingAutoRedBack extends LinearOpMode
 
 		robot.claw.topClawClosed = false;
 		robot.claw.open(robot.claw.clawtop);
-		sleep(Timings.WAIT_FOR_RELEASE);
+		sleep(1000);
 
 		drive.driveStraight(-1);
 		sleep(Timings.BACKDROP_BACKWARD);
@@ -62,7 +61,7 @@ public class TimingAutoRedBack extends LinearOpMode
 		sleep(Timings.TURN_AROUND);
 
 		drive.driveStraight(-1);
-		sleep(Timings.FINAL_BACKWARD);
+		sleep(Timings.PARK_BACKWARD);
 
 		drive.driveStop();
 

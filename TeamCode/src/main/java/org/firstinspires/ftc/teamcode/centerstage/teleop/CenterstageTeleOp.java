@@ -16,10 +16,11 @@ public class CenterstageTeleOp extends LinearOpMode {
 
 		Robot robot = new Robot(hardwareMap);
 
-//		robot.camera.init();
 		robot.drive.init();
 		robot.drone.init();
 		robot.claw.init();
+		robot.wrist.init();
+
 
 		sleep(1000);
 		robot.arm.init();
@@ -42,6 +43,8 @@ public class CenterstageTeleOp extends LinearOpMode {
 			robot.claw.gamepadInput(gamepad1, gamepad2);
 			robot.drive.gamepadInput(gamepad1, gamepad2);
 			robot.drone.gamepadInput(gamepad1, gamepad2, time);
+			robot.wrist.gamepadInput(gamepad1, gamepad2);
+
 			robot.sendTelemetry(telemetry);
 
 //			if (gamepad1.x || gamepad2.x) {

@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Robot {
 
 	public Arm arm;
+	public Wrist wrist;
 	public Drive drive;
 	public Claw claw;
 	public Camera camera;
@@ -21,6 +22,7 @@ public class Robot {
 		this.claw = new Claw(hardwareMap);
 		this.camera = new Camera(hardwareMap);
 		this.drone = new Drone(hardwareMap);
+		this.wrist = new Wrist(hardwareMap);
 	}
 
 	public void sendTelemetry(Telemetry telemetry) {
@@ -28,6 +30,8 @@ public class Robot {
 		if (drive.initialized) telemetry.addData("speedState", drive.speedState);
 		if (drive.initialized) telemetry.addData("speed", Drive.SPEED);
 		if (claw.initialized) telemetry.addData("topClawClosed", claw.topClawClosed);
+		if (wrist.initialized) telemetry.addData("wristUp", wrist.wristUp);
+
 //		telemetry.addData("bottomClawClosed", claw.bottomClawClosed);
 		if (arm.initialized) telemetry.addData("armPos", arm.armMotor.getCurrentPosition());
 		if (drone.initialized) telemetry.addData("droneReleased?", drone.droneReleased);
