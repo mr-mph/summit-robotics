@@ -18,7 +18,7 @@ public class Arm {
 	public static int BACKDROP_TICKS = 2200;
 
 
-	public static double ARM_POSITION_SPEED = 1;
+	public static double ARM_POSITION_SPEED = 0.5;
 	public static double ARM_ADJUST_SPEED = 0.1;
 
 	public DcMotorEx armMotor;
@@ -45,27 +45,12 @@ public class Arm {
 	}
 
 	public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
-		if (gamepad1.dpad_up || gamepad2.dpad_up) {
-			if (gamepad1.y || gamepad2.y) {
-				armToTicks(BACKDROP_TICKS);
-				while (gamepad1.dpad_up || gamepad2.dpad_up) {}
-			} else if (gamepad1.b || gamepad2.b) {
-				armToTicks(HANG_TICKS);
-				while (gamepad1.dpad_up || gamepad2.dpad_up) {}
-			} else {
-				armToTicks(BASE_TICKS);
-			}
-
-		} else if (gamepad1.dpad_down || gamepad2.dpad_down) {
-			armToTicks(PICKUP_TICKS);
-		} else if (gamepad1.dpad_left || gamepad2.dpad_left) {
+		if (gamepad1.dpad_left || gamepad2.dpad_left) {
 			int newTicks = targetTicks - (int) ((100 * ARM_ADJUST_SPEED));
 			if (newTicks < PICKUP_TICKS && !(gamepad1.ps || gamepad2.ps)) {
 				newTicks = PICKUP_TICKS;
 			}
 			armToTicks(newTicks);
-
-
 		} else if (gamepad1.dpad_right || gamepad2.dpad_right) {
 			int newTicks = targetTicks + (int) ((100 * ARM_ADJUST_SPEED));
 			if (newTicks > HANG_TICKS && !(gamepad1.ps || gamepad2.ps)) {

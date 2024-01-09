@@ -8,8 +8,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 public class Wrist {
-	public static double WRIST_DOWN = 0.66;
-	public static double WRIST_UP = -0.7;
+	public static double WRIST_DOWN = 0.668;
+	public static double WRIST_UP = -0.62;
+	public static double WRIST_HANG = 1;
 
 	public CRServo wrist;
 
@@ -24,6 +25,7 @@ public class Wrist {
 
 	public void init() {
 		wrist = hardwareMap.get(CRServo.class, "wrist");
+		lower();
 		initialized = true;
 	}
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.centerstage.auto;
+package org.firstinspires.ftc.teamcode.centerstage.unused;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,10 +8,8 @@ import org.firstinspires.ftc.teamcode.centerstage.robot.Drive;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Timings;
 
-
-@Autonomous(name = "!!Blue Back Auto", group = "Auto")
-public class TimingAutoBlueBack extends LinearOpMode
-
+@Autonomous(name = "!!Blue Front Auto", group = "Auto")
+public class TimingAutoBlueFront extends LinearOpMode
 {
 	@Override
 	public void runOpMode()
@@ -30,15 +28,11 @@ public class TimingAutoBlueBack extends LinearOpMode
 		robot.arm.armToTicks(Arm.BASE_TICKS);
 		sleep(1500);
 
-
 		drive.driveStrafe(1);
 		sleep(Timings.FIRST_STRAFE);
 
-		drive.driveStop();
-		sleep(Timings.BACK_DELAY);
-
 		drive.driveStraight(1);
-		sleep(Timings.FORWARD_FROM_BACK);
+		sleep(Timings.FORWARD_FROM_FRONT);
 
 		drive.driveStrafe(1);
 		sleep(Timings.BACKDROP_ALIGN_STRAFE);
@@ -59,7 +53,7 @@ public class TimingAutoBlueBack extends LinearOpMode
 		sleep(Timings.BACKDROP_BACKWARD);
 
 		drive.driveTurn(1);
-		sleep(Timings.TURN_AROUND);
+		sleep(Timings.TURN_AROUND + 200);
 
 		drive.driveStraight(-1);
 		sleep(Timings.PARK_BACKWARD);

@@ -30,6 +30,7 @@ public class VisionAutoBlueFront extends LinearOpMode
 		robot.drive.init();
 		robot.drone.init();
 		robot.claw.init();
+		robot.wrist.init();
 
 		sleep(1000);
 		robot.arm.init();
@@ -39,12 +40,17 @@ public class VisionAutoBlueFront extends LinearOpMode
 
 		String teamPropPosition = bluePropDetector.getPropPosition();
 		sleep(1500);
+		telemetry.addData("Blue Prop Position", teamPropPosition);
+		telemetry.update();
 
-		drive.driveStrafe(-1);
-		sleep(Timings.FIRST_STRAFE);
+		drive.driveStrafe(1);
+		sleep(Timings.FIRST_FORWARD);
 
-		drive.driveStraight(1);
-		sleep(Timings.FORWARD_FROM_FRONT);
+		drive.driveTurn(1);
+		sleep(Timings.TURN);
+
+		drive.driveStraight(-1);
+		sleep(Timings.BACKWARD_FROM_FRONT);
 
 		drive.driveStrafe(-1);
 		if (teamPropPosition.equals("LEFT")) {
@@ -56,27 +62,23 @@ public class VisionAutoBlueFront extends LinearOpMode
 		}
 
 		drive.driveStop();
-		robot.arm.armToTicks(Arm.BACKDROP_TICKS);
-		sleep(1000);
-
-		drive.driveStraight(1);
-		sleep(Timings.BACKDROP_FORWARD);
-		drive.driveStop();
-
-		robot.claw.topClawClosed = false;
-		robot.claw.open(robot.claw.clawtop);
+		robot.raiseArm();
 		sleep(1000);
 
 		drive.driveStraight(-1);
 		sleep(Timings.BACKDROP_BACKWARD);
 
-		drive.driveTurn(-1);
-		sleep(Timings.TURN_AROUND);
+		robot.openClaw();
+		sleep(1000);
+
+		drive.driveStraight(1);
+		sleep(Timings.BACKDROP_FORWARD);
 
 		drive.driveStraight(-1);
 		sleep(Timings.PARK_BACKWARD);
 
 		drive.driveStop();
-
+		robot.lowerArm();;
+		robot.lowerArm();
 	}
 }

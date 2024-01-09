@@ -38,4 +38,32 @@ public class Robot {
 
 		telemetry.update();
 	}
+
+	public void raiseArm() {
+		wrist.wristUp = true;
+		wrist.lift();
+		arm.armToTicks(Arm.BACKDROP_TICKS);
+	}
+
+	public void lowerArm() {
+		wrist.wristUp = false;
+		wrist.lower();
+		arm.armToTicks(Arm.BASE_TICKS);
+	}
+
+	public void hang() {
+		wrist.wristUp = false;
+		wrist.lower();
+		arm.armToTicks(Arm.HANG_TICKS);
+	}
+
+	public void openClaw() {
+		claw.topClawClosed = false;
+		claw.open(claw.clawtop);
+	}
+
+	public void closeClaw() {
+		claw.topClawClosed = true;
+		claw.close(claw.clawtop);
+	}
 }
