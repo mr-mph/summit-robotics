@@ -8,17 +8,16 @@ import org.firstinspires.ftc.teamcode.centerstage.robot.Arm;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Drive;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Timings;
-import org.firstinspires.ftc.teamcode.centerstage.robot.Wrist;
-import org.firstinspires.ftc.teamcode.centerstage.vision.RedPropThreshold;
+import org.firstinspires.ftc.teamcode.centerstage.vision.BluePropThreshold;
 
 @Config
-@Autonomous(name = "!Vision Red Front Auto", group = "Test")
-public class VisionAutoRedFront extends LinearOpMode
+@Autonomous(name = "!Vision Blue Back Auto", group = "Test")
+public class VisionAutoBlueBack extends LinearOpMode
 
 {
-	public static int BACKDROP_ALIGN_LEFT = 1500;
-	public static int BACKDROP_ALIGN_CENTER = 1300;
-	public static int BACKDROP_ALIGN_RIGHT = 1100;
+	public static int BACKDROP_ALIGN_LEFT = 950;
+	public static int BACKDROP_ALIGN_CENTER = 1100;
+	public static int BACKDROP_ALIGN_RIGHT = 1500;
 
 	@Override
 	public void runOpMode()
@@ -26,7 +25,7 @@ public class VisionAutoRedFront extends LinearOpMode
 		Robot robot = new Robot(hardwareMap);
 		Drive drive = robot.drive;
 
-		RedPropThreshold redPropDetector = robot.camera.initRed();
+		BluePropThreshold bluePropDetector = robot.camera.initBlue();
 
 		robot.drive.init();
 		robot.drone.init();
@@ -43,22 +42,23 @@ public class VisionAutoRedFront extends LinearOpMode
 		waitForStart();
 		robot.arm.armToTicks(Arm.BASE_TICKS);
 
-		drive.driveStraight(1);
-		sleep(Timings.FIRST_FORWARD);
-		drive.driveStop();
-
-		String teamPropPosition = redPropDetector.getPropPosition();
+		String teamPropPosition = bluePropDetector.getPropPosition();
 		sleep(1500);
-		telemetry.addData("Red Prop Position", teamPropPosition);
+		telemetry.addData("Blue Prop Position", teamPropPosition);
 		telemetry.update();
 
-		drive.driveTurn(-1);
+		robot.arm.armToTicks(Arm.FLOOR_TICKS);
+
+		drive.driveStraight(1);
+		sleep(Timings.FIRST_FORWARD);
+
+		drive.driveTurn(1);
 		sleep(Timings.TURN);
 
 		drive.driveStraight(-1);
-		sleep(Timings.BACKWARD_FROM_FRONT);
+		sleep(Timings.BACKWARD_FROM_BACK);
 
-		drive.driveStrafe(1);
+		drive.driveStrafe(-1);
 		if (teamPropPosition.equals("LEFT")) {
 			sleep(BACKDROP_ALIGN_LEFT);
 		}  else if (teamPropPosition.equals("RIGHT")) {
@@ -83,11 +83,9 @@ public class VisionAutoRedFront extends LinearOpMode
 		sleep(Timings.BACKDROP_FORWARD);
 
 		robot.closeClaw();
-		robot.wrist.lower();
-		robot.arm.armMotor.setPower(1);
-		robot.arm.armToTicks(Arm.INIT_HEIGHT);
+		robot.lowerArm();
 
-		drive.driveStrafe(-1);
+		drive.driveStrafe(1);
 		sleep(Timings.PARK_CORNER);
 
 		drive.driveStraight(-1);

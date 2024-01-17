@@ -8,17 +8,16 @@ import org.firstinspires.ftc.teamcode.centerstage.robot.Arm;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Drive;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Timings;
-import org.firstinspires.ftc.teamcode.centerstage.robot.Wrist;
 import org.firstinspires.ftc.teamcode.centerstage.vision.RedPropThreshold;
 
 @Config
-@Autonomous(name = "!Vision Red Front Auto", group = "Test")
-public class VisionAutoRedFront extends LinearOpMode
+@Autonomous(name = "!Vision Red Back Auto", group = "Test")
+public class VisionAutoRedBack extends LinearOpMode
 
 {
 	public static int BACKDROP_ALIGN_LEFT = 1500;
-	public static int BACKDROP_ALIGN_CENTER = 1300;
-	public static int BACKDROP_ALIGN_RIGHT = 1100;
+	public static int BACKDROP_ALIGN_CENTER = 1100;
+	public static int BACKDROP_ALIGN_RIGHT = 950;
 
 	@Override
 	public void runOpMode()
@@ -45,6 +44,9 @@ public class VisionAutoRedFront extends LinearOpMode
 
 		drive.driveStraight(1);
 		sleep(Timings.FIRST_FORWARD);
+
+		robot.arm.armToTicks(Arm.FLOOR_TICKS);
+
 		drive.driveStop();
 
 		String teamPropPosition = redPropDetector.getPropPosition();
@@ -56,7 +58,7 @@ public class VisionAutoRedFront extends LinearOpMode
 		sleep(Timings.TURN);
 
 		drive.driveStraight(-1);
-		sleep(Timings.BACKWARD_FROM_FRONT);
+		sleep(Timings.BACKWARD_FROM_BACK);
 
 		drive.driveStrafe(1);
 		if (teamPropPosition.equals("LEFT")) {
@@ -83,9 +85,7 @@ public class VisionAutoRedFront extends LinearOpMode
 		sleep(Timings.BACKDROP_FORWARD);
 
 		robot.closeClaw();
-		robot.wrist.lower();
-		robot.arm.armMotor.setPower(1);
-		robot.arm.armToTicks(Arm.INIT_HEIGHT);
+		robot.lowerArm();
 
 		drive.driveStrafe(-1);
 		sleep(Timings.PARK_CORNER);

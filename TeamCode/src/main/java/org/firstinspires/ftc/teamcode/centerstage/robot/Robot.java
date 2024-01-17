@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.centerstage.robot;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -29,10 +28,10 @@ public class Robot {
 		telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 		if (drive.initialized) telemetry.addData("speedState", drive.speedState);
 		if (drive.initialized) telemetry.addData("speed", Drive.SPEED);
-		if (claw.initialized) telemetry.addData("topClawClosed", claw.topClawClosed);
-		if (wrist.initialized) telemetry.addData("wristUp", wrist.wristUp);
-
-//		telemetry.addData("bottomClawClosed", claw.bottomClawClosed);
+		if (drive.initialized) telemetry.addData("poseEstimate", drive.mecanumDrive.getPoseEstimate());
+		if (claw.initialized) telemetry.addData("leftClawClosed", claw.leftClawClosed);
+		if (claw.initialized) telemetry.addData("rightClawClosed", claw.rightClawClosed);
+		if (wrist.initialized) telemetry.addData("wristState", wrist.wristState);
 		if (arm.initialized) telemetry.addData("armPos", arm.armMotor.getCurrentPosition());
 		if (drone.initialized) telemetry.addData("droneReleased?", drone.droneReleased);
 
@@ -40,30 +39,30 @@ public class Robot {
 	}
 
 	public void raiseArm() {
-		wrist.wristUp = true;
 		wrist.lift();
+		arm.armMotor.setPower(1);
 		arm.armToTicks(Arm.BACKDROP_TICKS);
 	}
 
 	public void lowerArm() {
-		wrist.wristUp = false;
 		wrist.lower();
+		arm.armMotor.setPower(1);
 		arm.armToTicks(Arm.BASE_TICKS);
 	}
 
 	public void hang() {
-		wrist.wristUp = false;
-		wrist.lower();
+		wrist.hang();
+		arm.armMotor.setPower(1);
 		arm.armToTicks(Arm.HANG_TICKS);
 	}
 
 	public void openClaw() {
-		claw.topClawClosed = false;
-		claw.open(claw.clawtop);
+		claw.open("left");
+		claw.open("right");
 	}
 
 	public void closeClaw() {
-		claw.topClawClosed = true;
-		claw.close(claw.clawtop);
+		claw.close("left");
+		claw.close("right");
 	}
 }

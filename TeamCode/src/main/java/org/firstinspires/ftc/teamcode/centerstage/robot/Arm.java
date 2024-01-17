@@ -11,14 +11,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @Config
 public class Arm {
-	public static int PICKUP_TICKS = 0;
+	public static int FLOOR_TICKS = -300;
+	public static int PICKUP_TICKS = 100;
 	public static int BASE_TICKS = 200;
 	public static int INIT_HEIGHT = 590;
-	public static int HANG_TICKS = 1800;
-	public static int BACKDROP_TICKS = 2200;
+	public static int HANG_TICKS = 2000;
+	public static int BACKDROP_TICKS = 2600;
 
 
 	public static double ARM_POSITION_SPEED = 0.5;
+	public static double ARM_POSITION_SPEED_DOWNWARD = 0.8;
 	public static double ARM_ADJUST_SPEED = 0.1;
 
 	public DcMotorEx armMotor;
@@ -47,14 +49,14 @@ public class Arm {
 	public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
 		if (gamepad1.dpad_left || gamepad2.dpad_left) {
 			int newTicks = targetTicks - (int) ((100 * ARM_ADJUST_SPEED));
-			if (newTicks < PICKUP_TICKS && !(gamepad1.ps || gamepad2.ps)) {
-				newTicks = PICKUP_TICKS;
+			if (newTicks < 0 && !(gamepad1.ps || gamepad2.ps)) {
+				newTicks = 0;
 			}
 			armToTicks(newTicks);
 		} else if (gamepad1.dpad_right || gamepad2.dpad_right) {
 			int newTicks = targetTicks + (int) ((100 * ARM_ADJUST_SPEED));
-			if (newTicks > HANG_TICKS && !(gamepad1.ps || gamepad2.ps)) {
-				newTicks = HANG_TICKS;
+			if (newTicks > BACKDROP_TICKS && !(gamepad1.ps || gamepad2.ps)) {
+				newTicks = BACKDROP_TICKS;
 			}
 			armToTicks(newTicks);
 		}

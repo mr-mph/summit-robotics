@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.centerstage.robot.Arm;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Drive;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Timings;
+import org.firstinspires.ftc.teamcode.centerstage.robot.Wrist;
 import org.firstinspires.ftc.teamcode.centerstage.vision.BluePropThreshold;
 
 @Config
@@ -15,9 +16,9 @@ import org.firstinspires.ftc.teamcode.centerstage.vision.BluePropThreshold;
 public class VisionAutoBlueFront extends LinearOpMode
 
 {
-	public static int BACKDROP_ALIGN_LEFT = 1320;
-	public static int BACKDROP_ALIGN_CENTER = 1220;
-	public static int BACKDROP_ALIGN_RIGHT = 1120;
+	public static int BACKDROP_ALIGN_LEFT = 900;
+	public static int BACKDROP_ALIGN_CENTER = 1100;
+	public static int BACKDROP_ALIGN_RIGHT = 1500;
 
 	@Override
 	public void runOpMode()
@@ -30,10 +31,14 @@ public class VisionAutoBlueFront extends LinearOpMode
 		robot.drive.init();
 		robot.drone.init();
 		robot.claw.init();
-		robot.wrist.init();
 
 		sleep(1000);
 		robot.arm.init();
+		robot.wrist.init();
+		robot.wrist.hang();
+		sleep(2000);
+
+		robot.arm.armToTicks(Arm.FLOOR_TICKS);
 
 		waitForStart();
 		robot.arm.armToTicks(Arm.BASE_TICKS);
@@ -43,7 +48,7 @@ public class VisionAutoBlueFront extends LinearOpMode
 		telemetry.addData("Blue Prop Position", teamPropPosition);
 		telemetry.update();
 
-		drive.driveStrafe(1);
+		drive.driveStraight(1);
 		sleep(Timings.FIRST_FORWARD);
 
 		drive.driveTurn(1);
@@ -67,18 +72,24 @@ public class VisionAutoBlueFront extends LinearOpMode
 
 		drive.driveStraight(-1);
 		sleep(Timings.BACKDROP_BACKWARD);
+		drive.driveStop();
 
+		sleep(1000);
 		robot.openClaw();
 		sleep(1000);
 
 		drive.driveStraight(1);
 		sleep(Timings.BACKDROP_FORWARD);
 
+		robot.closeClaw();
+		robot.lowerArm();
+
+		drive.driveStrafe(1);
+		sleep(Timings.PARK_CORNER);
+
 		drive.driveStraight(-1);
 		sleep(Timings.PARK_BACKWARD);
 
 		drive.driveStop();
-		robot.lowerArm();;
-		robot.lowerArm();
 	}
 }

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.roadrunner.drive;
 
+import static com.qualcomm.hardware.rev.RevHubOrientationOnRobot.xyzOrientation;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -45,7 +47,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
 
-    public static double LATERAL_MULTIPLIER = 1;
+    public static double LATERAL_MULTIPLIER = 0.963;
 
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
@@ -83,8 +85,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
         // TODO: adjust the names of the following hardware devices to match your configuration
         imu = hardwareMap.get(IMU.class, "imu");
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(xyzOrientation(105, 0, 0)));
         imu.initialize(parameters);
 
         leftFront = hardwareMap.get(DcMotorEx.class, "leftfront");
@@ -111,6 +112,8 @@ public class SampleMecanumDrive extends MecanumDrive {
         }
 
         // TODO: reverse any motors using DcMotor.setDirection
+        leftFront.setDirection(DcMotorEx.Direction.REVERSE);
+        leftRear.setDirection(DcMotorEx.Direction.REVERSE);
 
         List<Integer> lastTrackingEncPositions = new ArrayList<>();
         List<Integer> lastTrackingEncVels = new ArrayList<>();
