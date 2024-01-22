@@ -15,6 +15,7 @@ public class Arm {
 	public static int PICKUP_TICKS = 100;
 	public static int BASE_TICKS = 200;
 	public static int INIT_HEIGHT = 590;
+	public static int PRECISE_BACKDROP_TICKS = 600;
 	public static int HANG_TICKS = 2000;
 	public static int BACKDROP_TICKS = 2600;
 

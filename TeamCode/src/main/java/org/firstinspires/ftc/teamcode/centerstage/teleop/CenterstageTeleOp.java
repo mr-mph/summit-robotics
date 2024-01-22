@@ -27,6 +27,7 @@ public class CenterstageTeleOp extends LinearOpMode {
 		robot.arm.init();
 
 		waitForStart();
+		robot.drive.mecanumDrive.setPoseEstimate(new Pose2d(-48, 0));
 
 
 		while (!isStopRequested()) {

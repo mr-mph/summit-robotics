@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Config
 public class Wrist {
 	public static double WRIST_DOWN = 0.4; // old is 0.6
+	public static double WRIST_PRECISE_BACKDROP = 0.03;
 	public static double WRIST_UP = -0.8;
 	public static double WRIST_HANG = -1;
 
@@ -39,8 +40,10 @@ public class Wrist {
 			wrist.setPower(WRIST_UP);
 		} else if (wristState.equals("down")) {
 			wrist.setPower(WRIST_DOWN);
-		} else {
+		} else if (wristState.equals("hang")) {
 			wrist.setPower(WRIST_HANG);
+		} else {
+			wrist.setPower(WRIST_PRECISE_BACKDROP);
 		}
 
 	}

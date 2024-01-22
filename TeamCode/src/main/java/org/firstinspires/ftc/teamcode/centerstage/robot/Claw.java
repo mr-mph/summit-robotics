@@ -10,6 +10,8 @@ public class Claw {
 	public static double LEFT_CLAW_OPEN = 0.42;
 	public static double LEFT_CLAW_CLOSED = 0.2;
 	public static double RIGHT_CLAW_OPEN = 0.23;
+
+	public static double RIGHT_CLAW_PRECISE_OPEN = 0;
 	public static double RIGHT_CLAW_CLOSED = 0.44;
 
 	public Servo clawright;
@@ -100,5 +102,10 @@ public class Claw {
 			rightClawClosed = true;
 			clawright.setPosition(RIGHT_CLAW_CLOSED);
 		}
+	}
+
+	public void preciseOpenRight() {
+		rightClawClosed = false;
+		clawright.setPosition(RIGHT_CLAW_PRECISE_OPEN);
 	}
 }
