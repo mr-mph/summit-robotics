@@ -34,9 +34,10 @@ public class DriveConstants {
      * If using the built-in motor velocity PID, update MOTOR_VELO_PID with the tuned coefficients
      * from DriveVelocityPIDTuner.
      */
-    public static final boolean RUN_USING_ENCODER = false;
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0,
-      getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
+    public static final boolean RUN_USING_ENCODER = true;
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(20, 0, 0,
+            19);
+    //getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV)
 
     /*
      * These are physical constants that can be determined from your robot (including the track
@@ -93,8 +94,8 @@ public class DriveConstants {
             RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD;
     public static RevHubOrientationOnRobot.UsbFacingDirection USB_FACING_DIR =
             RevHubOrientationOnRobot.UsbFacingDirection.UP;
-    public static double MAX_VEL = 52.48180821614297;
-    public static double MAX_ACCEL = 52.48180821614297;
+    public static double MAX_VEL = 41.84806077441645;
+    public static double MAX_ACCEL = 41.84806077441645;
     public static double MAX_ANG_VEL = Math.toRadians(183.69866172754496) * 0.8;
     public static double MAX_ANG_ACCEL = Math.toRadians(184.02607784577722) * 0.8;
 
