@@ -68,7 +68,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
 
         Robot robot = new Robot(hardwareMap);
         robot.arm.init();
-        robot.wrist.init();
+        robot.wrist.init(false);
 
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, dashboard.getTelemetry());
 

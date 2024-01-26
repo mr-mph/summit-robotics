@@ -24,7 +24,7 @@ public class HeadlessTeleOp extends LinearOpMode {
 		robot.drive.init();
 		robot.drone.init();
 		robot.claw.init();
-		robot.wrist.init();
+		robot.wrist.init(false);
 
 		sleep(1000);
 		robot.arm.init();

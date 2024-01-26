@@ -13,7 +13,7 @@ public class WristTest extends LinearOpMode {
 
 		Robot robot = new Robot(hardwareMap);
 
-		robot.wrist.init();
+		robot.wrist.init(false);
 		waitForStart();
 
 		while (!isStopRequested()) {

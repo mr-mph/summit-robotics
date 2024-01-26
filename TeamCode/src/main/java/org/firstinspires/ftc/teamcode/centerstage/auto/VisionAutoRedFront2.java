@@ -33,11 +33,10 @@ public class VisionAutoRedFront2 extends LinearOpMode
 
 		sleep(1000);
 		robot.arm.init();
-		robot.wrist.init();
-//		robot.wrist.hang();
-//		sleep(2000);
-//
-//		robot.arm.armToTicks(Arm.FLOOR_TICKS);
+		robot.wrist.init(true);
+		sleep(2000);
+
+		robot.arm.armToTicks(Arm.FLOOR_TICKS);
 
 		waitForStart();
 		robot.arm.armToTicks(Arm.BASE_TICKS);
@@ -76,7 +75,7 @@ public class VisionAutoRedFront2 extends LinearOpMode
 					robot.claw.close("left");
 					robot.claw.close("right");
 					robot.arm.armMotor.setPower(1);
-					robot.arm.armToTicks(Arm.INIT_HEIGHT);
+					robot.arm.armToTicks(Arm.BASE_TICKS);
 					robot.wrist.lower();
 				})
 				.lineTo(new Vector2d(64.12,-12.29))
@@ -111,7 +110,7 @@ public class VisionAutoRedFront2 extends LinearOpMode
 					robot.claw.close("left");
 					robot.claw.close("right");
 					robot.arm.armMotor.setPower(1);
-					robot.arm.armToTicks(Arm.INIT_HEIGHT);
+					robot.arm.armToTicks(Arm.BASE_TICKS);
 					robot.wrist.lower();
 				})
 				.lineTo(new Vector2d(64.12,-12.29))
@@ -147,7 +146,7 @@ public class VisionAutoRedFront2 extends LinearOpMode
 					robot.claw.close("left");
 					robot.claw.close("right");
 					robot.arm.armMotor.setPower(1);
-					robot.arm.armToTicks(Arm.INIT_HEIGHT);
+					robot.arm.armToTicks(Arm.BASE_TICKS);
 					robot.wrist.lower();
 				})
 				.lineTo(new Vector2d(64.12,-12.29))

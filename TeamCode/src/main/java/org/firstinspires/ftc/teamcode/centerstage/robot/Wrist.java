@@ -24,9 +24,9 @@ public class Wrist {
 		this.hardwareMap = hardwareMap;
 	}
 
-	public void init() {
+	public void init(boolean isAuto) {
 		wrist = hardwareMap.get(CRServo.class, "wrist");
-		wrist.setPower(WRIST_DOWN);
+		wrist.setPower(isAuto ? WRIST_HANG : WRIST_DOWN);
 		initialized = true;
 	}
 

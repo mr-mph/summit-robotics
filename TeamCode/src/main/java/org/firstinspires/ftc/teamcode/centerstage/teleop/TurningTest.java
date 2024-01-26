@@ -21,7 +21,7 @@ public class TurningTest extends LinearOpMode {
 
 		robot.drive.init();
 		robot.arm.init();
-		robot.wrist.init();
+		robot.wrist.init(false);
 
 		TrajectorySequence turn = robot.drive.mecanumDrive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
 				.turn(Math.toRadians(TURN_ANGLE))

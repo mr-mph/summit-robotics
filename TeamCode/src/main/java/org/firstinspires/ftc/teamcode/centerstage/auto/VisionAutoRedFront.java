@@ -34,8 +34,7 @@ public class VisionAutoRedFront extends LinearOpMode
 
 		sleep(1000);
 		robot.arm.init();
-		robot.wrist.init();
-		robot.wrist.hang();
+		robot.wrist.init(true);
 		sleep(2000);
 
 		robot.arm.armToTicks(Arm.FLOOR_TICKS);
