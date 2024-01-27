@@ -9,13 +9,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Arm;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Wrist;
-import org.firstinspires.ftc.teamcode.centerstage.vision.RedPropThreshold;
+import org.firstinspires.ftc.teamcode.centerstage.vision.BluePropThreshold;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 
 @Config
-@Autonomous(name = "!!Red Front Auto (new)", group = "Auto")
-public class VisionAutoRedFront2 extends LinearOpMode
+@Autonomous(name = "!!Blue Front Auto (new)", group = "Auto")
+public class VisionAutoBlueFront2 extends LinearOpMode
 
 {
 
@@ -24,7 +24,7 @@ public class VisionAutoRedFront2 extends LinearOpMode
 	{
 		Robot robot = new Robot(hardwareMap);
 
-		RedPropThreshold redPropDetector = robot.camera.initRed();
+		BluePropThreshold bluePropDetector = robot.camera.initBlue();
 
 		robot.drive.init();
 		SampleMecanumDrive drive = robot.drive.mecanumDrive;
@@ -42,42 +42,43 @@ public class VisionAutoRedFront2 extends LinearOpMode
 		robot.arm.armToTicks(Arm.BASE_TICKS);
 		robot.wrist.lower();
 
-		String teamPropPosition = redPropDetector.getPropPosition();
+		String teamPropPosition = bluePropDetector.getPropPosition();
 		sleep(1500);
-		telemetry.addData("Red Prop Position", teamPropPosition);
+		telemetry.addData("Blue Prop Position", teamPropPosition);
 		telemetry.update();
 
-		Pose2d startPose = new Pose2d(12.23,-64.6, Math.toRadians(90));
+		Pose2d startPose = new Pose2d(12.23,64.6, Math.toRadians(-90));
 		drive.setPoseEstimate(startPose);
 
 		TrajectorySequence rightSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(26.9,-46.1))
+				.lineTo(new Vector2d(11.28,41.76))
+				.turn(Math.toRadians(-45))
 				.addTemporalMarker(() -> {
-					robot.claw.open("left");
+					robot.claw.open("right");
 				})
 				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.PRECISE_BACKDROP_TICKS);
 					robot.wrist.wrist.setPower(Wrist.WRIST_PRECISE_BACKDROP);
-					robot.claw.close("left");
+					robot.claw.close("right");
 				})
-				.turn(Math.toRadians(-90))
-				.lineTo(new Vector2d(51.7,-41.5))
+				.turn(Math.toRadians(135))
+				.lineTo(new Vector2d(51.7,27.5))
 				.addTemporalMarker(() -> {
-					robot.claw.preciseOpenRight();
+					robot.claw.preciseOpenLeft();
 				})
 				.waitSeconds(0.5)
 				.back(6)
-				.lineTo(new Vector2d(48,-12.24))
+				.lineTo(new Vector2d(48,12.24))
 				.turn(Math.toRadians(-180))
 				.addTemporalMarker(() -> {
-					robot.claw.close("right");
+					robot.claw.close("left");
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.BASE_TICKS);
 					robot.wrist.lower();
 				})
-				.lineTo(new Vector2d(64.12,-12.29))
+				.lineTo(new Vector2d(64.12,12.29))
 				.addTemporalMarker(() -> {
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.PICKUP_TICKS);
@@ -85,33 +86,33 @@ public class VisionAutoRedFront2 extends LinearOpMode
 				.build();
 
 		TrajectorySequence centerSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(19.67,-36.3))
+				.lineTo(new Vector2d(19.67,38.3))
 				.addTemporalMarker(() -> {
-					robot.claw.open("left");
+					robot.claw.open("right");
 				})
 				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.PRECISE_BACKDROP_TICKS);
 					robot.wrist.wrist.setPower(Wrist.WRIST_PRECISE_BACKDROP);
-					robot.claw.close("left");
+					robot.claw.close("right");
 				})
-				.turn(Math.toRadians(-90))
-				.lineTo(new Vector2d(51.7,-33))
+				.turn(Math.toRadians(90))
+				.lineTo(new Vector2d(51.7,33))
 				.addTemporalMarker(() -> {
-					robot.claw.preciseOpenRight();
+					robot.claw.preciseOpenLeft();
 				})
 				.waitSeconds(0.5)
 				.back(6)
-				.lineTo(new Vector2d(48,-12.24))
+				.lineTo(new Vector2d(48,12.24))
 				.turn(Math.toRadians(-180))
 				.addTemporalMarker(() -> {
-					robot.claw.close("right");
+					robot.claw.close("left");
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.BASE_TICKS);
 					robot.wrist.lower();
 				})
-				.lineTo(new Vector2d(64.12,-12.29))
+				.lineTo(new Vector2d(64.12,12.29))
 				.addTemporalMarker(() -> {
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.PICKUP_TICKS);
@@ -119,29 +120,28 @@ public class VisionAutoRedFront2 extends LinearOpMode
 				.build();
 
 		TrajectorySequence leftSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(11.28,-41.76))
-				.turn(Math.toRadians(45))
+				.lineTo(new Vector2d(26.9,46.1))
 				.addTemporalMarker(() -> {
-					robot.claw.open("left");
+					robot.claw.open("right");
 				})
 				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.PRECISE_BACKDROP_TICKS);
 					robot.wrist.wrist.setPower(Wrist.WRIST_PRECISE_BACKDROP);
-					robot.claw.close("left");
+					robot.claw.close("right");
 				})
-				.turn(Math.toRadians(-135))
-				.lineTo(new Vector2d(51.7,-25.5))
+				.turn(Math.toRadians(90))
+				.lineTo(new Vector2d(51.7,41.5))
 				.addTemporalMarker(() -> {
-					robot.claw.preciseOpenRight();
+					robot.claw.preciseOpenLeft();
 				})
 				.waitSeconds(0.5)
 				.back(6)
 				.lineTo(new Vector2d(48,-12.24))
 				.turn(Math.toRadians(180))
 				.addTemporalMarker(() -> {
-					robot.claw.close("right");
+					robot.claw.close("left");
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.BASE_TICKS);
 					robot.wrist.lower();
@@ -153,10 +153,10 @@ public class VisionAutoRedFront2 extends LinearOpMode
 				})
 				.build();
 
-		if (teamPropPosition.equals("LEFT")) {
-			drive.followTrajectorySequence(leftSpike);
-		}  else if (teamPropPosition.equals("RIGHT")) {
+		if (teamPropPosition.equals("RIGHT")) {
 			drive.followTrajectorySequence(rightSpike);
+		}  else if (teamPropPosition.equals("LEFT")) {
+			drive.followTrajectorySequence(leftSpike);
 		} else {
 			drive.followTrajectorySequence(centerSpike);
 		}
