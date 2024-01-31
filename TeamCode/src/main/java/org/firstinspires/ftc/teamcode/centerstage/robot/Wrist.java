@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 public class Wrist {
-	public static double WRIST_DOWN = 0.4; // old is 0.6
+	public static double WRIST_DOWN = 0.33; // old is 0.6
 	public static double WRIST_PRECISE_BACKDROP = 0.03;
 	public static double WRIST_UP = -0.8;
 	public static double WRIST_HANG = -1;

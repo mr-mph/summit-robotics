@@ -40,18 +40,21 @@ public class VisionAutoBlueBack2 extends LinearOpMode
 
 		waitForStart();
 		robot.arm.armToTicks(Arm.BASE_TICKS);
+		sleep(500);
 		robot.wrist.lower();
+
 
 		String teamPropPosition = bluePropDetector.getPropPosition();
 		sleep(1500);
 		telemetry.addData("Blue Prop Position", teamPropPosition);
 		telemetry.update();
 
-		Pose2d startPose = new Pose2d(-36.23,64.6, Math.toRadians(-90));
+		Pose2d startPose = new Pose2d(-36.23,62, Math.toRadians(-90));
 		drive.setPoseEstimate(startPose);
 
 		TrajectorySequence rightSpike = drive.trajectorySequenceBuilder(startPose)
 				.lineTo(new Vector2d(-45.54,46.1))
+				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.open("right");
 				})
@@ -62,15 +65,16 @@ public class VisionAutoBlueBack2 extends LinearOpMode
 					robot.wrist.wrist.setPower(Wrist.WRIST_PRECISE_BACKDROP);
 					robot.claw.close("right");
 				})
-				.lineTo(new Vector2d(-36,60))
+				.lineTo(new Vector2d(-40,60))
 				.turn(Math.toRadians(90))
 				.lineTo(new Vector2d(12,60))
 				.lineTo(new Vector2d(51.7,27.5))
+				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.preciseOpenLeft();
 				})
 				.waitSeconds(0.5)
-				.back(6)
+				.back(10)
 				.lineTo(new Vector2d(48,12.24))
 				.turn(Math.toRadians(-180))
 				.addTemporalMarker(() -> {
@@ -88,23 +92,25 @@ public class VisionAutoBlueBack2 extends LinearOpMode
 
 		TrajectorySequence centerSpike = drive.trajectorySequenceBuilder(startPose)
 				.lineTo(new Vector2d(-32.67,36.3))
+				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.open("right");
 				})
 				.waitSeconds(0.5)
-				.addTemporalMarker(() -> {
+				.lineTo(new Vector2d(-43.5,36.3))
+				.turn(Math.toRadians(90))
+				.UNSTABLE_addTemporalMarkerOffset(2,() -> {
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.PRECISE_BACKDROP_TICKS);
 					robot.wrist.wrist.setPower(Wrist.WRIST_PRECISE_BACKDROP);
 					robot.claw.close("right");
 				})
-				.turn(Math.toRadians(90))
 				.lineTo(new Vector2d(51.7,33))
 				.addTemporalMarker(() -> {
 					robot.claw.preciseOpenLeft();
 				})
 				.waitSeconds(0.5)
-				.back(6)
+				.back(10)
 				.lineTo(new Vector2d(48,12.24))
 				.turn(Math.toRadians(-180))
 				.addTemporalMarker(() -> {
@@ -121,27 +127,29 @@ public class VisionAutoBlueBack2 extends LinearOpMode
 				.build();
 
 		TrajectorySequence leftSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(-35.94,36.96))
+				.lineTo(new Vector2d(-37,36.96))
 				.turn(Math.toRadians(90))
+				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.open("right");
 				})
 				.waitSeconds(0.5)
+				.lineTo(new Vector2d(-43.5,36.3))
+				.lineTo(new Vector2d(-36,60))
+				.lineTo(new Vector2d(12,60))
 				.addTemporalMarker(() -> {
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.PRECISE_BACKDROP_TICKS);
 					robot.wrist.wrist.setPower(Wrist.WRIST_PRECISE_BACKDROP);
 					robot.claw.close("right");
 				})
-				.lineTo(new Vector2d(-36,60))
-				.lineTo(new Vector2d(12,60))
 				.lineTo(new Vector2d(51.7,41.5))
 				.addTemporalMarker(() -> {
 					robot.claw.preciseOpenLeft();
 				})
 				.waitSeconds(0.5)
-				.back(6)
-				.lineTo(new Vector2d(48,-12.24))
+				.back(10)
+				.lineTo(new Vector2d(48,12.24))
 				.turn(Math.toRadians(180))
 				.addTemporalMarker(() -> {
 					robot.claw.close("left");
@@ -149,7 +157,7 @@ public class VisionAutoBlueBack2 extends LinearOpMode
 					robot.arm.armToTicks(Arm.BASE_TICKS);
 					robot.wrist.lower();
 				})
-				.lineTo(new Vector2d(64.12,-12.29))
+				.lineTo(new Vector2d(64.12,12.29))
 				.addTemporalMarker(() -> {
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.PICKUP_TICKS);

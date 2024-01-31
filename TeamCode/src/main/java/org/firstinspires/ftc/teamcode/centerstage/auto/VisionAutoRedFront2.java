@@ -40,7 +40,9 @@ public class VisionAutoRedFront2 extends LinearOpMode
 
 		waitForStart();
 		robot.arm.armToTicks(Arm.BASE_TICKS);
+		sleep(500);
 		robot.wrist.lower();
+
 
 		String teamPropPosition = redPropDetector.getPropPosition();
 		sleep(1500);
@@ -52,10 +54,11 @@ public class VisionAutoRedFront2 extends LinearOpMode
 
 		TrajectorySequence rightSpike = drive.trajectorySequenceBuilder(startPose)
 				.lineTo(new Vector2d(26.9,-46.1))
+				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.open("left");
 				})
-				.waitSeconds(0.5)
+				.waitSeconds(1)
 				.addTemporalMarker(() -> {
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.PRECISE_BACKDROP_TICKS);
@@ -63,12 +66,12 @@ public class VisionAutoRedFront2 extends LinearOpMode
 					robot.claw.close("left");
 				})
 				.turn(Math.toRadians(-90))
-				.lineTo(new Vector2d(51.7,-41.5))
+				.lineTo(new Vector2d(51.7,-40))
 				.addTemporalMarker(() -> {
 					robot.claw.preciseOpenRight();
 				})
-				.waitSeconds(0.5)
-				.back(6)
+				.waitSeconds(0.5)				.waitSeconds(0.5)
+				.back(10)
 				.lineTo(new Vector2d(48,-12.24))
 				.turn(Math.toRadians(-180))
 				.addTemporalMarker(() -> {
@@ -85,7 +88,8 @@ public class VisionAutoRedFront2 extends LinearOpMode
 				.build();
 
 		TrajectorySequence centerSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(19.67,-36.3))
+				.lineTo(new Vector2d(19.67,-38))
+				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.open("left");
 				})
@@ -101,8 +105,8 @@ public class VisionAutoRedFront2 extends LinearOpMode
 				.addTemporalMarker(() -> {
 					robot.claw.preciseOpenRight();
 				})
-				.waitSeconds(0.5)
-				.back(6)
+				.waitSeconds(0.5)				.waitSeconds(0.5)
+				.back(10)
 				.lineTo(new Vector2d(48,-12.24))
 				.turn(Math.toRadians(-180))
 				.addTemporalMarker(() -> {
@@ -121,10 +125,11 @@ public class VisionAutoRedFront2 extends LinearOpMode
 		TrajectorySequence leftSpike = drive.trajectorySequenceBuilder(startPose)
 				.lineTo(new Vector2d(11.28,-41.76))
 				.turn(Math.toRadians(45))
+				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.open("left");
 				})
-				.waitSeconds(0.5)
+				.waitSeconds(1)
 				.addTemporalMarker(() -> {
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.PRECISE_BACKDROP_TICKS);
@@ -136,8 +141,8 @@ public class VisionAutoRedFront2 extends LinearOpMode
 				.addTemporalMarker(() -> {
 					robot.claw.preciseOpenRight();
 				})
-				.waitSeconds(0.5)
-				.back(6)
+				.waitSeconds(0.5)				.waitSeconds(0.5)
+				.back(10)
 				.lineTo(new Vector2d(48,-12.24))
 				.turn(Math.toRadians(180))
 				.addTemporalMarker(() -> {

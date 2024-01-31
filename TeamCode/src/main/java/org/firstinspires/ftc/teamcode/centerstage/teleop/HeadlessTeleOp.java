@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.centerstage.robot.Drive;
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 
-@TeleOp(name = "!!Headless Robot", group = "Teleop")
+@TeleOp(name = "!Headless Robot", group = "Teleop")
 public class HeadlessTeleOp extends LinearOpMode {
 
 	private boolean dpadUpHeld = false;

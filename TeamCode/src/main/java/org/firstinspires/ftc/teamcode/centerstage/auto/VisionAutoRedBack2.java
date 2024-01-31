@@ -40,107 +40,41 @@ public class VisionAutoRedBack2 extends LinearOpMode
 
 		waitForStart();
 		robot.arm.armToTicks(Arm.BASE_TICKS);
+		sleep(500);
 		robot.wrist.lower();
+
 
 		String teamPropPosition = redPropDetector.getPropPosition();
 		sleep(1500);
 		telemetry.addData("Red Prop Position", teamPropPosition);
 		telemetry.update();
 
-		Pose2d startPose = new Pose2d(-36.23,-64.6, Math.toRadians(90));
+		Pose2d startPose = new Pose2d(-36.23,-62, Math.toRadians(90));
 		drive.setPoseEstimate(startPose);
 
-		TrajectorySequence rightSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(-28.67,-38))
-				.turn(Math.toRadians(-90))
-				.addTemporalMarker(() -> {
-					robot.claw.open("left");
-				})
-				.waitSeconds(0.5)
-				.addTemporalMarker(() -> {
-					robot.arm.armMotor.setPower(1);
-					robot.arm.armToTicks(Arm.PRECISE_BACKDROP_TICKS);
-					robot.wrist.wrist.setPower(Wrist.WRIST_PRECISE_BACKDROP);
-					robot.claw.close("left");
-				})
-				.lineTo(new Vector2d(-36,-60))
-				.lineTo(new Vector2d(12,-60))
-				.lineTo(new Vector2d(51.7,-33))
-				.addTemporalMarker(() -> {
-					robot.claw.preciseOpenRight();
-				})
-				.waitSeconds(0.5)
-				.back(6)
-				.lineTo(new Vector2d(48,-12.24))
-				.turn(Math.toRadians(-180))
-				.addTemporalMarker(() -> {
-					robot.claw.close("right");
-					robot.arm.armMotor.setPower(1);
-					robot.arm.armToTicks(Arm.BASE_TICKS);
-					robot.wrist.lower();
-				})
-				.lineTo(new Vector2d(64.12,-12.29))
-				.addTemporalMarker(() -> {
-					robot.arm.armMotor.setPower(1);
-					robot.arm.armToTicks(Arm.PICKUP_TICKS);
-				})
-				.build();
-
-		TrajectorySequence centerSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(19.67,-36.3))
-				.addTemporalMarker(() -> {
-					robot.claw.open("left");
-				})
-				.waitSeconds(0.5)
-				.addTemporalMarker(() -> {
-					robot.arm.armMotor.setPower(1);
-					robot.arm.armToTicks(Arm.PRECISE_BACKDROP_TICKS);
-					robot.wrist.wrist.setPower(Wrist.WRIST_PRECISE_BACKDROP);
-					robot.claw.close("left");
-				})
-				.turn(Math.toRadians(-90))
-				.lineTo(new Vector2d(51.7,-33))
-				.addTemporalMarker(() -> {
-					robot.claw.preciseOpenRight();
-				})
-				.waitSeconds(0.5)
-				.back(6)
-				.lineTo(new Vector2d(48,-12.24))
-				.turn(Math.toRadians(-180))
-				.addTemporalMarker(() -> {
-					robot.claw.close("right");
-					robot.arm.armMotor.setPower(1);
-					robot.arm.armToTicks(Arm.BASE_TICKS);
-					robot.wrist.lower();
-				})
-				.lineTo(new Vector2d(64.12,-12.29))
-				.addTemporalMarker(() -> {
-					robot.arm.armMotor.setPower(1);
-					robot.arm.armToTicks(Arm.PICKUP_TICKS);
-				})
-				.build();
-
 		TrajectorySequence leftSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(-44.5,-46.1))
+				.lineTo(new Vector2d(-45.54,-46.1))
+				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.open("left");
 				})
 				.waitSeconds(0.5)
+				.lineTo(new Vector2d(-40,-60))
+				.turn(Math.toRadians(-90))
+				.lineTo(new Vector2d(12,-60))
 				.addTemporalMarker(() -> {
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.PRECISE_BACKDROP_TICKS);
 					robot.wrist.wrist.setPower(Wrist.WRIST_PRECISE_BACKDROP);
 					robot.claw.close("left");
 				})
-				.lineTo(new Vector2d(-36,-60))
-				.turn(Math.toRadians(-90))
-				.lineTo(new Vector2d(12,-60))
-				.lineTo(new Vector2d(51.7,-26.5))
+				.lineTo(new Vector2d(54,-27.5))
+				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.preciseOpenRight();
 				})
 				.waitSeconds(0.5)
-				.back(6)
+				.back(10)
 				.lineTo(new Vector2d(48,-12.24))
 				.turn(Math.toRadians(180))
 				.addTemporalMarker(() -> {
@@ -156,10 +90,84 @@ public class VisionAutoRedBack2 extends LinearOpMode
 				})
 				.build();
 
-		if (teamPropPosition.equals("LEFT")) {
-			drive.followTrajectorySequence(leftSpike);
-		}  else if (teamPropPosition.equals("RIGHT")) {
+		TrajectorySequence centerSpike = drive.trajectorySequenceBuilder(startPose)
+				.lineTo(new Vector2d(-32.67,-36.3))
+				.waitSeconds(0.5)
+				.addTemporalMarker(() -> {
+					robot.claw.open("left");
+				})
+				.waitSeconds(0.5)
+				.lineTo(new Vector2d(-43.5,-36.3))
+				.turn(Math.toRadians(-90))
+				.UNSTABLE_addTemporalMarkerOffset(2,() -> {
+					robot.arm.armMotor.setPower(1);
+					robot.arm.armToTicks(Arm.PRECISE_BACKDROP_TICKS);
+					robot.wrist.wrist.setPower(Wrist.WRIST_PRECISE_BACKDROP);
+					robot.claw.close("left");
+				})
+				.lineTo(new Vector2d(51.7,-33))
+				.addTemporalMarker(() -> {
+					robot.claw.preciseOpenRight();
+				})
+				.waitSeconds(0.5)
+				.back(10)
+				.lineTo(new Vector2d(48,-12.24))
+				.turn(Math.toRadians(180))
+				.addTemporalMarker(() -> {
+					robot.claw.close("right");
+					robot.arm.armMotor.setPower(1);
+					robot.arm.armToTicks(Arm.BASE_TICKS);
+					robot.wrist.lower();
+				})
+				.lineTo(new Vector2d(64.12,-12.29))
+				.addTemporalMarker(() -> {
+					robot.arm.armMotor.setPower(1);
+					robot.arm.armToTicks(Arm.PICKUP_TICKS);
+				})
+				.build();
+
+		TrajectorySequence rightSpike = drive.trajectorySequenceBuilder(startPose)
+				.lineTo(new Vector2d(-37,-36.96))
+				.turn(Math.toRadians(-90))
+				.waitSeconds(0.5)
+				.addTemporalMarker(() -> {
+					robot.claw.open("left");
+				})
+				.waitSeconds(0.5)
+				.lineTo(new Vector2d(-43.5,-36.3))
+				.lineTo(new Vector2d(-36,-60))
+				.lineTo(new Vector2d(12,-60))
+				.addTemporalMarker(() -> {
+					robot.arm.armMotor.setPower(1);
+					robot.arm.armToTicks(Arm.PRECISE_BACKDROP_TICKS);
+					robot.wrist.wrist.setPower(Wrist.WRIST_PRECISE_BACKDROP);
+					robot.claw.close("left");
+				})
+				.lineTo(new Vector2d(51.7,-41.5))
+				.addTemporalMarker(() -> {
+					robot.claw.preciseOpenRight();
+				})
+				.waitSeconds(0.5)
+				.back(10)
+				.lineTo(new Vector2d(48,-12.24))
+				.turn(Math.toRadians(-180))
+				.addTemporalMarker(() -> {
+					robot.claw.close("right");
+					robot.arm.armMotor.setPower(1);
+					robot.arm.armToTicks(Arm.BASE_TICKS);
+					robot.wrist.lower();
+				})
+				.lineTo(new Vector2d(64.12,-12.29))
+				.addTemporalMarker(() -> {
+					robot.arm.armMotor.setPower(1);
+					robot.arm.armToTicks(Arm.PICKUP_TICKS);
+				})
+				.build();
+
+		if (teamPropPosition.equals("RIGHT")) {
 			drive.followTrajectorySequence(rightSpike);
+		}  else if (teamPropPosition.equals("LEFT")) {
+			drive.followTrajectorySequence(leftSpike);
 		} else {
 			drive.followTrajectorySequence(centerSpike);
 		}
