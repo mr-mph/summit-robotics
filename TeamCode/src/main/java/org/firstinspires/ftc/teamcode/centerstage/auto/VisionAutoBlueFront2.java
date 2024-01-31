@@ -106,7 +106,6 @@ public class VisionAutoBlueFront2 extends LinearOpMode
 					robot.claw.preciseOpenLeft();
 				})
 				.waitSeconds(0.5)
-				.waitSeconds(0.5)
 				.back(10)
 				.lineTo(new Vector2d(48,12.24))
 				.turn(Math.toRadians(-180))
@@ -141,7 +140,6 @@ public class VisionAutoBlueFront2 extends LinearOpMode
 				.addTemporalMarker(() -> {
 					robot.claw.preciseOpenLeft();
 				})
-				.waitSeconds(0.5)
 				.waitSeconds(0.5)
 				.back(10)
 				.lineTo(new Vector2d(48,12.24))

@@ -65,7 +65,7 @@ public class VisionAutoBlueBack2 extends LinearOpMode
 					robot.wrist.wrist.setPower(Wrist.WRIST_PRECISE_BACKDROP);
 					robot.claw.close("right");
 				})
-				.lineTo(new Vector2d(-40,60))
+				.lineTo(new Vector2d(-40 ,60))
 				.turn(Math.toRadians(90))
 				.lineTo(new Vector2d(12,60))
 				.lineTo(new Vector2d(51.7,27.5))
