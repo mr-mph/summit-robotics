@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 @Config
 public class Arm {
 	public static int FLOOR_TICKS = -300;
-	public static int PICKUP_TICKS = 100;
+	public static int PICKUP_TICKS = 50;
 	public static int BASE_TICKS = 200;
 	public static int INIT_HEIGHT = 590;
 	public static int PRECISE_BACKDROP_TICKS = 600;
@@ -21,7 +21,6 @@ public class Arm {
 
 
 	public static double ARM_POSITION_SPEED = 0.5;
-	public static double ARM_POSITION_SPEED_DOWNWARD = 0.8;
 	public static double ARM_ADJUST_SPEED = 0.1;
 
 	public DcMotorEx armMotor;
@@ -61,7 +60,7 @@ public class Arm {
 			}
 			armToTicks(newTicks);
 		}
-	armMotor.setPower(ARM_POSITION_SPEED * (Math.abs(targetTicks - armMotor.getCurrentPosition())) / 1000 );
+	armMotor.setPower(ARM_POSITION_SPEED * (Math.abs(targetTicks - armMotor.getCurrentPosition())) / 500 );
 	}
 
 	public void armToTicks(int ticks) {

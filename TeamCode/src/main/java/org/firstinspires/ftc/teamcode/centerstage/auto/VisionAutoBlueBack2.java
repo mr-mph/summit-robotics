@@ -49,26 +49,26 @@ public class VisionAutoBlueBack2 extends LinearOpMode
 		telemetry.addData("Blue Prop Position", teamPropPosition);
 		telemetry.update();
 
-		Pose2d startPose = new Pose2d(-36.23,62, Math.toRadians(-90));
+		Pose2d startPose = new Pose2d(-36.23,64, Math.toRadians(-90));
 		drive.setPoseEstimate(startPose);
 
 		TrajectorySequence rightSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(-45.54,46.1))
+				.lineTo(new Vector2d(-46,46.1))
 				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.open("right");
 				})
 				.waitSeconds(0.5)
+				.lineTo(new Vector2d(-40 ,60))
+				.turn(Math.toRadians(90))
+				.lineTo(new Vector2d(12,60))
 				.addTemporalMarker(() -> {
 					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.PRECISE_BACKDROP_TICKS);
 					robot.wrist.wrist.setPower(Wrist.WRIST_PRECISE_BACKDROP);
 					robot.claw.close("right");
 				})
-				.lineTo(new Vector2d(-40 ,60))
-				.turn(Math.toRadians(90))
-				.lineTo(new Vector2d(12,60))
-				.lineTo(new Vector2d(51.7,27.5))
+				.lineTo(new Vector2d(51.7,26))
 				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.preciseOpenLeft();
@@ -135,7 +135,7 @@ public class VisionAutoBlueBack2 extends LinearOpMode
 				})
 				.waitSeconds(0.5)
 				.lineTo(new Vector2d(-43.5,36.3))
-				.lineTo(new Vector2d(-36,60))
+				.lineTo(new Vector2d(-45,60))
 				.lineTo(new Vector2d(12,60))
 				.addTemporalMarker(() -> {
 					robot.arm.armMotor.setPower(1);
@@ -171,5 +171,6 @@ public class VisionAutoBlueBack2 extends LinearOpMode
 		} else {
 			drive.followTrajectorySequence(centerSpike);
 		}
+		sleep(2000);
 	}
 }

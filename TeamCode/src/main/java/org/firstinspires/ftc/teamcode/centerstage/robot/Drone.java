@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 public class Drone {
-	public static double DRONE_RELEASED = 0.85;
-	public static double DRONE_LOCKED = 1;
+	public static double DRONE_RELEASED = 0.35;
+	public static double DRONE_LOCKED = 0.65;
 
 	public Servo dronelauncher;
 

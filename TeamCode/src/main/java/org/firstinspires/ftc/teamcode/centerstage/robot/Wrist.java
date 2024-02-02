@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 public class Wrist {
-	public static double WRIST_DOWN = 0.33; // old is 0.6
+	public static double WRIST_DOWN = 0.32; // old is 0.6
 	public static double WRIST_PRECISE_BACKDROP = 0.03;
-	public static double WRIST_UP = -0.8;
+	public static double WRIST_UP = -0.73;
 	public static double WRIST_HANG = -1;
 
 	public CRServo wrist;
@@ -31,21 +31,18 @@ public class Wrist {
 	}
 
 	public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
-//		if (gamepad2.right_trigger > 0.5 || gamepad1.right_trigger > 0.5) {
-//				if (wristState.equals("up")) wristState = "down";
-//				if ((wristState.equals("down"))) wristState = "up";
-//				while (gamepad2.right_trigger > 0.5 || gamepad1.right_trigger > 0.5);
-//		}
-		if (wristState.equals("up")) {
-			wrist.setPower(WRIST_UP);
-		} else if (wristState.equals("down")) {
-			wrist.setPower(WRIST_DOWN);
-		} else if (wristState.equals("hang")) {
-			wrist.setPower(WRIST_HANG);
+		if (Math.abs(gamepad1.right_stick_y) > 0.3 || Math.abs(gamepad2.right_stick_y) > 0.3) {
+			wrist.setPower(wrist.getPower() + 0.005 * gamepad1.right_stick_y + 0.005 * gamepad2.right_stick_y);
 		} else {
-			wrist.setPower(WRIST_PRECISE_BACKDROP);
-		}
 
+			if (wristState.equals("up")) {
+				wrist.setPower(WRIST_UP);
+			} else if (wristState.equals("down")) {
+				wrist.setPower(WRIST_DOWN);
+			} else if (wristState.equals("hang")) {
+				wrist.setPower(WRIST_HANG);
+			}
+		}
 	}
 
 	public void lift() {

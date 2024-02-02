@@ -135,7 +135,7 @@ public class VisionAutoRedBack2 extends LinearOpMode
 				})
 				.waitSeconds(0.5)
 				.lineTo(new Vector2d(-43.5,-36.3))
-				.lineTo(new Vector2d(-36,-60))
+				.lineTo(new Vector2d(-45,-60))
 				.lineTo(new Vector2d(12,-60))
 				.addTemporalMarker(() -> {
 					robot.arm.armMotor.setPower(1);
@@ -171,5 +171,6 @@ public class VisionAutoRedBack2 extends LinearOpMode
 		} else {
 			drive.followTrajectorySequence(centerSpike);
 		}
+		sleep(2000);
 	}
 }
