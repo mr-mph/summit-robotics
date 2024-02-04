@@ -28,6 +28,8 @@ public class Arm {
 	public int targetTicks;
 	public boolean initialized = false;
 
+	private double armAdjustment = 0;
+
 	private final HardwareMap hardwareMap;
 
 	public Arm(HardwareMap hardwareMap) {
@@ -47,10 +49,15 @@ public class Arm {
 	}
 
 	public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
+		if (gamepad1.ps || gamepad2.ps) {
+			armAdjustment += (0.02 * -gamepad1.left_stick_y + 0.02 * -gamepad2.left_stick_y);
+			armToTicks(targetTicks);
+		}
+
 		if (gamepad1.dpad_left || gamepad2.dpad_left) {
 			int newTicks = targetTicks - (int) ((100 * ARM_ADJUST_SPEED));
-			if (newTicks < 0 && !(gamepad1.ps || gamepad2.ps)) {
-				newTicks = 0;
+			if (newTicks < -50 && !(gamepad1.ps || gamepad2.ps)) {
+				newTicks = -50;
 			}
 			armToTicks(newTicks);
 		} else if (gamepad1.dpad_right || gamepad2.dpad_right) {
@@ -60,13 +67,17 @@ public class Arm {
 			}
 			armToTicks(newTicks);
 		}
-	armMotor.setPower(ARM_POSITION_SPEED * (Math.abs(targetTicks - armMotor.getCurrentPosition())) / 500 );
+
+		if (gamepad1.left_stick_button || gamepad2.left_stick_button) {
+			armAdjustment = 0;
+		}
+	armMotor.setPower(Math.max((ARM_POSITION_SPEED * (Math.abs(targetTicks - armMotor.getCurrentPosition())) / 500), 0.1));
 	}
 
 	public void armToTicks(int ticks) {
 		targetTicks = ticks;
 
-		armMotor.setTargetPosition(targetTicks);
+		armMotor.setTargetPosition(targetTicks+((int) armAdjustment));
 		armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 	}
 

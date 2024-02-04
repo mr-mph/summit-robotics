@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode.centerstage.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
 
-
+@Disabled
 @TeleOp(name = "!Wrist Test")
 public class WristTest extends LinearOpMode {
 	@Override

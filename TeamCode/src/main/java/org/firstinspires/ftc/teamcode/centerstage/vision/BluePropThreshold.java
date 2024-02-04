@@ -15,7 +15,7 @@ import org.opencv.imgproc.Imgproc;
 
 @Config
 public class BluePropThreshold implements VisionProcessor {
-	public static double BLUE_THRESHOLD = 0.01;
+	public static double BLUE_THRESHOLD = 0.05;
 
 	public static int CENTER_SPIKE_X1 = 0;
 	public static int CENTER_SPIKE_Y1 = 0;
@@ -30,7 +30,7 @@ public class BluePropThreshold implements VisionProcessor {
 	public static int RIGHT_SPIKE_Y2 = 480;
 	public static int HUE_LOW = 80;
 	public static int SAT_LOW = 100;
-	public static int VAL_LOW = 150;
+	public static int VAL_LOW = 100;
 	public static int HUE_HIGH = 105;
 	public static int SAT_HIGH = 255;
 	public static int VAL_HIGH = 255;

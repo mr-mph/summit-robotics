@@ -51,9 +51,9 @@ public class VisionAutoRedBack2 extends LinearOpMode
 
 		Pose2d startPose = new Pose2d(-36.23,-62, Math.toRadians(90));
 		drive.setPoseEstimate(startPose);
-
+		sleep(8000); // change
 		TrajectorySequence leftSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(-45.54,-46.1))
+				.lineTo(new Vector2d(-44,-46.1))
 				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.open("left");
@@ -127,7 +127,7 @@ public class VisionAutoRedBack2 extends LinearOpMode
 				.build();
 
 		TrajectorySequence rightSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(-37,-36.96))
+				.lineTo(new Vector2d(-39.5,-36.96))
 				.turn(Math.toRadians(-90))
 				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {

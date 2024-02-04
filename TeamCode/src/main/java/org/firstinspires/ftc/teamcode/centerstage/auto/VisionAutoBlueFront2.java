@@ -101,7 +101,7 @@ public class VisionAutoBlueFront2 extends LinearOpMode
 					robot.claw.close("right");
 				})
 				.turn(Math.toRadians(90))
-				.lineTo(new Vector2d(51.7,31))
+				.lineTo(new Vector2d(51.7,32))
 				.addTemporalMarker(() -> {
 					robot.claw.preciseOpenLeft();
 				})
@@ -123,7 +123,7 @@ public class VisionAutoBlueFront2 extends LinearOpMode
 				.build();
 
 		TrajectorySequence leftSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(26.9,46.1))
+				.lineTo(new Vector2d(27,46.1))
 				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.open("right");

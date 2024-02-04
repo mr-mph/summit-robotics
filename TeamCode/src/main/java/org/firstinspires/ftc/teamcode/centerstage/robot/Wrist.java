@@ -20,6 +20,8 @@ public class Wrist {
 
 	private final HardwareMap hardwareMap;
 
+	private double wristAdjustment = 0;
+
 	public Wrist(HardwareMap hardwareMap) {
 		this.hardwareMap = hardwareMap;
 	}
@@ -31,17 +33,19 @@ public class Wrist {
 	}
 
 	public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
-		if (Math.abs(gamepad1.right_stick_y) > 0.3 || Math.abs(gamepad2.right_stick_y) > 0.3) {
-			wrist.setPower(wrist.getPower() + 0.005 * gamepad1.right_stick_y + 0.005 * gamepad2.right_stick_y);
-		} else {
+		if (gamepad1.ps || gamepad2.ps) {
+			wristAdjustment += (0.002 * gamepad1.right_stick_y + 0.002 * gamepad2.right_stick_y);
+		}
 
-			if (wristState.equals("up")) {
-				wrist.setPower(WRIST_UP);
-			} else if (wristState.equals("down")) {
-				wrist.setPower(WRIST_DOWN);
-			} else if (wristState.equals("hang")) {
-				wrist.setPower(WRIST_HANG);
-			}
+		if (wristState.equals("up")) {
+			wrist.setPower(WRIST_UP+wristAdjustment);
+		} else if (wristState.equals("down")) {
+			wrist.setPower(WRIST_DOWN+wristAdjustment);
+		} else if (wristState.equals("hang")) {
+			wrist.setPower(WRIST_HANG+wristAdjustment);
+		}
+		if (gamepad1.right_stick_button || gamepad2.right_stick_button) {
+			wristAdjustment = 0;
 		}
 	}
 

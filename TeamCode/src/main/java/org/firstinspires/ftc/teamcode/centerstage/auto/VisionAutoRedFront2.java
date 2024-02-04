@@ -53,7 +53,7 @@ public class VisionAutoRedFront2 extends LinearOpMode
 		drive.setPoseEstimate(startPose);
 
 		TrajectorySequence rightSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(24,-46.1))
+				.lineTo(new Vector2d(25,-46.1))
 				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.open("left");
@@ -88,7 +88,7 @@ public class VisionAutoRedFront2 extends LinearOpMode
 				.build();
 
 		TrajectorySequence centerSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(19.67,-38))
+				.lineTo(new Vector2d(19.67,-37))
 				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
 					robot.claw.open("left");
@@ -123,7 +123,7 @@ public class VisionAutoRedFront2 extends LinearOpMode
 				.build();
 
 		TrajectorySequence leftSpike = drive.trajectorySequenceBuilder(startPose)
-				.lineTo(new Vector2d(12,-41))
+				.lineTo(new Vector2d(10.5,-41))
 				.turn(Math.toRadians(45))
 				.waitSeconds(0.5)
 				.addTemporalMarker(() -> {
@@ -137,7 +137,7 @@ public class VisionAutoRedFront2 extends LinearOpMode
 					robot.claw.close("left");
 				})
 				.turn(Math.toRadians(-135))
-				.lineTo(new Vector2d(51.7,-25.5))
+				.lineTo(new Vector2d(51,-25.5))
 				.addTemporalMarker(() -> {
 					robot.claw.preciseOpenRight();
 				})

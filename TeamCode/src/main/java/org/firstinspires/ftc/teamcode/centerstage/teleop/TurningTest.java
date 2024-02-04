@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.centerstage.teleop;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.centerstage.robot.Robot;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 
 @Config
+@Disabled
 @Autonomous(name = "!!Turning Test")
 public class TurningTest extends LinearOpMode {
 	public static double TURN_ANGLE = 90;
