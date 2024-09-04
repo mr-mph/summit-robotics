@@ -8,10 +8,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 public class Wrist {
-	public static double WRIST_DOWN = 0.32; // old is 0.6
+	public static double WRIST_DOWN = -0.83; // old is 0.6
 	public static double WRIST_PRECISE_BACKDROP = 0.03;
-	public static double WRIST_UP = -0.73;
-	public static double WRIST_HANG = -1;
+	public static double WRIST_UP = 0.35;
+	public static double WRIST_HANG = 0.8;
 
 	public CRServo wrist;
 
