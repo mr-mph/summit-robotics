@@ -218,8 +218,8 @@ public final class MecanumDrive {
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
         leftFront = hardwareMap.get(DcMotorEx.class, "leftfront");
         leftBack = hardwareMap.get(DcMotorEx.class, "leftback");
-        rightBack = hardwareMap.get(DcMotorEx.class, "rightfront");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightback");
+        rightBack = hardwareMap.get(DcMotorEx.class, "rightback");
+        rightFront = hardwareMap.get(DcMotorEx.class, "rightfront");
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

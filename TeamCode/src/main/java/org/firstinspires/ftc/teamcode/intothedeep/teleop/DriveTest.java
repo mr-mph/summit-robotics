@@ -1,22 +1,22 @@
 package org.firstinspires.ftc.teamcode.intothedeep.teleop;
-import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.centerstage.robot.Arm;
 import org.firstinspires.ftc.teamcode.intothedeep.robot.Drive;
 import org.firstinspires.ftc.teamcode.intothedeep.robot.Robot;
 
-@TeleOp(name = "!!Robot (Main TeleOp)", group = "! Teleop")
-public class TestTeleop extends LinearOpMode {
+@TeleOp(name = "!Drive Test", group = "! Teleop")
+public class DriveTest extends LinearOpMode {
 
 
 	@Override
 	public void runOpMode() {
 
 		Robot robot = new Robot(hardwareMap);
+		DcMotor arm = hardwareMap.get(DcMotor.class, "arm");
 
 		robot.drive.init();
 

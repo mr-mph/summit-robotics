@@ -1,6 +1,6 @@
-//package org.firstinspires.ftc.teamcode.centerstage.teleop;
-//
-//import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+package org.firstinspires.ftc.teamcode.centerstage.teleop;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 //import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 //import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //
