@@ -5,17 +5,24 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.intothedeep.robot.Arm;
 import org.firstinspires.ftc.teamcode.intothedeep.robot.Drive;
 import org.firstinspires.ftc.teamcode.intothedeep.robot.Robot;
+import org.firstinspires.ftc.teamcode.intothedeep.robot.Wrist;
+import org.firstinspires.ftc.teamcode.intothedeep.robot.Claw;
+
+
 
 @TeleOp(name = "!!Robot (Main TeleOp)", group = "! Teleop")
 public class IntoTheDeepTeleOp extends LinearOpMode {
+
+	Robot robot;
 
 
 	@Override
 	public void runOpMode() {
 
-		Robot robot = new Robot(hardwareMap);
+		robot = new Robot(hardwareMap);
 
 		robot.drive.init();
 		robot.claw.init();
@@ -42,17 +49,61 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 			robot.wrist.gamepadInput(gamepad1, gamepad2);
 
             if (gamepad1.dpad_up || gamepad2.dpad_up) {
-                robot.high_rung();
+                high_rung();
             } else if (gamepad1.dpad_right || gamepad2.dpad_right) {
-                robot.wall();
+                wall();
             } else if (gamepad1.dpad_down || gamepad2.dpad_down) {
-                robot.pickup();
+                pickup();
             } else if (gamepad1.dpad_left || gamepad2.dpad_left) {
-                robot.hang();
-            }
+                low_basket();
+            } else if (gamepad1.x || gamepad2.x) {
+				if (gamepad1.y || gamepad2.y) {
+					robot.arm.armMotor.setPower(0.2);
+					robot.arm.armToTicks(-300);
+				} else {
+					hang();
+				}
+			} else if (gamepad1.share || gamepad2.share) {
+				robot.arm.armMotor.setPower(1);
+				robot.arm.armToTicks(Arm.HIGH_RUNG_PLACEMENT_TICKS);
+				sleep(500);
+				robot.arm.armToTicks(1250);
+			}
 
 			robot.sendTelemetry(telemetry);
 
 		}
+	}
+
+	public void high_rung() {
+		robot.arm.armMotor.setPower(1);
+		robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
+		sleep(200);
+		robot.wrist.high_rung();
+	}
+
+	public void wall() {
+		robot.wrist.wall();
+		robot.arm.armMotor.setPower(1);
+		robot.arm.armToTicks(Arm.WALL_TICKS);
+	}
+
+	public void pickup() {
+		robot.arm.armMotor.setPower(1);
+		robot.arm.armToTicks(Arm.GROUND_TICKS);
+		sleep(200);
+		robot.wrist.ground();
+	}
+
+	public void hang() {
+		robot.wrist.hang();
+		robot.arm.armMotor.setPower(1);
+		robot.arm.armToTicks(Arm.HANG_TICKS);
+	}
+
+	public void low_basket() {
+		robot.wrist.low_basket();
+		robot.arm.armMotor.setPower(1);
+		robot.arm.armToTicks(Arm.BASKET_TICKS);
 	}
 }

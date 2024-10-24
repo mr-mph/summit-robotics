@@ -7,10 +7,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @Config
 public class Wrist {
-    public static double WRIST_GROUND = -1;
-    public static double WRIST_WALL = 0.15;
-    public static double WRIST_HIGH_RUNG = -0.2;
-    public static double WRIST_HANG = 1;
+    public static double WRIST_GROUND = -0.8;
+    public static double WRIST_WALL = -0.05;
+    public static double WRIST_HIGH_RUNG = -0.35;
+    public static double WRIST_LOW_BASKET = -0.9;
+    public static double WRIST_HANG = 0.16;
 
     public CRServo wrist;
 
@@ -44,6 +45,8 @@ public class Wrist {
             wrist.setPower(WRIST_HIGH_RUNG+wristAdjustment);
         } else if (wristState.equals("hang")) {
             wrist.setPower(WRIST_HANG + wristAdjustment);
+        } else if (wristState.equals("low basket")) {
+            wrist.setPower(WRIST_LOW_BASKET + wristAdjustment);
         }
 
         if (gamepad1.right_stick_button || gamepad2.right_stick_button) {
@@ -68,5 +71,10 @@ public class Wrist {
     public void hang() {
         wristState = "hang";
         wrist.setPower(WRIST_HANG);
+    }
+
+    public void low_basket() {
+        wristState = "low basket";
+        wrist.setPower(WRIST_LOW_BASKET);
     }
 }

@@ -37,31 +37,9 @@ public class Robot {
 			Drawing.drawRobot(packet.fieldOverlay(), drive.mecanumDrive.pose);
 			FtcDashboard.getInstance().sendTelemetryPacket(packet);
 		}
+
 		telemetry.update();
 
 	}
 
-	public void high_rung() {
-		wrist.high_rung();
-		arm.armMotor.setPower(1);
-		arm.armToTicks(Arm.HIGH_RUNG_TICKS);
-	}
-
-	public void wall() {
-		wrist.wall();
-		arm.armMotor.setPower(1);
-		arm.armToTicks(Arm.WALL_TICKS);
-	}
-
-	public void pickup() {
-		wrist.ground();
-		arm.armMotor.setPower(1);
-		arm.armToTicks(Arm.GROUND_TICKS);
-	}
-
-	public void hang() {
-		wrist.hang();
-		arm.armMotor.setPower(1);
-		arm.armToTicks(Arm.HANG_TICKS);
-	}
 }

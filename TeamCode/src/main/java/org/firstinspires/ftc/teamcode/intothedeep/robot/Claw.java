@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.intothedeep.robot;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -7,11 +9,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 public class Claw {
-    public static double CLAW_OPEN = 0.15;
-    public static double CLAW_CLOSED = 0.26;
+
+    public static double CLAW_OPEN_WIDE = 0.3;
+    public static double CLAW_CLOSED_WIDE = 0.4;
+
+    public static double CLAW_OPEN = 0.35;
+    public static double CLAW_CLOSED = 0.48;
 
     public Servo claw;
-    public boolean clawClosed = false;
+    public String clawState = "closed";
 
     public boolean initialized = false;
 
@@ -36,21 +42,42 @@ public class Claw {
         if (gamepad1.right_bumper || gamepad2.right_bumper) {
             if (!bumperHeld) {
                 bumperHeld = true;
-                clawClosed = !clawClosed;
+                if (clawState.equals("open")) {
+                    clawState = "closed";
+                } else {
+                    clawState = "open";
+                }
             }
         } else {
             bumperHeld = false;
         }
 
-
-        if (clawClosed) {
-            claw.setPosition(CLAW_CLOSED);
+        if (gamepad1.right_trigger > 0.5 || gamepad2.right_trigger > 0.5) {
+            if (!triggerHeld) {
+                triggerHeld = true;
+                if (clawState.equals("open wide")) {
+                    clawState = "closed wide";
+                } else {
+                    clawState = "open wide";
+                }
+            }
         } else {
-            claw.setPosition(CLAW_OPEN);
+            triggerHeld = false;
         }
 
 
-        if (clawClosed) {
+        if (clawState.equals("closed")) {
+            claw.setPosition(CLAW_CLOSED);
+        } else if (clawState.equals("open")) {
+            claw.setPosition(CLAW_OPEN);
+        } else if (clawState.equals("open wide")) {
+            claw.setPosition(CLAW_OPEN_WIDE);
+        } else {
+            claw.setPosition(CLAW_CLOSED_WIDE);
+        }
+
+
+        if (clawState.contains("closed")) {
             gamepad1.setLedColor(255,0,0, 5000);
             gamepad2.setLedColor(255,0,0, 5000);
         } else {
@@ -61,11 +88,22 @@ public class Claw {
 
     public void open() {
         claw.setPosition(CLAW_OPEN);
+        clawState = "open";
     }
 
     public void close() {
         claw.setPosition(CLAW_CLOSED);
+        clawState = "closed";
 
+    }
+    public void open_wide() {
+        claw.setPosition(CLAW_OPEN_WIDE);
+        clawState = "open wide";
+    }
+
+    public void close_wide() {
+        claw.setPosition(CLAW_CLOSED_WIDE);
+        clawState = "closed wide";
     }
 
 }

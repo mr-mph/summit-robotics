@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.intothedeep.robot.Arm;
 import org.firstinspires.ftc.teamcode.intothedeep.robot.Robot;
+import org.firstinspires.ftc.teamcode.intothedeep.teleop.IntoTheDeepTeleOp;
+
 
 @TeleOp(name = "!Arm Test")
 public class ArmTest extends LinearOpMode {
@@ -13,6 +15,7 @@ public class ArmTest extends LinearOpMode {
     public void runOpMode() {
 
         Robot robot = new Robot(hardwareMap);
+        IntoTheDeepTeleOp teleop = new IntoTheDeepTeleOp();
 
         robot.arm.init();
         robot.wrist.init(true);
@@ -24,13 +27,13 @@ public class ArmTest extends LinearOpMode {
             robot.arm.gamepadInput(gamepad1, gamepad2);
 
             if (gamepad1.dpad_up || gamepad2.dpad_up) {
-                robot.high_rung();
+                teleop.high_rung();
             } else if (gamepad1.dpad_right || gamepad2.dpad_right) {
-                robot.wall();
+                teleop.wall();
             } else if (gamepad1.dpad_down || gamepad2.dpad_down) {
-                robot.pickup();
+                teleop.pickup();
             } else if (gamepad1.dpad_left || gamepad2.dpad_left) {
-                robot.hang();
+                teleop.hang();
             }
 
 

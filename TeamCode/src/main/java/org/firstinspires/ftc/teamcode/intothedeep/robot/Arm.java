@@ -14,15 +14,16 @@ public class Arm {
 
     // TODO: arm needs to move before the wrist
     public static int INIT_HEIGHT = 0;
-    public static int GROUND_TICKS = 800;
-    public static int WALL_TICKS = 450;
-    public static int HIGH_RUNG_TICKS = 1750; // -> 1000 to place
+    public static int GROUND_TICKS = 300;
+    public static int WALL_TICKS = 200;
+    public static int HIGH_RUNG_TICKS = 1380; // -> 1000 to place
+    public static int HIGH_RUNG_PLACEMENT_TICKS = 1000;
     public static int HANG_TICKS = 1600; // -> -300 to hang
-    public static int BASKET_TICKS = 2900;
+    public static int BASKET_TICKS = 2150;
 
 
     public static double ARM_POSITION_SPEED = 0.5;
-    public static double ARM_ADJUST_SPEED = 0.1;
+    public static double ARM_ADJUST_SPEED = 0.3;
 
     public DcMotorEx armMotor;
 
@@ -52,29 +53,30 @@ public class Arm {
     public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
 
         if (gamepad1.left_bumper || gamepad2.left_bumper) {
-            int newTicks = targetTicks - (int) ((100 * ARM_ADJUST_SPEED));
-            if (newTicks < -50 && !(gamepad1.ps || gamepad2.ps)) {
-                newTicks = -50;
+            targetTicks += (int) ((100 * ARM_ADJUST_SPEED));
+            if (targetTicks < -50 && !(gamepad1.ps || gamepad2.ps)) {
+                targetTicks = -50;
             }
-            armToTicks(newTicks);
+
         } else if (gamepad1.left_trigger > 0.5 || gamepad2.left_trigger > 0.5) {
-            int newTicks = targetTicks + (int) ((100 * ARM_ADJUST_SPEED));
-            if (newTicks > BASKET_TICKS && !(gamepad1.ps || gamepad2.ps)) {
-                newTicks = BASKET_TICKS;
+            targetTicks -= (int) ((100 * ARM_ADJUST_SPEED));
+            if (targetTicks > BASKET_TICKS && !(gamepad1.ps || gamepad2.ps)) {
+                targetTicks = BASKET_TICKS;
             }
-            armToTicks(newTicks);
         }
 
-        if (gamepad1.left_stick_button || gamepad2.left_stick_button) {
-            armAdjustment = 0;
-        }
+        armToTicks(targetTicks);
+
+//        if (gamepad1.left_stick_button || gamepad2.left_stick_button) {
+//            armAdjustment = 0;
+//        }
         armMotor.setPower(Math.max((ARM_POSITION_SPEED * (Math.abs(targetTicks - armMotor.getCurrentPosition())) / 500), 0.1));
     }
 
     public void armToTicks(int ticks) {
         targetTicks = ticks;
 
-        armMotor.setTargetPosition(targetTicks+((int) armAdjustment));
+        armMotor.setTargetPosition(targetTicks); // +((int) armAdjustment)
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 

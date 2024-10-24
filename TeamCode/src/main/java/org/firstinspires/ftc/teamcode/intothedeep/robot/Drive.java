@@ -78,7 +78,7 @@ public class Drive {
 			while (gamepad1.left_trigger > 0.5 || gamepad2.left_trigger > 0.5);
 		}
 
-		updateSpeed();
+//		updateSpeed();
 	}
 
 	private void updateSpeed() {
