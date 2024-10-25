@@ -60,25 +60,24 @@ public class Drive {
 //	}
 
 	public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
-		if (gamepad1.left_bumper || gamepad2.left_bumper) {
+		if (gamepad1.y || gamepad2.y) {
 			if (speedState.equals("slow")) {
-				speedState = "normal";
-			} else {
-				speedState = "slow";
-			}
-			while (gamepad1.left_bumper || gamepad2.left_bumper);
-
-		} else if (gamepad1.left_trigger > 0.5 || gamepad2.left_trigger > 0.5) {
-			if (speedState.equals("fast")) {
 				speedState = "normal";
 			} else {
 				speedState = "fast";
 			}
+			while (gamepad1.y || gamepad2.y);
 
-			while (gamepad1.left_trigger > 0.5 || gamepad2.left_trigger > 0.5);
+		} else if (gamepad1.b || gamepad2.b ) {
+			if (speedState.equals("fast")) {
+				speedState = "normal";
+			} else {
+				speedState = "slow";
+			}
+			while (gamepad1.b || gamepad2.b);
 		}
 
-//		updateSpeed();
+		updateSpeed();
 	}
 
 	private void updateSpeed() {
