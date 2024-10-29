@@ -22,7 +22,7 @@ public class Arm {
     public static int BASKET_TICKS = 2150;
 
     public static double ARM_POSITION_SPEED = 0.5;
-    public static double ARM_ADJUST_SPEED = 0.3;
+    public static double ARM_ADJUST_SPEED = 0.1;
 
     public DcMotorEx armMotor;
 

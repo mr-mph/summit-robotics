@@ -37,12 +37,9 @@ public class Drive {
 		leftback = hardwareMap.get(DcMotorEx.class, "leftback");
 		leftfront = hardwareMap.get(DcMotorEx.class, "leftfront");
 
-		mecanumDrive = new MecanumDrive(hardwareMap, new Pose2d(new Vector2d(0,0),0));
+		mecanumDrive = new MecanumDrive(hardwareMap, new Pose2d(new Vector2d(18,-63),-90));
 //		mecanumDrive.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 //		mecanumDrive.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
-		leftfront.setDirection(DcMotorEx.Direction.REVERSE);
-		leftback.setDirection(DcMotorEx.Direction.REVERSE);
 
 		initialized = true;
 
