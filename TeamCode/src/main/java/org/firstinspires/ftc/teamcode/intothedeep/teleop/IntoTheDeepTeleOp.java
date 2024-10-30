@@ -57,7 +57,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             } else if (gamepad1.dpad_left || gamepad2.dpad_left) {
                 low_basket();
             } else if (gamepad1.x || gamepad2.x) {
-				if (gamepad1.y || gamepad2.y) {
+				if (gamepad1.a || gamepad2.a) {
 					robot.arm.armMotor.setPower(0.2);
 					robot.arm.armToTicks(-300);
 				} else {
@@ -65,9 +65,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 				}
 			} else if (gamepad1.share || gamepad2.share) {
 				robot.arm.armMotor.setPower(1);
-				robot.arm.armToTicks(Arm.HIGH_RUNG_PLACEMENT_TICKS);
+				robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
 				sleep(500);
-				robot.arm.armToTicks(1250);
+				robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
 			}
 
 			robot.sendTelemetry(telemetry);

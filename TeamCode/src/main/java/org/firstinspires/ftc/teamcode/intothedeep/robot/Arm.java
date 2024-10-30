@@ -17,7 +17,8 @@ public class Arm {
     public static int GROUND_TICKS = 300;
     public static int WALL_TICKS = 200;
     public static int HIGH_RUNG_TICKS = 1380; // -> 1000 to place
-    public static int HIGH_RUNG_PLACEMENT_TICKS = 1000;
+    public static int HIGH_RUNG_BRINGDOWN_TICKS = 1000;
+    public static int HIGH_RUNG_BRINGUP_TICKS = 1250;
     public static int HANG_TICKS = 1600; // -> -300 to hang
     public static int BASKET_TICKS = 2150;
 
