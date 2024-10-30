@@ -14,13 +14,13 @@ public class Arm {
 
     // TODO: arm needs to move before the wrist
     public static int INIT_HEIGHT = 0;
-    public static int GROUND_TICKS = 300;
-    public static int WALL_TICKS = 200;
-    public static int HIGH_RUNG_TICKS = 1380; // -> 1000 to place
-    public static int HIGH_RUNG_BRINGDOWN_TICKS = 1000;
-    public static int HIGH_RUNG_BRINGUP_TICKS = 1250;
-    public static int HANG_TICKS = 1600; // -> -300 to hang
-    public static int BASKET_TICKS = 2150;
+    public static int GROUND_TICKS = (int) (300/2.6285714286);
+    public static int WALL_TICKS = (int) (200/2.6285714286);
+    public static int HIGH_RUNG_TICKS = (int) (1380/2.6285714286); // -> 1000 to place (was 1380)
+    public static int HIGH_RUNG_BRINGDOWN_TICKS = (int) (1000/2.6285714286);
+    public static int HIGH_RUNG_BRINGUP_TICKS = (int) (1250/2.6285714286);
+    public static int HANG_TICKS = (int) (1600/2.6285714286); // -> -300 to hang
+    public static int BASKET_TICKS = (int) (2150/2.6285714286);
 
     public static double ARM_POSITION_SPEED = 0.5;
     public static double ARM_ADJUST_SPEED = 0.1;
