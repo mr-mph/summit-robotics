@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.intothedeep.teleop;
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -18,7 +19,7 @@ public class DriveTest extends LinearOpMode {
 		Robot robot = new Robot(hardwareMap);
 		DcMotor arm = hardwareMap.get(DcMotor.class, "arm");
 
-		robot.drive.init();
+		robot.drive.init(new Pose2d(new Vector2d(18,-63),-90));
 
 		waitForStart();
 

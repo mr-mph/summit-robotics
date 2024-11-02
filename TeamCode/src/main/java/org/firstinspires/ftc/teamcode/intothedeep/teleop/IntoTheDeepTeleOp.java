@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.intothedeep.teleop;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -24,7 +25,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
 		robot = new Robot(hardwareMap);
 
-		robot.drive.init();
+		robot.drive.init(new Pose2d(6,-63, Math.toRadians(90)));
 		robot.claw.init();
 		robot.wrist.init(true);
 
@@ -41,8 +42,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                             (-gamepad1.left_stick_x - gamepad2.left_stick_x) * Drive.SPEED),
                             (-gamepad1.right_stick_x - gamepad2.right_stick_x) * Drive.SPEED * 1.2
                     ));
-            robot.drive.mecanumDrive.updatePoseEstimate();
-
+			robot.drive.mecanumDrive.updatePoseEstimate();
 			robot.arm.gamepadInput(gamepad1, gamepad2);
 			robot.claw.gamepadInput(gamepad1, gamepad2);
 			robot.drive.gamepadInput(gamepad1, gamepad2);
@@ -66,8 +66,10 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 			} else if (gamepad1.share || gamepad2.share) {
 				robot.arm.armMotor.setPower(1);
 				robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
+				robot.wrist.bringdown();
 				sleep(500);
 				robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
+	            robot.wrist.high_rung();
 			}
 
 			robot.sendTelemetry(telemetry);

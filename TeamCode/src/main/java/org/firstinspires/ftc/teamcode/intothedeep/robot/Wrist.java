@@ -8,10 +8,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 @Config
 public class Wrist {
     public static double WRIST_GROUND = -0.8;
-    public static double WRIST_WALL = -0.1; // -0.05 (old) -> -0.1
-    public static double WRIST_HIGH_RUNG = -0.35;
+    public static double WRIST_WALL = -0.05; // -0.05 (old) -> -0.1
+    public static double WRIST_HIGH_RUNG = -0.6;
+    public static double WRIST_HIGH_BRINGDOWN = -0.4;
+
     public static double WRIST_LOW_BASKET = -0.9;
     public static double WRIST_HANG = 0.16;
+    public static double WRIST_ADJUST_SPEED = 0.01;
+
 
     public CRServo wrist;
 
@@ -20,7 +24,7 @@ public class Wrist {
 
     private final HardwareMap hardwareMap;
 
-    private double wristAdjustment = 0;
+    public double wristAdjustment = 0;
 
     public Wrist(HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;
@@ -34,7 +38,12 @@ public class Wrist {
 
     public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
         if (gamepad1.ps || gamepad2.ps) {
-            wristAdjustment += (0.002 * gamepad1.right_stick_y + 0.002 * gamepad2.right_stick_y);
+            if (gamepad1.left_bumper || gamepad2.left_bumper) {
+                wristAdjustment += WRIST_ADJUST_SPEED;
+
+            } else if (gamepad1.left_trigger > 0.5 || gamepad2.left_trigger > 0.5) {
+                wristAdjustment -= WRIST_ADJUST_SPEED;
+            }
         }
 
         if (wristState.equals("ground")) {
@@ -47,6 +56,8 @@ public class Wrist {
             wrist.setPower(WRIST_HANG + wristAdjustment);
         } else if (wristState.equals("low basket")) {
             wrist.setPower(WRIST_LOW_BASKET + wristAdjustment);
+        } else if (wristState.equals("bringdown")) {
+            wrist.setPower(WRIST_HIGH_BRINGDOWN+wristAdjustment);
         }
 
         if (gamepad1.right_stick_button || gamepad2.right_stick_button) {
@@ -56,25 +67,30 @@ public class Wrist {
 
     public void ground() {
         wristState = "ground";
-        wrist.setPower(WRIST_GROUND);
+//        wrist.setPower(WRIST_GROUND);
     }
 
     public void wall() {
         wristState = "wall";
-        wrist.setPower(WRIST_WALL);
+//        wrist.setPower(WRIST_WALL);
     }
     public void high_rung() {
         wristState = "high rung";
-        wrist.setPower(WRIST_HIGH_RUNG);
+//        wrist.setPower(WRIST_HIGH_RUNG);
     }
 
     public void hang() {
         wristState = "hang";
-        wrist.setPower(WRIST_HANG);
+//        wrist.setPower(WRIST_HANG);
     }
 
     public void low_basket() {
         wristState = "low basket";
-        wrist.setPower(WRIST_LOW_BASKET);
+//        wrist.setPower(WRIST_LOW_BASKET);
+    }
+
+    public void bringdown() {
+        wristState = "bringdown";
+//        wrist.setPower(WRIST_HIGH_BRINGDOWN);
     }
 }

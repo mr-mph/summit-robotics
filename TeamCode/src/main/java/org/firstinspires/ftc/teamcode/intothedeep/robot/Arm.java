@@ -14,16 +14,16 @@ public class Arm {
 
     // TODO: arm needs to move before the wrist
     public static int INIT_HEIGHT = 0;
-    public static int GROUND_TICKS = (int) (300/2.6285714286);
-    public static int WALL_TICKS = (int) (200/2.6285714286);
-    public static int HIGH_RUNG_TICKS = (int) (1380/2.6285714286); // -> 1000 to place (was 1380)
-    public static int HIGH_RUNG_BRINGDOWN_TICKS = (int) (1000/2.6285714286);
-    public static int HIGH_RUNG_BRINGUP_TICKS = (int) (1250/2.6285714286);
-    public static int HANG_TICKS = (int) (1600/2.6285714286); // -> -300 to hang
-    public static int BASKET_TICKS = (int) (2150/2.6285714286);
+    public static int GROUND_TICKS = (int) (300/1.68);
+    public static int WALL_TICKS = 150;
+    public static int HIGH_RUNG_TICKS = 870; // -> 1000 to place (was 1380)
+    public static int HIGH_RUNG_BRINGDOWN_TICKS = 500;
+    public static int HIGH_RUNG_BRINGUP_TICKS = (int) (1250/1.68);
+    public static int HANG_TICKS = (int) (1600/1.68); // -> -300 to hang
+    public static int BASKET_TICKS = (int) (2150/1.68);
 
     public static double ARM_POSITION_SPEED = 0.5;
-    public static double ARM_ADJUST_SPEED = 0.1;
+    public static double ARM_ADJUST_SPEED = 0.05;
 
     public DcMotorEx armMotor;
 
@@ -52,20 +52,23 @@ public class Arm {
 
     public void gamepadInput(Gamepad gamepad1, Gamepad gamepad2) {
 
-        if (gamepad1.left_bumper || gamepad2.left_bumper) {
-            targetTicks += (int) ((100 * ARM_ADJUST_SPEED));
-            if (targetTicks < -50 && !(gamepad1.ps || gamepad2.ps)) {
-                targetTicks = -50;
+        if (!(gamepad1.ps || gamepad2.ps)) {
+
+            if (gamepad1.left_bumper || gamepad2.left_bumper) {
+                targetTicks += (int) ((100 * ARM_ADJUST_SPEED));
+                if (targetTicks < -50 && !(gamepad1.ps || gamepad2.ps)) {
+                    targetTicks = -50;
+                }
+
+            } else if (gamepad1.left_trigger > 0.5 || gamepad2.left_trigger > 0.5) {
+                targetTicks -= (int) ((100 * ARM_ADJUST_SPEED));
+                if (targetTicks > BASKET_TICKS && !(gamepad1.ps || gamepad2.ps)) {
+                    targetTicks = BASKET_TICKS;
+                }
             }
 
-        } else if (gamepad1.left_trigger > 0.5 || gamepad2.left_trigger > 0.5) {
-            targetTicks -= (int) ((100 * ARM_ADJUST_SPEED));
-            if (targetTicks > BASKET_TICKS && !(gamepad1.ps || gamepad2.ps)) {
-                targetTicks = BASKET_TICKS;
-            }
+            armToTicks(targetTicks);
         }
-
-        armToTicks(targetTicks);
 
 //        if (gamepad1.left_stick_button || gamepad2.left_stick_button) {
 //            armAdjustment = 0;

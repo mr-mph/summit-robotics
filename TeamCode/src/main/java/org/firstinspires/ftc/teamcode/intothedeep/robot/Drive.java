@@ -31,13 +31,13 @@ public class Drive {
 		this.hardwareMap = hardwareMap;
 	}
 
-	public void init() {
+	public void init(Pose2d startPose) {
 		rightback = hardwareMap.get(DcMotorEx.class, "rightback");
 		rightfront = hardwareMap.get(DcMotorEx.class, "rightfront");
 		leftback = hardwareMap.get(DcMotorEx.class, "leftback");
 		leftfront = hardwareMap.get(DcMotorEx.class, "leftfront");
 
-		mecanumDrive = new MecanumDrive(hardwareMap, new Pose2d(new Vector2d(18,-63),-90));
+		mecanumDrive = new MecanumDrive(hardwareMap, startPose);
 //		mecanumDrive.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 //		mecanumDrive.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
