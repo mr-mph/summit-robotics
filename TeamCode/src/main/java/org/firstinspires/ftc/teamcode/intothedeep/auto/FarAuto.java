@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 
 @Config
-@Autonomous(name = "!! Close Auto", group = "Auto")
-public class CloseAuto extends LinearOpMode
+@Autonomous(name = "!! Far Auto", group = "Auto")
+public class FarAuto extends LinearOpMode
 
 {
 
@@ -29,7 +29,7 @@ public class CloseAuto extends LinearOpMode
 	{
 		Robot robot = new Robot(hardwareMap);
 
-		Pose2d startPose = new Pose2d(6,-63, Math.toRadians(90));
+		Pose2d startPose = new Pose2d(-6,-63, Math.toRadians(90));
 
 		robot.drive.init(startPose);
 		MecanumDrive drive = robot.drive.mecanumDrive;
@@ -43,14 +43,12 @@ public class CloseAuto extends LinearOpMode
 		waitForStart();
 
 		TrajectoryActionBuilder specimenPlace = drive.actionBuilder(startPose)
-				.strafeTo(new Vector2d(6, -30));
+				.strafeTo(new Vector2d(-6, -30));
 
+		TrajectoryActionBuilder backOut = drive.actionBuilder(new Pose2d(new Vector2d(-6, -30), Math.toRadians(90)))
+				.strafeTo(new Vector2d(-6,-45));
 
-		TrajectoryActionBuilder backOut = drive.actionBuilder(new Pose2d(new Vector2d(6, -30), Math.toRadians(90)))
-				.strafeTo(new Vector2d(6,-45));
-
-
-		TrajectoryActionBuilder auto = drive.actionBuilder(new Pose2d(new Vector2d(6, -45), Math.toRadians(90)))
+		TrajectoryActionBuilder auto = drive.actionBuilder(new Pose2d(new Vector2d(-6,-45), Math.toRadians(90)))
 				.strafeTo(new Vector2d(36,-39))
 				.turn(Math.toRadians(-90))
 				.strafeTo(new Vector2d(34,-9))
@@ -61,9 +59,9 @@ public class CloseAuto extends LinearOpMode
 				.strafeTo(new Vector2d(51-3,-13))
 				.strafeTo(new Vector2d(62-5,-13))
 				.strafeTo(new Vector2d(62-5,-62))
-				.strafeTo(new Vector2d(68-4,-13))
-				.strafeTo(new Vector2d(68-4,-13))
-				.strafeTo(new Vector2d(68-4,-62))
+				.strafeTo(new Vector2d(68-2,-13))
+				.strafeTo(new Vector2d(68-2,-13))
+				.strafeTo(new Vector2d(68-2,-62))
 				.strafeTo(new Vector2d(42,-51))
 				.turn(Math.toRadians(90));
 
@@ -74,9 +72,9 @@ public class CloseAuto extends LinearOpMode
 
 		Actions.runBlocking(new SequentialAction(
 				new InstantAction(() -> {
-						robot.arm.armMotor.setPower(1);
-						robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
-						robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
+					robot.arm.armMotor.setPower(1);
+					robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
+					robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 				}),
 				new SleepAction(0.5),
 				specimenPlace.build(),
@@ -105,7 +103,7 @@ public class CloseAuto extends LinearOpMode
 					robot.wrist.wrist.setPower(Wrist.WRIST_WALL);
 				}), new SleepAction(0.5),
 				park.build()
-					));
+		));
 
 //		sleep(2000);
 
