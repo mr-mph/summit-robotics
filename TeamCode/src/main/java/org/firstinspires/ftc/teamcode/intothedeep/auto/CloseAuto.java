@@ -51,20 +51,24 @@ public class CloseAuto extends LinearOpMode
 
 
 		TrajectoryActionBuilder auto = drive.actionBuilder(new Pose2d(new Vector2d(6, -45), Math.toRadians(90)))
-				.strafeTo(new Vector2d(36,-39))
-				.turn(Math.toRadians(-90))
+				.splineTo(new Vector2d(36,-39), Math.toRadians(-90))
 				.strafeTo(new Vector2d(34,-9))
+//				.strafeTo(new Vector2d(36,-39))
+//				.turn(Math.toRadians(-90))
+
 
 				.strafeTo(new Vector2d(42,-12))
-				.strafeTo(new Vector2d(51-3,-13))
-				.strafeTo(new Vector2d(51-3,-62))
-				.strafeTo(new Vector2d(51-3,-13))
-				.strafeTo(new Vector2d(62-5,-13))
-				.strafeTo(new Vector2d(62-5,-62))
-				.strafeTo(new Vector2d(68-4,-13))
-				.strafeTo(new Vector2d(68-4,-13))
-				.strafeTo(new Vector2d(68-4,-62))
-				.strafeTo(new Vector2d(42,-51))
+				.strafeTo(new Vector2d(48,-13)) // 1st initial
+				.strafeTo(new Vector2d(48,-62)) // 1st in
+				.strafeTo(new Vector2d(48,-13)) // 1st back out
+
+				.strafeTo(new Vector2d(57,-13)) // 2nd initial
+				.strafeTo(new Vector2d(57,-62)) // 2nd in
+				.strafeTo(new Vector2d(57,-13)) // 2nd back out
+
+				.strafeTo(new Vector2d(64,-13)) // 3rd initial
+				.strafeTo(new Vector2d(64,-62)) // 3rd in
+				.strafeTo(new Vector2d(42,-51)) // get ready for park
 				.turn(Math.toRadians(90));
 
 
@@ -78,7 +82,7 @@ public class CloseAuto extends LinearOpMode
 						robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
 						robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 				}),
-				new SleepAction(0.5),
+				new SleepAction(0.1),
 				specimenPlace.build(),
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS-50);
@@ -93,17 +97,16 @@ public class CloseAuto extends LinearOpMode
 					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
 					robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 					robot.claw.open();
-				}), new SleepAction(0.5),
-				backOut.build(), new SleepAction(0.5),
+				}), new SleepAction(0.2),
+				backOut.build(),
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.BASKET_TICKS);
-				}), new SleepAction(0.5),
+				}),
 				auto.build(),
-				new SleepAction(0.5),
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.WALL_TICKS);
 					robot.wrist.wrist.setPower(Wrist.WRIST_WALL);
-				}), new SleepAction(0.5),
+				}),
 				park.build()
 					));
 
