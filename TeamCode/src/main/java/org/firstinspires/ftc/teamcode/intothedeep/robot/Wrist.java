@@ -7,12 +7,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @Config
 public class Wrist {
-    public static double WRIST_GROUND = -0.8;
-    public static double WRIST_WALL = -0.05; // -0.05 (old) -> -0.1
-    public static double WRIST_HIGH_RUNG = -0.6;
-    public static double WRIST_HIGH_BRINGDOWN = -0.4;
+    public static double WRIST_GROUND = -0.4;
+    public static double WRIST_WALL = 0.33; // -0.05 (old) -> -0.1
+    public static double WRIST_HIGH_RUNG = -0.18;
+    public static double WRIST_HIGH_BRINGDOWN = 0.1;
 
-    public static double WRIST_LOW_BASKET = -0.9;
+    public static double WRIST_LOW_BASKET = -0.6;
     public static double WRIST_HANG = 0.16;
     public static double WRIST_ADJUST_SPEED = 0.01;
 
@@ -67,30 +67,30 @@ public class Wrist {
 
     public void ground() {
         wristState = "ground";
-//        wrist.setPower(WRIST_GROUND);
+        wrist.setPower(WRIST_GROUND);
     }
 
     public void wall() {
         wristState = "wall";
-//        wrist.setPower(WRIST_WALL);
+        wrist.setPower(WRIST_WALL);
     }
     public void high_rung() {
         wristState = "high rung";
-//        wrist.setPower(WRIST_HIGH_RUNG);
+        wrist.setPower(WRIST_HIGH_RUNG);
     }
 
     public void hang() {
         wristState = "hang";
-//        wrist.setPower(WRIST_HANG);
+        wrist.setPower(WRIST_HANG);
     }
 
     public void low_basket() {
         wristState = "low basket";
-//        wrist.setPower(WRIST_LOW_BASKET);
+        wrist.setPower(WRIST_LOW_BASKET);
     }
 
     public void bringdown() {
         wristState = "bringdown";
-//        wrist.setPower(WRIST_HIGH_BRINGDOWN);
+        wrist.setPower(WRIST_HIGH_BRINGDOWN);
     }
 }
