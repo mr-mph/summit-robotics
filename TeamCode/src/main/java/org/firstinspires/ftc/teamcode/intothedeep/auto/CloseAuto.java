@@ -51,13 +51,10 @@ public class CloseAuto extends LinearOpMode
 
 
 		TrajectoryActionBuilder auto = drive.actionBuilder(new Pose2d(new Vector2d(6, -45), Math.toRadians(90)))
-				.splineTo(new Vector2d(36,-39), Math.toRadians(-90))
-				.strafeTo(new Vector2d(34,-9))
-//				.strafeTo(new Vector2d(36,-39))
-//				.turn(Math.toRadians(-90))
+				.strafeToLinearHeading(new Vector2d(36,-39), Math.toRadians(0))
+				.strafeTo(new Vector2d(36,-9)) // off to the side
 
 
-				.strafeTo(new Vector2d(42,-12))
 				.strafeTo(new Vector2d(48,-13)) // 1st initial
 				.strafeTo(new Vector2d(48,-62)) // 1st in
 				.strafeTo(new Vector2d(48,-13)) // 1st back out
@@ -66,10 +63,9 @@ public class CloseAuto extends LinearOpMode
 				.strafeTo(new Vector2d(57,-62)) // 2nd in
 				.strafeTo(new Vector2d(57,-13)) // 2nd back out
 
-				.strafeTo(new Vector2d(64,-13)) // 3rd initial
-				.strafeTo(new Vector2d(64,-62)) // 3rd in
-				.strafeTo(new Vector2d(42,-51)) // get ready for park
-				.turn(Math.toRadians(90));
+				.strafeTo(new Vector2d(62,-13)) // 3rd initial
+				.strafeTo(new Vector2d(62,-62)) // 3rd in
+				.strafeToLinearHeading(new Vector2d(42,-51), Math.toRadians(90)); // get ready for park
 
 
 		TrajectoryActionBuilder park = drive.actionBuilder(new Pose2d(new Vector2d(42,-51), Math.toRadians(90)))
