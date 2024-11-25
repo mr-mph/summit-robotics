@@ -48,7 +48,7 @@ public class CloseAuto extends LinearOpMode
 		TrajectoryActionBuilder specimenPlace2 = drive.actionBuilder(new Pose2d(6,-33, Math.toRadians(90)))
 				.strafeTo(new Vector2d(6, -38)); //  back up
 
-//
+
 		TrajectoryActionBuilder backtoStart = drive.actionBuilder(new Pose2d(new Vector2d(6, -38), Math.toRadians(90)))
 				.strafeTo(new Vector2d(6,-63));
 
@@ -93,17 +93,42 @@ public class CloseAuto extends LinearOpMode
 					robot.wrist.high_rung();
 					robot.claw.open();
 				}),
-				backtoStart.build()
+				new InstantAction(() -> {
+					robot.arm.armToTicks(Arm.BASKET_TICKS);
+				}),
+				auto.build(),
+				new InstantAction(() -> {
+					robot.arm.armToTicks(Arm.WALL_TICKS);
+					robot.wrist.wrist.setPower(Wrist.WRIST_WALL);
+				}),
+				park.build()
+					));
+
+		// TEST: Specimen placing
+//		Actions.runBlocking(new SequentialAction(
 //				new InstantAction(() -> {
-//					robot.arm.armToTicks(Arm.BASKET_TICKS);
+//					robot.arm.armMotor.setPower(1);
+//					robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
+//					robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 //				}),
-//				auto.build(),
+//				specimenPlace.build(),
+//				new InstantAction(() -> {
+//					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
+//					robot.wrist.bringdown();
+//				}),
+//				specimenPlace2.build(),
+//				new InstantAction(() -> {
+//					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
+//					robot.wrist.high_rung();
+//					robot.claw.open();
+//				}),
+//				backtoStart.build(),
 //				new InstantAction(() -> {
 //					robot.arm.armToTicks(Arm.WALL_TICKS);
 //					robot.wrist.wrist.setPower(Wrist.WRIST_WALL);
-//				}),
-//				park.build()
-					));
+//				}), new SleepAction(0.5)
+//		));
+
 
 
 	}
