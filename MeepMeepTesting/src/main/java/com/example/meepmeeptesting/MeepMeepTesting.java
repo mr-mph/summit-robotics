@@ -32,14 +32,14 @@ public class MeepMeepTesting {
 				.strafeTo(new Vector2d(6,-45));
 
 
-		TrajectoryActionBuilder auto = drive.actionBuilder(new Pose2d(new Vector2d(6, -45), Math.toRadians(90)))
-				.strafeToLinearHeading(new Vector2d(36,-39), Math.toRadians(0))
-				.strafeTo(new Vector2d(36,-9)) // off to the side
+		TrajectoryActionBuilder auto = drive.actionBuilder(new Pose2d(new Vector2d(6, -35), Math.toRadians(90)))
+				.strafeToLinearHeading(new Vector2d(36,-35), Math.toRadians(0))
+				.strafeTo(new Vector2d(36,-13)) // off to the side
 
-				.strafeTo(new Vector2d(48,-13)) // 1st initial
-				.strafeTo(new Vector2d(48,-62)) // 1st in
-				.strafeToLinearHeading(new Vector2d(48,-40),Math.toRadians(-90)) // back out and turn
-				.strafeTo(new Vector2d(48,-62)); // in to grab sample
+				.strafeTo(new Vector2d(46,-13)) // 1st initial
+				.strafeTo(new Vector2d(46,-62)) // 1st in
+				.strafeToLinearHeading(new Vector2d(46,-40),Math.toRadians(-90)) // back out and turn
+				.strafeTo(new Vector2d(46,-62)); // in to grab sample
 
 
 		TrajectoryActionBuilder park = drive.actionBuilder(new Pose2d(new Vector2d(42,-51), Math.toRadians(90)))
@@ -51,8 +51,8 @@ public class MeepMeepTesting {
 //		myBot.runAction(park.build());
 
 
-		meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
-				.setDarkMode(true)
+		meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_LIGHT)
+				.setDarkMode(false)
 				.setBackgroundAlpha(0.95f)
 				.addEntity(myBot)
 				.start();

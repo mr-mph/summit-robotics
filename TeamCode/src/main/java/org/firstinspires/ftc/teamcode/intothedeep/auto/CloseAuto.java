@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 
 @Config
-@Autonomous(name = "!! Close Auto", group = "Auto")
+@Autonomous(name = "!! Close Auto ", group = "Auto")
 public class CloseAuto extends LinearOpMode
 
 {
@@ -43,21 +43,25 @@ public class CloseAuto extends LinearOpMode
 		waitForStart();
 
 		TrajectoryActionBuilder specimenPlace = drive.actionBuilder(startPose)
-				.strafeTo(new Vector2d(6, -30));
+				.strafeTo(new Vector2d(6, -33)); //  place on high chamber
+
+		TrajectoryActionBuilder specimenPlace2 = drive.actionBuilder(new Pose2d(6,-33, Math.toRadians(90)))
+				.strafeTo(new Vector2d(6, -38)); //  back up
+
+//
+		TrajectoryActionBuilder backtoStart = drive.actionBuilder(new Pose2d(new Vector2d(6, -38), Math.toRadians(90)))
+				.strafeTo(new Vector2d(6,-63));
 
 
-		TrajectoryActionBuilder backOut = drive.actionBuilder(new Pose2d(new Vector2d(6, -30), Math.toRadians(90)))
-				.strafeTo(new Vector2d(6,-45));
+
+		TrajectoryActionBuilder auto = drive.actionBuilder(new Pose2d(new Vector2d(6, -38), Math.toRadians(90)))
+				.strafeToLinearHeading(new Vector2d(36,-35), Math.toRadians(0))
+				.strafeTo(new Vector2d(36,-13)) // off to the side
 
 
-		TrajectoryActionBuilder auto = drive.actionBuilder(new Pose2d(new Vector2d(6, -45), Math.toRadians(90)))
-				.strafeToLinearHeading(new Vector2d(36,-39), Math.toRadians(0))
-				.strafeTo(new Vector2d(36,-9)) // off to the side
-
-
-				.strafeTo(new Vector2d(48,-13)) // 1st initial
-				.strafeTo(new Vector2d(48,-62)) // 1st in
-				.strafeTo(new Vector2d(48,-13)) // 1st back out
+				.strafeTo(new Vector2d(46,-13)) // 1st initial
+				.strafeTo(new Vector2d(46,-62)) // 1st in
+				.strafeTo(new Vector2d(46,-13)) // 1st back out
 
 				.strafeTo(new Vector2d(57,-13)) // 2nd initial
 				.strafeTo(new Vector2d(57,-62)) // 2nd in
@@ -78,35 +82,29 @@ public class CloseAuto extends LinearOpMode
 						robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
 						robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 				}),
-				new SleepAction(0.1),
 				specimenPlace.build(),
 				new InstantAction(() -> {
-					robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS-50);
-				}),
-				new SleepAction(0.2),
-				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
-					robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_BRINGDOWN);
+					robot.wrist.bringdown();
 				}),
-				new SleepAction(0.2),
+				specimenPlace2.build(),
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
-					robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
+					robot.wrist.high_rung();
 					robot.claw.open();
-				}), new SleepAction(0.2),
-				backOut.build(),
-				new InstantAction(() -> {
-					robot.arm.armToTicks(Arm.BASKET_TICKS);
 				}),
-				auto.build(),
-				new InstantAction(() -> {
-					robot.arm.armToTicks(Arm.WALL_TICKS);
-					robot.wrist.wrist.setPower(Wrist.WRIST_WALL);
-				}),
-				park.build()
+				backtoStart.build()
+//				new InstantAction(() -> {
+//					robot.arm.armToTicks(Arm.BASKET_TICKS);
+//				}),
+//				auto.build(),
+//				new InstantAction(() -> {
+//					robot.arm.armToTicks(Arm.WALL_TICKS);
+//					robot.wrist.wrist.setPower(Wrist.WRIST_WALL);
+//				}),
+//				park.build()
 					));
 
-//		sleep(2000);
 
 	}
 

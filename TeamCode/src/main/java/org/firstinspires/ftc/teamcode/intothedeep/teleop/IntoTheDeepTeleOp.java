@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.intothedeep.robot.Claw;
 
 
 
-@TeleOp(name = "!!Robot (Main TeleOp)", group = "! Teleop")
+@TeleOp(name = "!!Robot (Main TeleOp)")
 public class IntoTheDeepTeleOp extends LinearOpMode {
 
 	Robot robot;
@@ -41,7 +41,8 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                             (-gamepad1.left_stick_y - gamepad2.left_stick_y) * Drive.SPEED,
                             (-gamepad1.left_stick_x - gamepad2.left_stick_x) * Drive.SPEED),
                             (-gamepad1.right_stick_x - gamepad2.right_stick_x) * Drive.SPEED * 1.2
-                    ));
+                    )
+            );
 			robot.drive.mecanumDrive.updatePoseEstimate();
 			robot.arm.gamepadInput(gamepad1, gamepad2);
 			robot.claw.gamepadInput(gamepad1, gamepad2);
@@ -67,7 +68,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 				robot.arm.armMotor.setPower(1);
 				robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
 				robot.wrist.bringdown();
-				sleep(500);
+				sleep(1000);
 				robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
 	            robot.wrist.high_rung();
 			}

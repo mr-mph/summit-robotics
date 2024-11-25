@@ -1,15 +1,11 @@
 package org.firstinspires.ftc.teamcode.intothedeep.robot;
 
-import androidx.annotation.NonNull;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.intothedeep.robot.Arm;
 import org.firstinspires.ftc.teamcode.roadrunner.Drawing;
 
 public class Robot {
@@ -35,7 +31,12 @@ public class Robot {
 			telemetry.addData("x", drive.mecanumDrive.pose.position.x);
 			telemetry.addData("y", drive.mecanumDrive.pose.position.y);
 			telemetry.addData("heading (deg)", Math.toDegrees(drive.mecanumDrive.pose.heading.toDouble()));
-			telemetry.addData("wrist adjustment", wrist.wristAdjustment);
+			telemetry.addData("wrist state", wrist.wristState);
+			telemetry.addData("wrist pos", wrist.targetPos);
+			telemetry.addData("arm ticks", arm.armMotor.getCurrentPosition());
+			telemetry.addData("arm target ticks", arm.armMotor.getTargetPosition());
+
+
 
 
 			TelemetryPacket packet = new TelemetryPacket();
@@ -48,35 +49,4 @@ public class Robot {
 
 	}
 
-
-
-	public class beginAuto implements Action {
-		@Override
-		public boolean run(@NonNull TelemetryPacket packet) {
-			arm.armMotor.setPower(1);
-			arm.armToTicks(Arm.HIGH_RUNG_TICKS);
-			wrist.high_rung();
-			return true;
-		}
-	}
-
-	public class bringDown implements Action {
-		@Override
-		public boolean run(@NonNull TelemetryPacket packet) {
-			arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
-			wrist.bringdown();
-			return true;
-		}
-	}
-
-
-
-
-	public Action bringDown() {
-		return new bringDown();
-	}
-
-	public Action beginAuto() {
-		return new beginAuto();
-	}
 }
