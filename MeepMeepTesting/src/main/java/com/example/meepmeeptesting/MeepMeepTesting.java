@@ -34,8 +34,13 @@ public class MeepMeepTesting {
 				.strafeTo(new Vector2d(6, -38)) //  back up
 				.endTrajectory();
 
+
 		TrajectoryActionBuilder scoot = specimenPlace2.fresh()
-				.strafeTo(new Vector2d(0, -38)) //  back up
+				.strafeTo(new Vector2d(0, -38)) // scoot
+				.endTrajectory();
+
+		TrajectoryActionBuilder backUp = scoot.fresh()
+				.strafeTo(new Vector2d(6, -42)) //  back up
 				.endTrajectory();
 
 
@@ -44,10 +49,13 @@ public class MeepMeepTesting {
 
 
 		TrajectoryActionBuilder pushSample = scoot.fresh()
-				.strafeToLinearHeading(new Vector2d(36,-35), Math.toRadians(0))
-				.strafeTo(new Vector2d(36,-13)) // off to the side
+				.strafeToLinearHeading(new Vector2d(30,-38), Math.toRadians(0)) // 1st sample
+				.splineToConstantHeading(new Vector2d(40,-13), Math.toRadians(0))
+//				.splineToConstantHeading(new Vector2d(46,-13), Math.toRadians(-90))
+//				.splineToConstantHeading(new Vector2d(46,-58), Math.toRadians(90))
+//				.splineToConstantHeading(new Vector2d(46,-50), Math.toRadians(90))
 
-
+//				.strafeTo(new Vector2d(36,-13)) // off to the side
 				.strafeTo(new Vector2d(46,-13)) // 1st initial
 				.strafeTo(new Vector2d(46,-58)) // 1st in
 				.strafeTo(new Vector2d(46,-50)) // back out
@@ -57,7 +65,7 @@ public class MeepMeepTesting {
 				.turnTo(Math.toRadians(-90))
 				.endTrajectory();
 
-		TrajectoryActionBuilder moveTo3rd = scoot.fresh()
+		TrajectoryActionBuilder moveTo3rd = backUp.fresh()
 				.strafeToLinearHeading(new Vector2d(46,-50), Math.toRadians(-90))
 				.endTrajectory();
 
@@ -82,117 +90,118 @@ public class MeepMeepTesting {
 				.endTrajectory();
 
 
-		TrajectoryActionBuilder park = scoreSpecimen2.fresh()
+		TrajectoryActionBuilder park = specimenPlace2.fresh()
 				.strafeTo(new Vector2d(34, -60))
 				.endTrajectory();
 
+
+
 		myBot.runAction(new SequentialAction(
 				new InstantAction(() -> {
-	//			robot.arm.armMotor.setPower(0.6);
-	//			robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
-	//			robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
+					// robot.arm.armMotor.setPower(0.6);
+					// robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
+					// robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 				}),
 				specimenPlace.build(),
 				new InstantAction(() -> {
-//					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
-//					robot.wrist.bringdown();
+					// robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
+					// robot.wrist.bringdown();
 				}),
 				specimenPlace2.build(),
 				new InstantAction(() -> {
-//					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
-//					robot.wrist.high_rung();
+					// robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
+					// robot.wrist.high_rung();
 				}),
 				scoot.build(),
 				new InstantAction(() -> {
-//					robot.claw.open();
+					// robot.claw.open();
 				}),
 				new InstantAction(() -> {
-//					robot.arm.armToTicks(Arm.BASKET_TICKS);
+					// robot.arm.armToTicks(Arm.BASKET_TICKS);
 				}),
 				pushSample.build(),
 				new InstantAction(() -> {
-//					robot.wrist.wall();
-//					robot.arm.armToTicks(Arm.WALL_TICKS);
+					// robot.wrist.wall();
+					// robot.arm.armToTicks(Arm.WALL_TICKS);
 				}),
 				pushSample2.build(),
-				new SleepAction(0.5),
+//				new SleepAction(0.5),
 				forward.build(),
 				new SleepAction(0.5),
 				forward2.build(),
 				new SleepAction(0.5),
 				new InstantAction(() -> {
-//					robot.claw.close();
+					// robot.claw.close();
 				}),
 				new SleepAction(0.3),
 				new InstantAction(() -> {
-//					robot.arm.armToTicks(100);
+					// robot.arm.armToTicks(100);
 				}),
-				new SleepAction(0.3),
+//				new SleepAction(0.3),
 				backAgain.build(),
 				new InstantAction(() -> {
-//					robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
-//					robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
+					// robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
+					// robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 				}),
 				scoreSpecimen2.build(),
 				new InstantAction(() -> {
-//					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
-//					robot.wrist.bringdown();
+					// robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
+					// robot.wrist.bringdown();
 				}),
 				specimenPlace2.build(),
 				new InstantAction(() -> {
-//					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
-//					robot.wrist.high_rung();
+					// robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
+					// robot.wrist.high_rung();
 				}),
 				scoot.build(),
 				new InstantAction(() -> {
-//					robot.claw.open();
+					// robot.claw.open();
 				}),
 
 
+				backUp.build(),
+				new InstantAction(() -> {
+					// robot.wrist.wall();
+					// robot.arm.armToTicks(Arm.WALL_TICKS);
+				}),
 				moveTo3rd.build(),
-				new InstantAction(() -> {
-//					robot.wrist.wall();
-//					robot.arm.armToTicks(Arm.WALL_TICKS);
-				}),
-				new SleepAction(0.5),
+//				new SleepAction(0.5),
 				forward.build(),
 				new SleepAction(0.5),
 				forward2.build(),
 				new SleepAction(0.5),
 				new InstantAction(() -> {
-//					robot.claw.close();
+					// robot.claw.close();
 				}),
 				new SleepAction(0.3),
 				new InstantAction(() -> {
-//					robot.arm.armToTicks(100);
+					// robot.arm.armToTicks(100);
 				}),
-				new SleepAction(0.3),
+//				new SleepAction(0.3),
 				backAgain.build(),
 				new InstantAction(() -> {
-//					robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
-//					robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
+					// robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
+					// robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 				}),
 				scoreSpecimen2.build(),
 				new InstantAction(() -> {
-//					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
-//					robot.wrist.bringdown();
+					// robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
+					// robot.wrist.bringdown();
 				}),
 				specimenPlace2.build(),
 				new InstantAction(() -> {
-//					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
-//					robot.wrist.high_rung();
+					// robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
+					// robot.wrist.high_rung();
 				}),
-				scoot.build(),
 				new InstantAction(() -> {
-//					robot.claw.open();
+					// robot.claw.open();
 				}),
-
 				park.build(),
 				new InstantAction(() -> {
-//					robot.wrist.wall();
-//					robot.arm.armToTicks(Arm.WALL_TICKS);
-				}), new SleepAction(0.5)));
-
+					// robot.wrist.wall();
+					// robot.arm.armToTicks(Arm.WALL_TICKS);
+				}), new SleepAction(0.5)
+		));
 
 //		myBot.runAction(specimenPlace.build());
 //		myBot.runAction(backOut.build());

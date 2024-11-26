@@ -66,10 +66,13 @@ public class CloseAuto2 extends LinearOpMode
 
 
 		TrajectoryActionBuilder pushSample = scoot.fresh()
-				.strafeToLinearHeading(new Vector2d(36,-35), Math.toRadians(0))
-				.strafeTo(new Vector2d(36,-13)) // off to the side
+				.strafeToLinearHeading(new Vector2d(30,-38), Math.toRadians(0)) // 1st sample
+				.splineToConstantHeading(new Vector2d(40,-13), Math.toRadians(0))
+//				.splineToConstantHeading(new Vector2d(46,-13), Math.toRadians(-90))
+//				.splineToConstantHeading(new Vector2d(46,-58), Math.toRadians(90))
+//				.splineToConstantHeading(new Vector2d(46,-50), Math.toRadians(90))
 
-
+//				.strafeTo(new Vector2d(36,-13)) // off to the side
 				.strafeTo(new Vector2d(46,-13)) // 1st initial
 				.strafeTo(new Vector2d(46,-58)) // 1st in
 				.strafeTo(new Vector2d(46,-50)) // back out
@@ -104,7 +107,7 @@ public class CloseAuto2 extends LinearOpMode
 				.endTrajectory();
 
 
-		TrajectoryActionBuilder park = scoreSpecimen2.fresh()
+		TrajectoryActionBuilder park = specimenPlace2.fresh()
 				.strafeTo(new Vector2d(34, -60))
 				.endTrajectory();
 
@@ -151,7 +154,7 @@ public class CloseAuto2 extends LinearOpMode
 				new InstantAction(() -> {
 					robot.arm.armToTicks(100);
 				}),
-				new SleepAction(0.3),
+//				new SleepAction(0.3),
 				backAgain.build(),
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
@@ -191,7 +194,7 @@ public class CloseAuto2 extends LinearOpMode
 				new InstantAction(() -> {
 					robot.arm.armToTicks(100);
 				}),
-				new SleepAction(0.3),
+//				new SleepAction(0.3),
 				backAgain.build(),
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
