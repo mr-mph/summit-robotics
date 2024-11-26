@@ -15,7 +15,7 @@ public class Arm {
     // TODO: arm needs to move before the wrist
     public static int INIT_HEIGHT = 0;
     public static int GROUND_TICKS = 185;
-    public static int WALL_TICKS = 30;
+    public static int WALL_TICKS = 40;
     public static int HIGH_RUNG_TICKS = 750; // -> 1000 to place (was 1380)
     public static int HIGH_RUNG_BRINGDOWN_TICKS = 500;
     public static int HIGH_RUNG_BRINGUP_TICKS = (int) 650;
@@ -43,7 +43,7 @@ public class Arm {
         armMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        armMotor.setTargetPositionTolerance(10);
+        armMotor.setTargetPositionTolerance(5);
 
         armMotor.setPower(ARM_POSITION_SPEED/2);
         armToTicks(INIT_HEIGHT);

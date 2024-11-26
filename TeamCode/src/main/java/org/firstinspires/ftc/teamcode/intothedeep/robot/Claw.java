@@ -14,7 +14,7 @@ public class Claw {
     public static double CLAW_CLOSED_WIDE = 0.4;
 
     public static double CLAW_OPEN = 0.35;
-    public static double CLAW_CLOSED = 0.55;
+    public static double CLAW_CLOSED = 0.57;
 
     public Servo claw;
     public String clawState = "closed";

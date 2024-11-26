@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -19,7 +20,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 
 
 @Config
-@Autonomous(name = "!! Extra Specimen Auto Test ", group = "Auto")
+@Autonomous(name = "!! 3 Specimen Close Auto ", group = "! Auto")
 public class CloseAuto2 extends LinearOpMode
 
 {
@@ -43,40 +44,70 @@ public class CloseAuto2 extends LinearOpMode
 		waitForStart();
 
 		TrajectoryActionBuilder specimenPlace = drive.actionBuilder(startPose)
-				.strafeTo(new Vector2d(6, -34)); //  place on high chamber
+				.strafeTo(new Vector2d(6, -34)) //  place on high chamber
+				.endTrajectory();
 
-		TrajectoryActionBuilder specimenPlace2 = drive.actionBuilder(new Pose2d(6,-34, Math.toRadians(90)))
-				.strafeTo(new Vector2d(6, -38)); //  back up
-
-
-		TrajectoryActionBuilder backtoStart = drive.actionBuilder(new Pose2d(new Vector2d(6, -38), Math.toRadians(90)))
-				.strafeTo(new Vector2d(6,-63));
+		TrajectoryActionBuilder specimenPlace2 = specimenPlace.fresh()
+				.strafeTo(new Vector2d(6, -38)) //  back up
+				.endTrajectory();
 
 
-		TrajectoryActionBuilder pushSample = drive.actionBuilder(new Pose2d(new Vector2d(6, -38), Math.toRadians(90)))
+		TrajectoryActionBuilder scoot = specimenPlace2.fresh()
+				.strafeTo(new Vector2d(0, -38)) // scoot
+				.endTrajectory();
+
+		TrajectoryActionBuilder backUp = scoot.fresh()
+				.strafeTo(new Vector2d(6, -42)) //  back up
+				.endTrajectory();
+
+
+//		TrajectoryActionBuilder backtoStart = specimenPlace.fresh()
+//				.strafeTo(new Vector2d(6,-63));
+
+
+		TrajectoryActionBuilder pushSample = scoot.fresh()
 				.strafeToLinearHeading(new Vector2d(36,-35), Math.toRadians(0))
 				.strafeTo(new Vector2d(36,-13)) // off to the side
 
 
 				.strafeTo(new Vector2d(46,-13)) // 1st initial
 				.strafeTo(new Vector2d(46,-58)) // 1st in
-				.strafeToLinearHeading(new Vector2d(46,-50),Math.toRadians(-90)); // back out and turn
+				.strafeTo(new Vector2d(46,-50)) // back out
+				.endTrajectory();
 
-		TrajectoryActionBuilder forward = drive.actionBuilder(new Pose2d(new Vector2d(46, -50), Math.toRadians(-90)))
-				.strafeTo(new Vector2d(46,-54)); // in to grab sample
+		TrajectoryActionBuilder pushSample2 = pushSample.fresh()
+				.turnTo(Math.toRadians(-90))
+				.endTrajectory();
 
-		TrajectoryActionBuilder forward2 = drive.actionBuilder(new Pose2d(new Vector2d(46, -54), Math.toRadians(-90)))
-				.strafeTo(new Vector2d(46,-56)); // in to grab sample
-
-		TrajectoryActionBuilder backAgain = drive.actionBuilder(new Pose2d(new Vector2d(46, -56), Math.toRadians(-90)))
-				.strafeTo(new Vector2d(46,-44)); // in to grab sample
-
-		TrajectoryActionBuilder scoreSpecimen2 = drive.actionBuilder(new Pose2d(new Vector2d(46, -44), Math.toRadians(-90)))
-				.strafeToLinearHeading(new Vector2d(6,-33),Math.toRadians(90)); // read to place specimen
+		TrajectoryActionBuilder moveTo3rd = backUp.fresh()
+				.strafeToLinearHeading(new Vector2d(46,-50), Math.toRadians(-90))
+				.endTrajectory();
 
 
-		TrajectoryActionBuilder park = drive.actionBuilder(new Pose2d(new Vector2d(6,-33), Math.toRadians(90)))
-				.strafeTo(new Vector2d(34, -60));
+		TrajectoryActionBuilder forward = pushSample2.fresh()
+				.strafeTo(new Vector2d(46,-54)) // in to grab sample
+				.endTrajectory();
+
+
+		TrajectoryActionBuilder forward2 = forward.fresh()
+				.strafeTo(new Vector2d(46,-55), new TranslationalVelConstraint(5)) // in to grab sample
+				.endTrajectory();
+
+
+		TrajectoryActionBuilder backAgain = forward2.fresh()
+				.strafeTo(new Vector2d(46,-44)) // in to grab sample
+				.endTrajectory();
+
+		TrajectoryActionBuilder scoreSpecimen2 = backAgain.fresh()
+				.strafeToLinearHeading(new Vector2d(6,-40),Math.toRadians(90)) // read to place specimen
+				.strafeTo(new Vector2d(6,-33))
+				.endTrajectory();
+
+
+		TrajectoryActionBuilder park = scoreSpecimen2.fresh()
+				.strafeTo(new Vector2d(34, -60))
+				.endTrajectory();
+
 
 
 		Actions.runBlocking(new SequentialAction(
@@ -94,6 +125,9 @@ public class CloseAuto2 extends LinearOpMode
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
 					robot.wrist.high_rung();
+				}),
+				scoot.build(),
+				new InstantAction(() -> {
 					robot.claw.open();
 				}),
 				new InstantAction(() -> {
@@ -104,7 +138,8 @@ public class CloseAuto2 extends LinearOpMode
 					robot.wrist.wall();
 					robot.arm.armToTicks(Arm.WALL_TICKS);
 				}),
-				new SleepAction(1),
+				pushSample2.build(),
+//				new SleepAction(0.5),
 				forward.build(),
 				new SleepAction(0.5),
 				forward2.build(),
@@ -123,7 +158,6 @@ public class CloseAuto2 extends LinearOpMode
 					robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 				}),
 				scoreSpecimen2.build(),
-
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
 					robot.wrist.bringdown();
@@ -132,6 +166,48 @@ public class CloseAuto2 extends LinearOpMode
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
 					robot.wrist.high_rung();
+				}),
+				scoot.build(),
+				new InstantAction(() -> {
+					robot.claw.open();
+				}),
+
+
+				backUp.build(),
+				new InstantAction(() -> {
+					robot.wrist.wall();
+					robot.arm.armToTicks(Arm.WALL_TICKS);
+				}),
+				moveTo3rd.build(),
+//				new SleepAction(0.5),
+				forward.build(),
+				new SleepAction(0.5),
+				forward2.build(),
+				new SleepAction(0.5),
+				new InstantAction(() -> {
+					robot.claw.close();
+				}),
+				new SleepAction(0.3),
+				new InstantAction(() -> {
+					robot.arm.armToTicks(100);
+				}),
+				new SleepAction(0.3),
+				backAgain.build(),
+				new InstantAction(() -> {
+					robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
+					robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
+				}),
+				scoreSpecimen2.build(),
+				new InstantAction(() -> {
+					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
+					robot.wrist.bringdown();
+				}),
+				specimenPlace2.build(),
+				new InstantAction(() -> {
+					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
+					robot.wrist.high_rung();
+				}),
+				new InstantAction(() -> {
 					robot.claw.open();
 				}),
 				park.build(),
