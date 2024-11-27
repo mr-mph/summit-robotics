@@ -26,43 +26,62 @@ public class MeepMeepTesting {
 
 		DriveShim drive = myBot.getDrive();
 
-		TrajectoryActionBuilder specimenPlace = drive.actionBuilder(startPose)
+		TrajectoryActionBuilder specimenPlace_1 = drive.actionBuilder(startPose)
 				.strafeTo(new Vector2d(6, -34)) //  place on high chamber
 				.endTrajectory();
 
-		TrajectoryActionBuilder specimenPlace2 = specimenPlace.fresh()
+		TrajectoryActionBuilder specimenPlace2_1 = specimenPlace_1.fresh()
 				.strafeTo(new Vector2d(6, -38)) //  back up
 				.endTrajectory();
 
 
-		TrajectoryActionBuilder scoot = specimenPlace2.fresh()
-				.strafeTo(new Vector2d(0, -38)) // scoot
-				.endTrajectory();
 
-		TrajectoryActionBuilder backUp = scoot.fresh()
-				.strafeTo(new Vector2d(6, -42)) //  back up
-				.endTrajectory();
-
+//		TrajectoryActionBuilder scoot = specimenPlace2.fresh()
+//				.strafeTo(new Vector2d(0, -38)) // scoot
+//				.endTrajectory();
 
 //		TrajectoryActionBuilder backtoStart = specimenPlace.fresh()
 //				.strafeTo(new Vector2d(6,-63));
 
 
-		TrajectoryActionBuilder pushSample = scoot.fresh()
-				.strafeToLinearHeading(new Vector2d(30,-38), Math.toRadians(0)) // 1st sample
-				.splineToConstantHeading(new Vector2d(40,-13), Math.toRadians(0))
+		TrajectoryActionBuilder pushSample = specimenPlace2_1.fresh()
+				.strafeToLinearHeading(new Vector2d(36,-38), Math.toRadians(0)) // 1st sample
+//				.setTangent(Math.toRadians(0))
+//				.splineToConstantHeading(new Vector2d(36,-13), Math.toRadians(90))
 //				.splineToConstantHeading(new Vector2d(46,-13), Math.toRadians(-90))
-//				.splineToConstantHeading(new Vector2d(46,-58), Math.toRadians(90))
+//				.splineToConstantHeading(new Vector2d(46,-54), Math.toRadians(90))
 //				.splineToConstantHeading(new Vector2d(46,-50), Math.toRadians(90))
 
-//				.strafeTo(new Vector2d(36,-13)) // off to the side
+				.strafeTo(new Vector2d(36,-13)) // off to the side
 				.strafeTo(new Vector2d(46,-13)) // 1st initial
 				.strafeTo(new Vector2d(46,-58)) // 1st in
-				.strafeTo(new Vector2d(46,-50)) // back out
+				.strafeToLinearHeading(new Vector2d(46,-50), Math.toRadians(-90)) // back out
 				.endTrajectory();
 
 		TrajectoryActionBuilder pushSample2 = pushSample.fresh()
-				.turnTo(Math.toRadians(-90))
+//				.turnTo(Math.toRadians(-90))
+				.endTrajectory();
+
+
+		TrajectoryActionBuilder forward = pushSample2.fresh()
+				.strafeTo(new Vector2d(46,-54), new TranslationalVelConstraint(5)) // in to grab sample
+				.endTrajectory();
+
+		TrajectoryActionBuilder backAgain = forward.fresh()
+				.strafeTo(new Vector2d(46,-44)) // in to grab sample
+				.endTrajectory();
+
+		TrajectoryActionBuilder scoreSpecimen2 = backAgain.fresh()
+				.strafeToLinearHeading(new Vector2d(6,-40),Math.toRadians(90)) // read to place specimen
+				.strafeTo(new Vector2d(4,-32))
+				.endTrajectory();
+
+		TrajectoryActionBuilder specimenPlace2_2 = scoreSpecimen2.fresh()
+				.strafeTo(new Vector2d(4, -38)) //  back up
+				.endTrajectory();
+
+		TrajectoryActionBuilder backUp = specimenPlace2_2.fresh()
+				.strafeTo(new Vector2d(4, -42)) //  back up
 				.endTrajectory();
 
 		TrajectoryActionBuilder moveTo3rd = backUp.fresh()
@@ -70,138 +89,137 @@ public class MeepMeepTesting {
 				.endTrajectory();
 
 
-		TrajectoryActionBuilder forward = pushSample2.fresh()
-				.strafeTo(new Vector2d(46,-54)) // in to grab sample
-				.endTrajectory();
-
-
-		TrajectoryActionBuilder forward2 = forward.fresh()
-				.strafeTo(new Vector2d(46,-55), new TranslationalVelConstraint(5)) // in to grab sample
-				.endTrajectory();
-
-
-		TrajectoryActionBuilder backAgain = forward2.fresh()
-				.strafeTo(new Vector2d(46,-44)) // in to grab sample
-				.endTrajectory();
-
-		TrajectoryActionBuilder scoreSpecimen2 = backAgain.fresh()
+		TrajectoryActionBuilder scoreSpecimen3 = backAgain.fresh()
 				.strafeToLinearHeading(new Vector2d(6,-40),Math.toRadians(90)) // read to place specimen
-				.strafeTo(new Vector2d(6,-33))
+				.strafeTo(new Vector2d(2,-32))
 				.endTrajectory();
 
 
-		TrajectoryActionBuilder park = specimenPlace2.fresh()
+		TrajectoryActionBuilder specimenPlace2_3 = scoreSpecimen3.fresh()
+				.strafeTo(new Vector2d(2, -38)) //  back up
+				.endTrajectory();
+
+
+		TrajectoryActionBuilder park = specimenPlace2_3.fresh()
 				.strafeTo(new Vector2d(34, -60))
 				.endTrajectory();
 
 
 
+
 		myBot.runAction(new SequentialAction(
 				new InstantAction(() -> {
-					// robot.arm.armMotor.setPower(0.6);
-					// robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
-					// robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
+					//arm.armMotor.setPower(0.6);
+					//arm.armToTicks(Arm.HIGH_RUNG_TICKS);
+					//wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 				}),
-				specimenPlace.build(),
+				specimenPlace_1.build(),
 				new InstantAction(() -> {
-					// robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
-					// robot.wrist.bringdown();
+					//arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
+					//wrist.bringdown();
 				}),
-				specimenPlace2.build(),
+				specimenPlace2_1.build(),
 				new InstantAction(() -> {
-					// robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
-					// robot.wrist.high_rung();
-				}),
-				scoot.build(),
-				new InstantAction(() -> {
-					// robot.claw.open();
+					//arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
+					//wrist.high_rung();
 				}),
 				new InstantAction(() -> {
-					// robot.arm.armToTicks(Arm.BASKET_TICKS);
+					//claw.open();
+				}),
+				new InstantAction(() -> {
+					//arm.armToTicks(Arm.BASKET_TICKS);
 				}),
 				pushSample.build(),
 				new InstantAction(() -> {
-					// robot.wrist.wall();
-					// robot.arm.armToTicks(Arm.WALL_TICKS);
+					//wrist.wall();
+					//arm.armToTicks(Arm.WALL_TICKS);
 				}),
 				pushSample2.build(),
 //				new SleepAction(0.5),
 				forward.build(),
 				new SleepAction(0.5),
-				forward2.build(),
-				new SleepAction(0.5),
 				new InstantAction(() -> {
-					// robot.claw.close();
+					//claw.close();
 				}),
 				new SleepAction(0.3),
 				new InstantAction(() -> {
-					// robot.arm.armToTicks(100);
+					//arm.armToTicks(100);
 				}),
 //				new SleepAction(0.3),
 				backAgain.build(),
 				new InstantAction(() -> {
-					// robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
-					// robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
+					//arm.armToTicks(Arm.HIGH_RUNG_TICKS);
+					//wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 				}),
 				scoreSpecimen2.build(),
 				new InstantAction(() -> {
-					// robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
-					// robot.wrist.bringdown();
+					//arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
+					//wrist.bringdown();
 				}),
-				specimenPlace2.build(),
+				specimenPlace2_2.build(),
 				new InstantAction(() -> {
-					// robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
-					// robot.wrist.high_rung();
+					//arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
+					//wrist.high_rung();
 				}),
-				scoot.build(),
 				new InstantAction(() -> {
-					// robot.claw.open();
+					//claw.open();
 				}),
 
 
 				backUp.build(),
 				new InstantAction(() -> {
-					// robot.wrist.wall();
-					// robot.arm.armToTicks(Arm.WALL_TICKS);
+					//wrist.wall();
+					//arm.armToTicks(Arm.WALL_TICKS);
 				}),
 				moveTo3rd.build(),
 //				new SleepAction(0.5),
 				forward.build(),
 				new SleepAction(0.5),
-				forward2.build(),
-				new SleepAction(0.5),
 				new InstantAction(() -> {
-					// robot.claw.close();
+					//claw.close();
 				}),
 				new SleepAction(0.3),
 				new InstantAction(() -> {
-					// robot.arm.armToTicks(100);
+					//arm.armToTicks(100);
 				}),
 //				new SleepAction(0.3),
 				backAgain.build(),
 				new InstantAction(() -> {
-					// robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
-					// robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
+					//arm.armToTicks(Arm.HIGH_RUNG_TICKS);
+					//wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 				}),
-				scoreSpecimen2.build(),
+				scoreSpecimen3.build(),
 				new InstantAction(() -> {
-					// robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
-					// robot.wrist.bringdown();
+					//arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
+					//wrist.bringdown();
 				}),
-				specimenPlace2.build(),
+				specimenPlace2_3.build(),
 				new InstantAction(() -> {
-					// robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
-					// robot.wrist.high_rung();
+					//arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
+					//wrist.high_rung();
 				}),
 				new InstantAction(() -> {
-					// robot.claw.open();
+					//claw.open();
 				}),
 				park.build(),
 				new InstantAction(() -> {
-					// robot.wrist.wall();
-					// robot.arm.armToTicks(Arm.WALL_TICKS);
+					//wrist.wall();
+					//arm.armToTicks(Arm.WALL_TICKS);
 				}), new SleepAction(0.5)
 		));
+
+//		TrajectoryActionBuilder square = drive.actionBuilder(new Pose2d(0,0, Math.toRadians(90)))
+//				.setTangent(90)
+//				.splineToLinearHeading(new Pose2d(0, 24, Math.toRadians(90)), Math.toRadians(0), new TranslationalVelConstraint(20))
+//				.splineToLinearHeading(new Pose2d(24, 24, Math.toRadians(90)), Math.toRadians(-90), new TranslationalVelConstraint(20))
+//				.splineToLinearHeading(new Pose2d(24, 0, Math.toRadians(90)), Math.toRadians(-180), new TranslationalVelConstraint(20))
+//				.splineToLinearHeading(new Pose2d(0, 0, Math.toRadians(90)), Math.toRadians(-270), new TranslationalVelConstraint(20))
+//
+////				.endTrajectory();
+//
+//
+//		myBot.runAction(square.build());
+
 
 //		myBot.runAction(specimenPlace.build());
 //		myBot.runAction(backOut.build());

@@ -43,72 +43,87 @@ public class CloseAuto2 extends LinearOpMode
 
 		waitForStart();
 
-		TrajectoryActionBuilder specimenPlace = drive.actionBuilder(startPose)
-				.strafeTo(new Vector2d(6, -34)) //  place on high chamber
+		TrajectoryActionBuilder specimenPlace_1 = drive.actionBuilder(startPose)
+				.strafeTo(new Vector2d(10, -34)) //  place on high chamber
 				.endTrajectory();
 
-		TrajectoryActionBuilder specimenPlace2 = specimenPlace.fresh()
-				.strafeTo(new Vector2d(6, -38)) //  back up
+		TrajectoryActionBuilder specimenPlace2_1 = specimenPlace_1.fresh()
+				.strafeTo(new Vector2d(10, -38)) //  back up
 				.endTrajectory();
 
 
-		TrajectoryActionBuilder scoot = specimenPlace2.fresh()
-				.strafeTo(new Vector2d(0, -38)) // scoot
-				.endTrajectory();
 
-		TrajectoryActionBuilder backUp = scoot.fresh()
-				.strafeTo(new Vector2d(6, -42)) //  back up
-				.endTrajectory();
-
+//		TrajectoryActionBuilder scoot = specimenPlace2.fresh()
+//				.strafeTo(new Vector2d(0, -38)) // scoot
+//				.endTrajectory();
 
 //		TrajectoryActionBuilder backtoStart = specimenPlace.fresh()
 //				.strafeTo(new Vector2d(6,-63));
 
 
-		TrajectoryActionBuilder pushSample = scoot.fresh()
-				.strafeToLinearHeading(new Vector2d(30,-38), Math.toRadians(0)) // 1st sample
-				.splineToConstantHeading(new Vector2d(40,-13), Math.toRadians(0))
+		TrajectoryActionBuilder pushSample = specimenPlace2_1.fresh()
+				.strafeToLinearHeading(new Vector2d(36,-38), Math.toRadians(0)) // 1st sample
+//				.setTangent(Math.toRadians(0))
+//				.splineToConstantHeading(new Vector2d(36,-13), Math.toRadians(90))
 //				.splineToConstantHeading(new Vector2d(46,-13), Math.toRadians(-90))
-//				.splineToConstantHeading(new Vector2d(46,-58), Math.toRadians(90))
+//				.splineToConstantHeading(new Vector2d(46,-54), Math.toRadians(90))
 //				.splineToConstantHeading(new Vector2d(46,-50), Math.toRadians(90))
 
-//				.strafeTo(new Vector2d(36,-13)) // off to the side
+				.strafeTo(new Vector2d(36,-13)) // off to the side
 				.strafeTo(new Vector2d(46,-13)) // 1st initial
 				.strafeTo(new Vector2d(46,-58)) // 1st in
-				.strafeTo(new Vector2d(46,-50)) // back out
+				.strafeTo(new Vector2d(46,-57.5))
+				.strafeToLinearHeading(new Vector2d(46,-48), Math.toRadians(-90)) // back out (was -50)
 				.endTrajectory();
 
 		TrajectoryActionBuilder pushSample2 = pushSample.fresh()
-				.turnTo(Math.toRadians(-90))
-				.endTrajectory();
-
-		TrajectoryActionBuilder moveTo3rd = backUp.fresh()
-				.strafeToLinearHeading(new Vector2d(46,-50), Math.toRadians(-90))
+//				.turnTo(Math.toRadians(-90))
 				.endTrajectory();
 
 
 		TrajectoryActionBuilder forward = pushSample2.fresh()
-				.strafeTo(new Vector2d(46,-54)) // in to grab sample
-				.endTrajectory();
+				.strafeTo(new Vector2d(46,-53.5), new TranslationalVelConstraint(5)) // in to grab sample
+				.endTrajectory(); // should be -54
 
+		TrajectoryActionBuilder forward_2 = pushSample2.fresh()
+				.strafeTo(new Vector2d(46,-51.5), new TranslationalVelConstraint(5)) // in to grab sample
+				.endTrajectory(); // should be -54
 
-		TrajectoryActionBuilder forward2 = forward.fresh()
-				.strafeTo(new Vector2d(46,-55), new TranslationalVelConstraint(5)) // in to grab sample
-				.endTrajectory();
-
-
-		TrajectoryActionBuilder backAgain = forward2.fresh()
+		TrajectoryActionBuilder backAgain = forward.fresh()
 				.strafeTo(new Vector2d(46,-44)) // in to grab sample
 				.endTrajectory();
 
 		TrajectoryActionBuilder scoreSpecimen2 = backAgain.fresh()
 				.strafeToLinearHeading(new Vector2d(6,-40),Math.toRadians(90)) // read to place specimen
-				.strafeTo(new Vector2d(6,-33))
+				.strafeTo(new Vector2d(6,-30.5)) // should be -34
+				.endTrajectory();
+
+		TrajectoryActionBuilder specimenPlace2_2 = scoreSpecimen2.fresh()
+				.strafeTo(new Vector2d(6, -38)) //  back up
+				.endTrajectory();
+
+		TrajectoryActionBuilder backUp = specimenPlace2_2.fresh()
+				.strafeTo(new Vector2d(6, -42)) //  back up
+				.endTrajectory();
+
+		TrajectoryActionBuilder moveTo3rd = backUp.fresh()
+				.strafeToLinearHeading(new Vector2d(46,-48), Math.toRadians(-90)) // was -50
 				.endTrajectory();
 
 
-		TrajectoryActionBuilder park = specimenPlace2.fresh()
-				.strafeTo(new Vector2d(34, -60))
+		TrajectoryActionBuilder scoreSpecimen3 = backAgain.fresh()
+				.strafeToLinearHeading(new Vector2d(6,-40),Math.toRadians(90)) // read to place specimen
+				.strafeTo(new Vector2d(2,-28.5)) // should be -34
+				.endTrajectory();
+
+
+		TrajectoryActionBuilder specimenPlace2_3 = scoreSpecimen3.fresh()
+				.strafeTo(new Vector2d(2, -38)) //  back up
+				.endTrajectory();
+
+
+		TrajectoryActionBuilder park = specimenPlace2_3.fresh()
+				.strafeTo(new Vector2d(34, -56)) // should be up to -63? weird
 				.endTrajectory();
 
 
@@ -119,17 +134,16 @@ public class CloseAuto2 extends LinearOpMode
 					robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
 					robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 				}),
-				specimenPlace.build(),
+				specimenPlace_1.build(),
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
 					robot.wrist.bringdown();
 				}),
-				specimenPlace2.build(),
+				specimenPlace2_1.build(),
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
 					robot.wrist.high_rung();
 				}),
-				scoot.build(),
 				new InstantAction(() -> {
 					robot.claw.open();
 				}),
@@ -141,20 +155,18 @@ public class CloseAuto2 extends LinearOpMode
 					robot.wrist.wall();
 					robot.arm.armToTicks(Arm.WALL_TICKS);
 				}),
-				pushSample2.build(),
-//				new SleepAction(0.5),
+//				pushSample2.build(),
+				new SleepAction(0.3),
 				forward.build(),
-				new SleepAction(0.5),
-				forward2.build(),
 				new SleepAction(0.5),
 				new InstantAction(() -> {
 					robot.claw.close();
 				}),
 				new SleepAction(0.3),
 				new InstantAction(() -> {
-					robot.arm.armToTicks(100);
+					robot.arm.armToTicks(300);
 				}),
-//				new SleepAction(0.3),
+				new SleepAction(0.3),
 				backAgain.build(),
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
@@ -165,12 +177,11 @@ public class CloseAuto2 extends LinearOpMode
 					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
 					robot.wrist.bringdown();
 				}),
-				specimenPlace2.build(),
+				specimenPlace2_2.build(),
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
 					robot.wrist.high_rung();
 				}),
-				scoot.build(),
 				new InstantAction(() -> {
 					robot.claw.open();
 				}),
@@ -183,29 +194,27 @@ public class CloseAuto2 extends LinearOpMode
 				}),
 				moveTo3rd.build(),
 //				new SleepAction(0.5),
-				forward.build(),
-				new SleepAction(0.5),
-				forward2.build(),
+				forward_2.build(),
 				new SleepAction(0.5),
 				new InstantAction(() -> {
 					robot.claw.close();
 				}),
 				new SleepAction(0.3),
 				new InstantAction(() -> {
-					robot.arm.armToTicks(100);
+					robot.arm.armToTicks(300);
 				}),
-//				new SleepAction(0.3),
+				new SleepAction(0.3),
 				backAgain.build(),
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
 					robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 				}),
-				scoreSpecimen2.build(),
+				scoreSpecimen3.build(),
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGDOWN_TICKS);
 					robot.wrist.bringdown();
 				}),
-				specimenPlace2.build(),
+				specimenPlace2_3.build(),
 				new InstantAction(() -> {
 					robot.arm.armToTicks(Arm.HIGH_RUNG_BRINGUP_TICKS);
 					robot.wrist.high_rung();
@@ -213,6 +222,7 @@ public class CloseAuto2 extends LinearOpMode
 				new InstantAction(() -> {
 					robot.claw.open();
 				}),
+				new SleepAction(0.2),
 				park.build(),
 				new InstantAction(() -> {
 					robot.wrist.wall();

@@ -69,8 +69,8 @@ import static com.qualcomm.hardware.rev.RevHubOrientationOnRobot.xyzOrientation;
  *
  * Finally, edit this OpMode to use at least one angle around an axis to orient your Hub.
  */
-@TeleOp(name = "Sensor: IMU Non-Orthogonal", group = "Sensor")
-//@Disabled     // Comment this out to add to the OpMode list
+@TeleOp(name = "Sensor: IMU Non-Orthogonal (preset)", group = "Sensor")
+@Disabled     // Comment this out to add to the OpMode list
 public class SensorIMUNonOrthogonal extends LinearOpMode
 {
     // The IMU sensor object

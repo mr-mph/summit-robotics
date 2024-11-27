@@ -67,11 +67,11 @@ public final class MecanumDrive {
         // drive model parameters
         public double inPerTick = 0.002;
         public double lateralInPerTick = 0.0015370147880721437;
-        public double trackWidthTicks = 5387.612519892385;
+        public double trackWidthTicks = 5516.724558941377;
 
         // feedforward parameters (in tick units)
-        public double kS = 0.7928580870853597; // kV: 0.00038440695745944116, kS: 0.7928580870853597
-        public double kV = 0.00038440695745944116;
+        public double kS = 0.8806157332478985; // orig kV: 0.00038440695745944116, kS: 0.7928580870853597
+        public double kV = 0.00037683108781650087;
         public double kA = 0.000045;
 
         // path profile parameters (in inches)
@@ -84,9 +84,9 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 8;
-        public double lateralGain = 10;
-        public double headingGain = 4; // shared with turn
+        public double axialGain = 10;
+        public double lateralGain = 12;
+        public double headingGain = 6; // shared with turn
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
@@ -237,7 +237,7 @@ public final class MecanumDrive {
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-        lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(xyzOrientation(106.22, 23.8, 0)));
+        lazyImu = new LazyImu(hardwareMap, "ehubimu", new RevHubOrientationOnRobot(xyzOrientation(105.89, 22, 0)));
 
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
