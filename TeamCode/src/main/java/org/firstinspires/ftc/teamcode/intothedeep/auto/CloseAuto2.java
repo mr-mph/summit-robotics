@@ -62,18 +62,19 @@ public class CloseAuto2 extends LinearOpMode
 
 
 		TrajectoryActionBuilder pushSample = specimenPlace2_1.fresh()
-				.strafeToLinearHeading(new Vector2d(36,-38), Math.toRadians(0)) // 1st sample
+//				.strafeToLinearHeading(new Vector2d(28,-38), Math.toRadians(-90)) // 1st sample
 //				.setTangent(Math.toRadians(0))
 //				.splineToConstantHeading(new Vector2d(36,-13), Math.toRadians(90))
 //				.splineToConstantHeading(new Vector2d(46,-13), Math.toRadians(-90))
 //				.splineToConstantHeading(new Vector2d(46,-54), Math.toRadians(90))
-//				.splineToConstantHeading(new Vector2d(46,-50), Math.toRadians(90))
 
+
+				.strafeToLinearHeading(new Vector2d(36,-38), Math.toRadians(0)) // 1st sample
 				.strafeTo(new Vector2d(36,-13)) // off to the side
 				.strafeTo(new Vector2d(46,-13)) // 1st initial
 				.strafeTo(new Vector2d(46,-58)) // 1st in
-				.strafeTo(new Vector2d(46,-57.5))
-				.strafeToLinearHeading(new Vector2d(46,-48), Math.toRadians(-90)) // back out (was -50)
+				.strafeTo(new Vector2d(46,-56)) // back out
+				.strafeToLinearHeading(new Vector2d(46,-50), Math.toRadians(-90)) // back out
 				.endTrajectory();
 
 		TrajectoryActionBuilder pushSample2 = pushSample.fresh()
@@ -82,11 +83,11 @@ public class CloseAuto2 extends LinearOpMode
 
 
 		TrajectoryActionBuilder forward = pushSample2.fresh()
-				.strafeTo(new Vector2d(46,-53.5), new TranslationalVelConstraint(5)) // in to grab sample
+				.strafeTo(new Vector2d(46,-54.5), new TranslationalVelConstraint(5)) // in to grab sample
 				.endTrajectory(); // should be -54
 
 		TrajectoryActionBuilder forward_2 = pushSample2.fresh()
-				.strafeTo(new Vector2d(46,-51.5), new TranslationalVelConstraint(5)) // in to grab sample
+				.strafeTo(new Vector2d(46,-52.5), new TranslationalVelConstraint(5)) // in to grab sample
 				.endTrajectory(); // should be -54
 
 		TrajectoryActionBuilder backAgain = forward.fresh()
@@ -95,7 +96,7 @@ public class CloseAuto2 extends LinearOpMode
 
 		TrajectoryActionBuilder scoreSpecimen2 = backAgain.fresh()
 				.strafeToLinearHeading(new Vector2d(6,-40),Math.toRadians(90)) // read to place specimen
-				.strafeTo(new Vector2d(6,-30.5)) // should be -34
+				.strafeTo(new Vector2d(6,-31)) // should be -34
 				.endTrajectory();
 
 		TrajectoryActionBuilder specimenPlace2_2 = scoreSpecimen2.fresh()
@@ -113,7 +114,7 @@ public class CloseAuto2 extends LinearOpMode
 
 		TrajectoryActionBuilder scoreSpecimen3 = backAgain.fresh()
 				.strafeToLinearHeading(new Vector2d(6,-40),Math.toRadians(90)) // read to place specimen
-				.strafeTo(new Vector2d(2,-28.5)) // should be -34
+				.strafeTo(new Vector2d(2,-29)) // should be -34
 				.endTrajectory();
 
 
@@ -123,7 +124,7 @@ public class CloseAuto2 extends LinearOpMode
 
 
 		TrajectoryActionBuilder park = specimenPlace2_3.fresh()
-				.strafeTo(new Vector2d(34, -56)) // should be up to -63? weird
+				.strafeTo(new Vector2d(34, -60)) // should be up to -63? weird
 				.endTrajectory();
 
 

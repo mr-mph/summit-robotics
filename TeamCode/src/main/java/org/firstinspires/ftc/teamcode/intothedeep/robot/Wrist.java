@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 @Config
 public class Wrist {
     public static double WRIST_GROUND = -0.4;
-    public static double WRIST_WALL = 0.33; // -0.05 (old) -> -0.1
+    public static double WRIST_WALL = 0.3; // -0.05 (old) -> -0.1
     public static double WRIST_HIGH_RUNG = -0.1;
     public static double WRIST_HIGH_BRINGDOWN = -0.1;
 
