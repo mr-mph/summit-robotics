@@ -44,8 +44,8 @@ public class CloseAuto2 extends LinearOpMode
 		waitForStart();
 
 		TrajectoryActionBuilder specimenPlace_1 = drive.actionBuilder(startPose)
-				.strafeTo(new Vector2d(10, -34)) //  place on high chamber
-				.endTrajectory();
+				.strafeTo(new Vector2d(10, -33.5)) //  place on high chamber
+				.endTrajectory(); // should be -34
 
 		TrajectoryActionBuilder specimenPlace2_1 = specimenPlace_1.fresh()
 				.strafeTo(new Vector2d(10, -38)) //  back up
@@ -87,7 +87,7 @@ public class CloseAuto2 extends LinearOpMode
 				.endTrajectory(); // should be -54
 
 		TrajectoryActionBuilder forward_2 = pushSample2.fresh()
-				.strafeTo(new Vector2d(46,-52.25), new TranslationalVelConstraint(5)) // in to grab sample
+				.strafeTo(new Vector2d(46,-52.5), new TranslationalVelConstraint(5)) // in to grab sample
 				.endTrajectory(); // should be -54
 
 		TrajectoryActionBuilder backAgain = forward.fresh()
