@@ -83,7 +83,7 @@ public class CloseAuto2 extends LinearOpMode
 
 
 		TrajectoryActionBuilder forward = pushSample2.fresh()
-				.strafeTo(new Vector2d(46,-54.5), new TranslationalVelConstraint(5)) // in to grab sample
+				.strafeTo(new Vector2d(46,-54.75), new TranslationalVelConstraint(5)) // in to grab sample
 				.endTrajectory(); // should be -54
 
 		TrajectoryActionBuilder forward_2 = pushSample2.fresh()
@@ -96,7 +96,7 @@ public class CloseAuto2 extends LinearOpMode
 
 		TrajectoryActionBuilder scoreSpecimen2 = backAgain.fresh()
 				.strafeToLinearHeading(new Vector2d(6,-40),Math.toRadians(90)) // read to place specimen
-				.strafeTo(new Vector2d(6,-30.5)) // should be -34
+				.strafeTo(new Vector2d(6,-30)) // should be -34
 				.endTrajectory();
 
 		TrajectoryActionBuilder specimenPlace2_2 = scoreSpecimen2.fresh()

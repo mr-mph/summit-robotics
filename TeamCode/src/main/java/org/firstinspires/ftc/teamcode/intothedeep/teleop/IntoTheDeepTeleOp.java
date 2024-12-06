@@ -39,7 +39,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 		while (!isStopRequested()) {
             robot.drive.mecanumDrive.setDrivePowers(
                     new PoseVelocity2d(new Vector2d(
-                            (-gamepad1.left_stick_y - gamepad2.left_stick_y) * Drive.SPEED,
+                            (-gamepad1.left_stick_y - gamepad2.left_stick_y) * Drive.SPEED * 1.5,
                             (-gamepad1.left_stick_x - gamepad2.left_stick_x) * Drive.SPEED),
                             (-gamepad1.right_stick_x - gamepad2.right_stick_x) * Drive.SPEED * 1.2
                     )
