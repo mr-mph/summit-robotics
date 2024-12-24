@@ -45,16 +45,17 @@ public class MeepMeepTesting {
 
 
 		TrajectoryActionBuilder pushSample = specimenPlace2_1.fresh()
-				.strafeToLinearHeading(new Vector2d(36,-38), Math.toRadians(0)) // 1st sample
-//				.setTangent(Math.toRadians(0))
-//				.splineToConstantHeading(new Vector2d(36,-13), Math.toRadians(90))
-//				.splineToConstantHeading(new Vector2d(46,-13), Math.toRadians(-90))
-//				.splineToConstantHeading(new Vector2d(46,-54), Math.toRadians(90))
-//				.splineToConstantHeading(new Vector2d(46,-50), Math.toRadians(90))
+				.strafeToLinearHeading(new Vector2d(28,-38), Math.toRadians(-90)) // 1st sample
+				.setTangent(Math.toRadians(0))
+				.splineToConstantHeading(new Vector2d(36,-13), Math.toRadians(90))
+				.splineToConstantHeading(new Vector2d(46,-13), Math.toRadians(-90))
+				.splineToConstantHeading(new Vector2d(46,-54), Math.toRadians(90))
 
-				.strafeTo(new Vector2d(36,-13)) // off to the side
-				.strafeTo(new Vector2d(46,-13)) // 1st initial
-				.strafeTo(new Vector2d(46,-58)) // 1st in
+
+//				.strafeToLinearHeading(new Vector2d(36,-38), Math.toRadians(0)) // 1st sample
+//				.strafeTo(new Vector2d(36,-13)) // off to the side
+//				.strafeTo(new Vector2d(46,-13)) // 1st initial
+//				.strafeTo(new Vector2d(46,-58)) // 1st in
 				.strafeToLinearHeading(new Vector2d(46,-50), Math.toRadians(-90)) // back out
 				.endTrajectory();
 
@@ -215,8 +216,8 @@ public class MeepMeepTesting {
 //				.splineToLinearHeading(new Pose2d(24, 0, Math.toRadians(90)), Math.toRadians(-180), new TranslationalVelConstraint(20))
 //				.splineToLinearHeading(new Pose2d(0, 0, Math.toRadians(90)), Math.toRadians(-270), new TranslationalVelConstraint(20))
 //
-////				.endTrajectory();
-//
+//				.endTrajectory();
+////
 //
 //		myBot.runAction(square.build());
 
@@ -225,6 +226,15 @@ public class MeepMeepTesting {
 //		myBot.runAction(backOut.build());
 //		myBot.runAction(scoreSpecimen2.build());
 //		myBot.runAction(park.build());
+
+		TrajectoryActionBuilder thing = drive.actionBuilder(new Pose2d(-12,36, Math.toRadians(270)))
+				.setTangent(135)
+				.splineToConstantHeading(new Vector2d(-35, 34), Math.toRadians(270))
+				.splineToConstantHeading(new Vector2d(-36, 22), Math.toRadians(270))
+				.splineToConstantHeading(new Vector2d(-43, 17), Math.toRadians(90))
+				.splineToConstantHeading(new Vector2d(-43, 54), Math.toRadians(90));
+
+//		myBot.runAction(square.build());
 
 
 		meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_LIGHT)

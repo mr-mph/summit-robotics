@@ -79,11 +79,11 @@ public class Drive {
 
 	private void updateSpeed() {
 		if (speedState.equals("slow")) {
-			SPEED = 0.2;
+			SPEED = 0.3;
 		} else if (speedState.equals("fast")) {
 			SPEED = 0.8;
 		} else {
-			SPEED = 0.4;
+			SPEED = 0.5;
 		}
 	}
 

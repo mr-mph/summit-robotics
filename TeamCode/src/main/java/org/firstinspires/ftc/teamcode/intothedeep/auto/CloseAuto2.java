@@ -37,6 +37,8 @@ public class CloseAuto2 extends LinearOpMode
 
 		robot.claw.init();
 
+
+
 		robot.arm.init();
 		robot.wrist.init(true);
 
@@ -44,8 +46,8 @@ public class CloseAuto2 extends LinearOpMode
 		waitForStart();
 
 		TrajectoryActionBuilder specimenPlace_1 = drive.actionBuilder(startPose)
-				.strafeTo(new Vector2d(10, -33.5)) //  place on high chamber
-				.endTrajectory(); // should be -34
+				.strafeTo(new Vector2d(10, -31.25)) //  place on high chamber
+				.endTrajectory(); // should be 10, -34 used to be -33.5
 
 		TrajectoryActionBuilder specimenPlace2_1 = specimenPlace_1.fresh()
 				.strafeTo(new Vector2d(10, -38)) //  back up
@@ -83,7 +85,7 @@ public class CloseAuto2 extends LinearOpMode
 
 
 		TrajectoryActionBuilder forward = pushSample2.fresh()
-				.strafeTo(new Vector2d(46,-54.75), new TranslationalVelConstraint(5)) // in to grab sample
+				.strafeTo(new Vector2d(46,-55.25), new TranslationalVelConstraint(5)) // in to grab sample
 				.endTrajectory(); // should be -54
 
 		TrajectoryActionBuilder forward_2 = pushSample2.fresh()
@@ -96,7 +98,7 @@ public class CloseAuto2 extends LinearOpMode
 
 		TrajectoryActionBuilder scoreSpecimen2 = backAgain.fresh()
 				.strafeToLinearHeading(new Vector2d(6,-40),Math.toRadians(90)) // read to place specimen
-				.strafeTo(new Vector2d(6,-30)) // should be -34
+				.strafeTo(new Vector2d(6,-28)) // should be -34 was -30
 				.endTrajectory();
 
 		TrajectoryActionBuilder specimenPlace2_2 = scoreSpecimen2.fresh()
@@ -114,7 +116,7 @@ public class CloseAuto2 extends LinearOpMode
 
 		TrajectoryActionBuilder scoreSpecimen3 = backAgain.fresh()
 				.strafeToLinearHeading(new Vector2d(6,-40),Math.toRadians(90)) // read to place specimen
-				.strafeTo(new Vector2d(2,-28)) // should be -34
+				.strafeTo(new Vector2d(2,-25.75)) // should be -34 was 27.75
 				.endTrajectory();
 
 
@@ -154,7 +156,7 @@ public class CloseAuto2 extends LinearOpMode
 				pushSample.build(),
 				new InstantAction(() -> {
 					robot.wrist.wall();
-					robot.arm.armToTicks(Arm.WALL_TICKS);
+					robot.arm.armToTicks(Arm.WALL_TICKS+10);
 				}),
 //				pushSample2.build(),
 				new SleepAction(0.3),
@@ -191,7 +193,7 @@ public class CloseAuto2 extends LinearOpMode
 				backUp.build(),
 				new InstantAction(() -> {
 					robot.wrist.wall();
-					robot.arm.armToTicks(Arm.WALL_TICKS);
+					robot.arm.armToTicks(Arm.WALL_TICKS+10);
 				}),
 				moveTo3rd.build(),
 //				new SleepAction(0.5),
@@ -227,7 +229,7 @@ public class CloseAuto2 extends LinearOpMode
 				park.build(),
 				new InstantAction(() -> {
 					robot.wrist.wall();
-					robot.arm.armToTicks(Arm.WALL_TICKS);
+					robot.arm.armToTicks(Arm.WALL_TICKS+10 );
 				}), new SleepAction(0.5)
 		));
 

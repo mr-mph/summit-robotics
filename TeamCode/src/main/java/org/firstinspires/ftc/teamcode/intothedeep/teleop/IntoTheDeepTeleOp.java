@@ -34,6 +34,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 		robot.arm.init();
 
 		waitForStart();
+		wall();
 
 
 		while (!isStopRequested()) {
