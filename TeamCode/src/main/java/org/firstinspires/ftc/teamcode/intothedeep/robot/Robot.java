@@ -14,6 +14,8 @@ public class Robot {
 	public Wrist wrist;
 	public Drive drive;
 	public Claw claw;
+	public Extender extender;
+
 
 
 	public Robot(HardwareMap hardwareMap) {
@@ -21,6 +23,8 @@ public class Robot {
 		this.drive = new Drive(hardwareMap);
 		this.claw = new Claw(hardwareMap);
 		this.wrist = new Wrist(hardwareMap);
+		this.extender = new Extender(hardwareMap);
+
 	}
 
 	public void sendTelemetry(Telemetry telemetry) {
@@ -35,7 +39,6 @@ public class Robot {
 			telemetry.addData("wrist pos", wrist.targetPos);
 			telemetry.addData("arm ticks", arm.armMotor.getCurrentPosition());
 			telemetry.addData("arm target ticks", arm.armMotor.getTargetPosition());
-
 
 
 

@@ -28,6 +28,8 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
 		robot.drive.init(new Pose2d(6,-63, Math.toRadians(90)));
 		robot.claw.init();
+		robot.extender.init();
+
 		robot.wrist.init(true);
 
 		sleep(1000);
@@ -53,8 +55,10 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 			robot.claw.gamepadInput(gamepad1, gamepad2);
 			robot.drive.gamepadInput(gamepad1, gamepad2);
 			robot.wrist.gamepadInput(gamepad1, gamepad2);
+			robot.extender.gamepadInput(gamepad1, gamepad2);
 
-            if (gamepad1.dpad_up || gamepad2.dpad_up) {
+
+			if (gamepad1.dpad_up || gamepad2.dpad_up) {
                 high_rung();
 	            robot.drive.speedState = "normal";
             } else if (gamepad1.dpad_right || gamepad2.dpad_right) {
