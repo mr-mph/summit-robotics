@@ -57,6 +57,7 @@ public class Extender {
 		if (gamepad1.ps || gamepad2.ps) {
 			if (lowered) {
 				hook.setPosition(HOOK_INIT);
+				linkage.setPosition(LINKAGE_IN);
 				lowered = false;
 			} else {
 				hook.setPosition(HOOK_UP);

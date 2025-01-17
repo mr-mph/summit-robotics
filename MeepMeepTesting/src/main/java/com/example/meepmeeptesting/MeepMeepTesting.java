@@ -45,17 +45,18 @@ public class MeepMeepTesting {
 
 
 		TrajectoryActionBuilder pushSample = specimenPlace2_1.fresh()
-				.strafeToLinearHeading(new Vector2d(28,-38), Math.toRadians(-90)) // 1st sample
-				.setTangent(Math.toRadians(0))
-				.splineToConstantHeading(new Vector2d(36,-13), Math.toRadians(90))
-				.splineToConstantHeading(new Vector2d(46,-13), Math.toRadians(-90))
-				.splineToConstantHeading(new Vector2d(46,-54), Math.toRadians(90))
+//				.strafeToLinearHeading(new Vector2d(28,-38), Math.toRadians(-90)) // 1st sample
+//				.setTangent(Math.toRadians(0))
+//				.splineToConstantHeading(new Vector2d(36,-13), Math.toRadians(90))
+//				.splineToConstantHeading(new Vector2d(46,-13), Math.toRadians(-90))
+//				.splineToConstantHeading(new Vector2d(46,-54), Math.toRadians(90))
 
 
-//				.strafeToLinearHeading(new Vector2d(36,-38), Math.toRadians(0)) // 1st sample
-//				.strafeTo(new Vector2d(36,-13)) // off to the side
-//				.strafeTo(new Vector2d(46,-13)) // 1st initial
-//				.strafeTo(new Vector2d(46,-58)) // 1st in
+				.strafeToLinearHeading(new Vector2d(36,-38), Math.toRadians(0)) // 1st sample
+				.strafeTo(new Vector2d(36,-13)) // off to the side
+				.strafeTo(new Vector2d(46,-13)) // 1st initial
+				.strafeToLinearHeading(new Vector2d(46,-58), Math.toRadians(-60)) // 1st in
+
 				.strafeToLinearHeading(new Vector2d(46,-50), Math.toRadians(-90)) // back out
 				.endTrajectory();
 

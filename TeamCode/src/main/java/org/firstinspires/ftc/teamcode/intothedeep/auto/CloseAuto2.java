@@ -74,8 +74,8 @@ public class CloseAuto2 extends LinearOpMode
 				.strafeToLinearHeading(new Vector2d(36,-38), Math.toRadians(0)) // 1st sample
 				.strafeTo(new Vector2d(36,-13)) // off to the side
 				.strafeTo(new Vector2d(46,-13)) // 1st initial
-				.strafeTo(new Vector2d(46,-58)) // 1st in
-				.strafeTo(new Vector2d(46,-56)) // back out
+				.strafeToLinearHeading(new Vector2d(46,-58), Math.toRadians(-30)) // 1st in
+
 				.strafeToLinearHeading(new Vector2d(46,-50), Math.toRadians(-90)) // back out
 				.endTrajectory();
 
@@ -111,7 +111,7 @@ public class CloseAuto2 extends LinearOpMode
 
 		TrajectoryActionBuilder moveTo3rd = backUp.fresh()
 				.strafeToLinearHeading(new Vector2d(46,-48), Math.toRadians(-90)) // was -50
-				.endTrajectory();
+				.endTrajectory(); // maybe needs to be changed back to -50 or less?
 
 
 		TrajectoryActionBuilder scoreSpecimen3 = backAgain.fresh()
@@ -133,7 +133,7 @@ public class CloseAuto2 extends LinearOpMode
 
 		Actions.runBlocking(new SequentialAction(
 				new InstantAction(() -> {
-					robot.arm.armMotor.setPower(0.6);
+					robot.arm.armMotor.setPower(1);
 					robot.arm.armToTicks(Arm.HIGH_RUNG_TICKS);
 					robot.wrist.wrist.setPower(Wrist.WRIST_HIGH_RUNG);
 				}),

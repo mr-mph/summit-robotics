@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.intothedeep.teleop;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -13,22 +14,28 @@ import org.firstinspires.ftc.teamcode.intothedeep.robot.Wrist;
 import org.firstinspires.ftc.teamcode.intothedeep.robot.Claw;
 
 
-
+@Config
 @TeleOp(name = "!!Robot (Main TeleOp)")
 public class IntoTheDeepTeleOp extends LinearOpMode {
 
 	Robot robot;
+	public static double touchpadSensitivity = 0.5;
 
 
 	@Override
 	public void runOpMode() {
 
+		double touchpadX = 0;
+		boolean touchpadPressed = false;
+
 
 		robot = new Robot(hardwareMap);
+
 
 		robot.drive.init(new Pose2d(6,-63, Math.toRadians(90)));
 		robot.claw.init();
 		robot.extender.init();
+
 
 		robot.wrist.init(true);
 
@@ -40,13 +47,31 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
 
 		while (!isStopRequested()) {
+
+			double angVel = -gamepad1.right_stick_x - gamepad2.right_stick_x;
+
+
+			if (gamepad1.touchpad_finger_1) {
+				if (!touchpadPressed) touchpadX = gamepad1.touchpad_finger_1_x;
+				touchpadPressed = true;
+				angVel += (touchpadX-gamepad1.touchpad_finger_1_x) * touchpadSensitivity;
+			} else if (gamepad2.touchpad_finger_1) {
+				if (!touchpadPressed) touchpadX = gamepad2.touchpad_finger_1_x;
+				touchpadPressed = true;
+				angVel += (touchpadX-gamepad2.touchpad_finger_1_x) * touchpadSensitivity;
+			} else {
+				touchpadPressed = false;
+			}
+
             robot.drive.mecanumDrive.setDrivePowers(
                     new PoseVelocity2d(new Vector2d(
-                            (-gamepad1.left_stick_y - gamepad2.left_stick_y) * Drive.SPEED * 1.5,
-                            (-gamepad1.left_stick_x - gamepad2.left_stick_x) * Drive.SPEED),
-                            (-gamepad1.right_stick_x - gamepad2.right_stick_x) * Drive.SPEED * 1.2
+                            (-gamepad1.left_stick_y - gamepad2.left_stick_y) * Drive.SPEED,
+                            (-gamepad1.left_stick_x - gamepad2.left_stick_x) * Drive.SPEED * 1.3),
+                            (angVel) * Drive.SPEED * 1.2
                     )
             );
+
+
 			robot.drive.mecanumDrive.updatePoseEstimate();
 
 
