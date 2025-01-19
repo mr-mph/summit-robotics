@@ -37,8 +37,6 @@ public class CloseAuto2 extends LinearOpMode
 
 		robot.claw.init();
 
-
-
 		robot.arm.init();
 		robot.wrist.init(true);
 
@@ -46,11 +44,11 @@ public class CloseAuto2 extends LinearOpMode
 		waitForStart();
 
 		TrajectoryActionBuilder specimenPlace_1 = drive.actionBuilder(startPose)
-				.strafeTo(new Vector2d(10, -31.25)) //  place on high chamber
+				.strafeTo(new Vector2d(6, -29)) //  place on high chamber
 				.endTrajectory(); // should be 10, -34 used to be -33.5
 
 		TrajectoryActionBuilder specimenPlace2_1 = specimenPlace_1.fresh()
-				.strafeTo(new Vector2d(10, -38)) //  back up
+				.strafeTo(new Vector2d(9, -38)) //  back up
 				.endTrajectory();
 
 
@@ -85,24 +83,27 @@ public class CloseAuto2 extends LinearOpMode
 
 
 		TrajectoryActionBuilder forward = pushSample2.fresh()
-				.strafeTo(new Vector2d(46,-55.25), new TranslationalVelConstraint(5)) // in to grab sample
+				.strafeTo(new Vector2d(46,-57), new TranslationalVelConstraint(5)) // in to grab sample
 				.endTrajectory(); // should be -54
 
 		TrajectoryActionBuilder forward_2 = pushSample2.fresh()
-				.strafeTo(new Vector2d(46,-52.5), new TranslationalVelConstraint(5)) // in to grab sample
-				.endTrajectory(); // should be -54
+				.strafeTo(new Vector2d(46,-57.5)) // in to grab sample
+				.endTrajectory(); // should be -54 (was -52.5)
 
 		TrajectoryActionBuilder backAgain = forward.fresh()
-				.strafeTo(new Vector2d(46,-44)) // in to grab sample
+				.strafeTo(new Vector2d(46,-52)) // in to grab sample
 				.endTrajectory();
 
 		TrajectoryActionBuilder scoreSpecimen2 = backAgain.fresh()
-				.strafeToLinearHeading(new Vector2d(6,-40),Math.toRadians(90)) // read to place specimen
-				.strafeTo(new Vector2d(6,-28)) // should be -34 was -30
+				.strafeToLinearHeading(new Vector2d(3,-40),Math.toRadians(90)) // ready to place specimen
+				.strafeTo(new Vector2d(3,-28)) // should be -34 was -30
+
+//				.strafeToLinearHeading(new Vector2d(6,-28),Math.toRadians(90)) // ready to place specimen
+
 				.endTrajectory();
 
 		TrajectoryActionBuilder specimenPlace2_2 = scoreSpecimen2.fresh()
-				.strafeTo(new Vector2d(6, -38)) //  back up
+				.strafeTo(new Vector2d(3, -38)) //  back up
 				.endTrajectory();
 
 		TrajectoryActionBuilder backUp = specimenPlace2_2.fresh()
@@ -115,13 +116,15 @@ public class CloseAuto2 extends LinearOpMode
 
 
 		TrajectoryActionBuilder scoreSpecimen3 = backAgain.fresh()
-				.strafeToLinearHeading(new Vector2d(6,-40),Math.toRadians(90)) // read to place specimen
-				.strafeTo(new Vector2d(2,-25.75)) // should be -34 was 27.75
+				.strafeToLinearHeading(new Vector2d(1,-40),Math.toRadians(90)) // read to place specimen
+				.strafeTo(new Vector2d(1,-26.5)) // should be -34 was 27.75
+
+//				.strafeToLinearHeading(new Vector2d(2,-25.75),Math.toRadians(90)) // read to place specimen
 				.endTrajectory();
 
 
 		TrajectoryActionBuilder specimenPlace2_3 = scoreSpecimen3.fresh()
-				.strafeTo(new Vector2d(2, -38)) //  back up
+				.strafeTo(new Vector2d(1, -38)) //  back up
 				.endTrajectory();
 
 
@@ -156,12 +159,12 @@ public class CloseAuto2 extends LinearOpMode
 				pushSample.build(),
 				new InstantAction(() -> {
 					robot.wrist.wall();
-					robot.arm.armToTicks(Arm.WALL_TICKS+10);
+					robot.arm.armToTicks(Arm.WALL_TICKS);
 				}),
 //				pushSample2.build(),
 				new SleepAction(0.3),
 				forward.build(),
-				new SleepAction(0.5),
+				new SleepAction(0.2),
 				new InstantAction(() -> {
 					robot.claw.close();
 				}),
@@ -193,12 +196,12 @@ public class CloseAuto2 extends LinearOpMode
 				backUp.build(),
 				new InstantAction(() -> {
 					robot.wrist.wall();
-					robot.arm.armToTicks(Arm.WALL_TICKS+10);
+					robot.arm.armToTicks(Arm.WALL_TICKS);
 				}),
 				moveTo3rd.build(),
 //				new SleepAction(0.5),
 				forward_2.build(),
-				new SleepAction(0.5),
+				new SleepAction(0.2),
 				new InstantAction(() -> {
 					robot.claw.close();
 				}),
@@ -225,7 +228,7 @@ public class CloseAuto2 extends LinearOpMode
 				new InstantAction(() -> {
 					robot.claw.open();
 				}),
-				new SleepAction(0.2),
+//				new SleepAction(0.2),
 				park.build(),
 				new InstantAction(() -> {
 					robot.wrist.wall();
