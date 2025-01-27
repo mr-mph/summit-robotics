@@ -82,5 +82,3 @@ lint/tmp/
 
 .DS_Store
 /.idea
-doc/.DS_Store
-RRPathGen/

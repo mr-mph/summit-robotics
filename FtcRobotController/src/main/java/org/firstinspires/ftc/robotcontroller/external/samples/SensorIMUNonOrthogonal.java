@@ -58,7 +58,7 @@ import static com.qualcomm.hardware.rev.RevHubOrientationOnRobot.xyzOrientation;
  * planes (X/Y, X/Z or Y/Z) OR that the Hub has only been rotated in a range of 90 degree increments.
  *
  * Note: if your Hub is mounted Orthogonally (on a orthogonal surface, angled at some multiple of
- * 90 Degrees) then you should use the simpler SensorImuOrthogonal sample in this folder.
+ * 90 Degrees) then you should use the simpler SensorIMUOrthogonal sample in this folder.
  *
  * But... If your Hub is mounted Non-Orthogonally, you must specify one or more rotational angles
  * that transform a "Default" Hub orientation into your desired orientation.  That is what is
@@ -69,7 +69,7 @@ import static com.qualcomm.hardware.rev.RevHubOrientationOnRobot.xyzOrientation;
  *
  * Finally, edit this OpMode to use at least one angle around an axis to orient your Hub.
  */
-@TeleOp(name = "Sensor: IMU Non-Orthogonal (preset)", group = "Sensor")
+@TeleOp(name = "Sensor: IMU Non-Orthogonal", group = "Sensor")
 @Disabled     // Comment this out to add to the OpMode list
 public class SensorIMUNonOrthogonal extends LinearOpMode
 {
@@ -93,6 +93,9 @@ public class SensorIMUNonOrthogonal extends LinearOpMode
          * The starting point for these rotations is the "Default" Hub orientation, which is:
          * 1) Hub laying flat on a horizontal surface, with the Printed Logo facing UP
          * 2) Rotated such that the USB ports are facing forward on the robot.
+         *
+         * If you are using a REV External IMU, the "Default" orientation is the same as for a REV Hub, but instead of
+         * the USB ports facing forward, the I2C port faces forward.
          *
          * The order that the rotations are performed matters, so this sample shows doing them in the order X, Y, then Z.
          * For specifying non-orthogonal hub mounting orientations, we must temporarily use axes
@@ -124,7 +127,7 @@ public class SensorIMUNonOrthogonal extends LinearOpMode
          *
          *  To get the "Default" hub into this configuration you would just need a single rotation, but around a different axis.
          *  1) No rotation around the X or Y axes.
-         *  1) Rotate the Hub -30 degrees (Clockwise) around the Z axis, since a positive angle would be Counter Clockwise.
+         *  2) Rotate the Hub -30 degrees (Clockwise) around the Z axis, since a positive angle would be Counter Clockwise.
          *
          *  So the X,Y,Z rotations would be 0,0,-30
          *
