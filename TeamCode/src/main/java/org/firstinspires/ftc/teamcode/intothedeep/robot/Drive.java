@@ -9,7 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
+import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.PinpointDrive;
 
 @Config
 public class Drive {
@@ -37,7 +38,7 @@ public class Drive {
 		leftback = hardwareMap.get(DcMotorEx.class, "leftback");
 		leftfront = hardwareMap.get(DcMotorEx.class, "leftfront");
 
-		mecanumDrive = new MecanumDrive(hardwareMap, startPose);
+		mecanumDrive = new PinpointDrive(hardwareMap, startPose);
 //		mecanumDrive.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 //		mecanumDrive.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
