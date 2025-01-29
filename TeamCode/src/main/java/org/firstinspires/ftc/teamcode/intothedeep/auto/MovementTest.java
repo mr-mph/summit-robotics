@@ -47,11 +47,10 @@ public class MovementTest extends LinearOpMode
 		robot.arm.armToTicks(Arm.WALL_TICKS);
 
 		TrajectoryActionBuilder square = drive.actionBuilder(new Pose2d(0,0, Math.toRadians(90)))
-				.setTangent(90)
-				.splineToLinearHeading(new Pose2d(0, 24, Math.toRadians(90)), Math.toRadians(0), new TranslationalVelConstraint(20))
-				.splineToLinearHeading(new Pose2d(24, 24, Math.toRadians(90)), Math.toRadians(-90), new TranslationalVelConstraint(20))
-				.splineToLinearHeading(new Pose2d(24, 0, Math.toRadians(90)), Math.toRadians(-180), new TranslationalVelConstraint(20))
-				.splineToLinearHeading(new Pose2d(0, 0, Math.toRadians(90)), Math.toRadians(-270), new TranslationalVelConstraint(20))
+				.strafeToLinearHeading(new Vector2d(0, 12), Math.toRadians(0))
+				.strafeToLinearHeading(new Vector2d(12, 12), Math.toRadians(-90))
+				.strafeToLinearHeading(new Vector2d(12, 0), Math.toRadians(-180))
+				.strafeToLinearHeading(new Vector2d(0, 0), Math.toRadians(-270))
 
 				.endTrajectory();
 

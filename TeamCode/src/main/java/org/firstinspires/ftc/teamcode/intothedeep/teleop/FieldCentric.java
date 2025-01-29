@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.intothedeep.robot.Claw;
 
 
 
-@TeleOp(name = "! Field-Centric Robot")
+@TeleOp(name = "Field-Centric Robot")
 public class FieldCentric extends LinearOpMode {
 
 	Robot robot;

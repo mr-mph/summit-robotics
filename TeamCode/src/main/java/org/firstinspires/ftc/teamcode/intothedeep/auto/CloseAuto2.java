@@ -14,13 +14,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.intothedeep.robot.Arm;
+import org.firstinspires.ftc.teamcode.intothedeep.robot.Extender;
 import org.firstinspires.ftc.teamcode.intothedeep.robot.Robot;
 import org.firstinspires.ftc.teamcode.intothedeep.robot.Wrist;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 
 @Config
-@Autonomous(name = "!! 3 Specimen Close Auto ", group = "! Auto")
+@Autonomous(name = "!!3SpecimenCloseAuto", group = "Auto")
 public class CloseAuto2 extends LinearOpMode
 
 {
@@ -36,6 +37,7 @@ public class CloseAuto2 extends LinearOpMode
 		MecanumDrive drive = robot.drive.mecanumDrive;
 
 		robot.claw.init();
+		robot.extender.init();
 
 		robot.arm.init();
 		robot.wrist.init(true);
@@ -44,7 +46,7 @@ public class CloseAuto2 extends LinearOpMode
 		waitForStart();
 
 		TrajectoryActionBuilder specimenPlace_1 = drive.actionBuilder(startPose)
-				.strafeTo(new Vector2d(6, -29)) //  place on high chamber
+				.strafeTo(new Vector2d(6, -30)) //  place on high chamber
 				.endTrajectory(); // should be 10, -34 used to be -33.5
 
 		TrajectoryActionBuilder specimenPlace2_1 = specimenPlace_1.fresh()
@@ -62,26 +64,27 @@ public class CloseAuto2 extends LinearOpMode
 
 
 		TrajectoryActionBuilder pushSample = specimenPlace2_1.fresh()
-				.setTangent(Math.toRadians(0))
-				.splineToLinearHeading(new Pose2d(28,-38, Math.toRadians(0)), Math.toRadians(0)) // 1st sample
-				.splineToConstantHeading(new Vector2d(36,-13), Math.toRadians(90))
-				.splineToConstantHeading(new Vector2d(46,-13), Math.toRadians(-90))
-				.splineToLinearHeading(new Pose2d(46,-54, Math.toRadians(-30)), Math.toRadians(-90))
-				.strafeToLinearHeading(new Vector2d(46,-50), Math.toRadians(-90)) // back out
+				.strafeToLinearHeading(new Vector2d(34,-38), Math.toRadians(0))
+				.setTangent(Math.toRadians(90))
 
+//				.splineToConstantHeading(new Vector2d(24,-38), Math.toRadians(0)) // 1st sample
+				.splineToConstantHeading(new Vector2d(34,-18), Math.toRadians(90))
+				.splineToConstantHeading(new Vector2d(46,-18), Math.toRadians(-90))
+				.splineToConstantHeading(new Vector2d(46,-50), Math.toRadians(90))
 
-
-
-//				.strafeToLinearHeading(new Vector2d(36,-38), Math.toRadians(0)) // 1st sample
-//				.strafeTo(new Vector2d(36,-13)) // off to the side
-//				.strafeTo(new Vector2d(46,-13)) // 1st initial
-//				.strafeToLinearHeading(new Vector2d(46,-58), Math.toRadians(-30)) // 1st in
-
-//				.strafeToLinearHeading(new Vector2d(46,-50), Math.toRadians(-90)) // back out
 				.endTrajectory();
 
-		TrajectoryActionBuilder pushSample2 = pushSample.fresh()
+
+		TrajectoryActionBuilder pushSample_2 = pushSample.fresh()
+
+				.splineToConstantHeading(new Vector2d(42,-18), Math.toRadians(90))
+				.splineToConstantHeading(new Vector2d(56,-18), Math.toRadians(-90))
+				.splineToConstantHeading(new Vector2d(56,-50), Math.toRadians(90))
+				.endTrajectory();
+
+		TrajectoryActionBuilder pushSample2 = pushSample_2.fresh()
 //				.turnTo(Math.toRadians(-90))
+				.strafeToLinearHeading(new Vector2d(46,-50), Math.toRadians(-90))
 				.endTrajectory();
 
 
@@ -90,7 +93,7 @@ public class CloseAuto2 extends LinearOpMode
 				.endTrajectory(); // should be -54
 
 		TrajectoryActionBuilder forward_2 = pushSample2.fresh()
-				.strafeTo(new Vector2d(46,-57.5)) // in to grab sample
+				.strafeTo(new Vector2d(46,-57)) // in to grab sample
 				.endTrajectory(); // should be -54 (was -52.5)
 
 		TrajectoryActionBuilder backAgain = forward.fresh()
@@ -99,7 +102,7 @@ public class CloseAuto2 extends LinearOpMode
 
 		TrajectoryActionBuilder scoreSpecimen2 = backAgain.fresh()
 				.strafeToLinearHeading(new Vector2d(3,-40),Math.toRadians(90)) // ready to place specimen
-				.strafeTo(new Vector2d(3,-28)) // should be -34 was -30
+				.strafeTo(new Vector2d(3,-29)) // should be -34 was -30
 
 //				.strafeToLinearHeading(new Vector2d(6,-28),Math.toRadians(90)) // ready to place specimen
 
@@ -120,7 +123,7 @@ public class CloseAuto2 extends LinearOpMode
 
 		TrajectoryActionBuilder scoreSpecimen3 = backAgain.fresh()
 				.strafeToLinearHeading(new Vector2d(1,-40),Math.toRadians(90)) // read to place specimen
-				.strafeTo(new Vector2d(1,-26.5)) // should be -34 was 27.75
+				.strafeTo(new Vector2d(1,-29)) // should be -34 was 27.75
 
 //				.strafeToLinearHeading(new Vector2d(2,-25.75),Math.toRadians(90)) // read to place specimen
 				.endTrajectory();
@@ -160,11 +163,12 @@ public class CloseAuto2 extends LinearOpMode
 					robot.arm.armToTicks(Arm.BASKET_TICKS);
 				}),
 				pushSample.build(),
+				pushSample_2.build(),
 				new InstantAction(() -> {
 					robot.wrist.wall();
 					robot.arm.armToTicks(Arm.WALL_TICKS);
 				}),
-//				pushSample2.build(),
+				pushSample2.build(),
 				new SleepAction(0.3),
 				forward.build(),
 				new SleepAction(0.2),
@@ -235,7 +239,9 @@ public class CloseAuto2 extends LinearOpMode
 				park.build(),
 				new InstantAction(() -> {
 					robot.wrist.wall();
-					robot.arm.armToTicks(Arm.WALL_TICKS+10 );
+					robot.arm.armToTicks(Arm.WALL_TICKS+10);
+//					robot.extender.linkage.setPosition(Extender.LINKAGE_OUT);
+//					robot.extender.hook.setPosition(Extender.HOOK_UP);
 				}), new SleepAction(0.5)
 		));
 
