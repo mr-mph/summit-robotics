@@ -27,7 +27,7 @@ public class MeepMeepTesting {
 		DriveShim drive = myBot.getDrive();
 
 		TrajectoryActionBuilder specimenPlace_1 = drive.actionBuilder(startPose)
-				.strafeTo(new Vector2d(6, -30)) //  place on high chamber
+				.strafeTo(new Vector2d(6, -31)) //  place on high chamber
 				.endTrajectory(); // should be 10, -34 used to be -33.5
 
 		TrajectoryActionBuilder specimenPlace2_1 = specimenPlace_1.fresh()
@@ -50,17 +50,17 @@ public class MeepMeepTesting {
 
 //				.splineToConstantHeading(new Vector2d(24,-38), Math.toRadians(0)) // 1st sample
 				.splineToConstantHeading(new Vector2d(34,-18), Math.toRadians(90))
-				.splineToConstantHeading(new Vector2d(46,-18), Math.toRadians(-90))
-				.splineToConstantHeading(new Vector2d(46,-50), Math.toRadians(90))
+				.splineToConstantHeading(new Vector2d(44,-18), Math.toRadians(-90))
+				.splineToConstantHeading(new Vector2d(44,-50), Math.toRadians(90))
 
 				.endTrajectory();
 
 
 		TrajectoryActionBuilder pushSample_2 = pushSample.fresh()
 
-				.splineToConstantHeading(new Vector2d(42,-18), Math.toRadians(90))
-				.splineToConstantHeading(new Vector2d(56,-18), Math.toRadians(-90))
-				.splineToConstantHeading(new Vector2d(56,-50), Math.toRadians(90))
+				.splineToConstantHeading(new Vector2d(44,-18), Math.toRadians(90))
+				.splineToConstantHeading(new Vector2d(54,-18), Math.toRadians(-90))
+				.splineToConstantHeading(new Vector2d(54,-50), Math.toRadians(90))
 				.endTrajectory();
 
 		TrajectoryActionBuilder pushSample2 = pushSample_2.fresh()
@@ -70,7 +70,7 @@ public class MeepMeepTesting {
 
 
 		TrajectoryActionBuilder forward = pushSample2.fresh()
-				.strafeTo(new Vector2d(46,-57), new TranslationalVelConstraint(5)) // in to grab sample
+				.strafeTo(new Vector2d(46,-57)) // in to grab sample
 				.endTrajectory(); // should be -54
 
 		TrajectoryActionBuilder forward_2 = pushSample2.fresh()
@@ -83,7 +83,7 @@ public class MeepMeepTesting {
 
 		TrajectoryActionBuilder scoreSpecimen2 = backAgain.fresh()
 				.setTangent(Math.toRadians(90))
-				.splineToLinearHeading(new Pose2d(3,-29, Math.toRadians(90)),Math.toRadians(90)) // ready to place specimen
+				.splineToLinearHeading(new Pose2d(3,-31, Math.toRadians(90)),Math.toRadians(90)) // ready to place specimen
 //				.splineToConstantHeading(new Vector2d(3,-29), Math.toRadians(90)) // should be -34 was -30
 
 //				.strafeToLinearHeading(new Vector2d(6,-28),Math.toRadians(90)) // ready to place specimen
@@ -105,15 +105,15 @@ public class MeepMeepTesting {
 
 
 		TrajectoryActionBuilder scoreSpecimen3 = backAgain.fresh()
-				.strafeToLinearHeading(new Vector2d(1,-40),Math.toRadians(90)) // read to place specimen
-				.strafeTo(new Vector2d(1,-29)) // should be -34 was 27.75
+				.splineToLinearHeading(new Pose2d(-1,-31, Math.toRadians(90)),Math.toRadians(90)) // read to place specimen
+//				.strafeTo(new Vector2d(1,-29)) // should be -34 was 27.75
 
 //				.strafeToLinearHeading(new Vector2d(2,-25.75),Math.toRadians(90)) // read to place specimen
 				.endTrajectory();
 
 
 		TrajectoryActionBuilder specimenPlace2_3 = scoreSpecimen3.fresh()
-				.strafeTo(new Vector2d(1, -38)) //  back up
+				.strafeTo(new Vector2d(-1, -38)) //  back up
 				.endTrajectory();
 
 
@@ -226,6 +226,19 @@ public class MeepMeepTesting {
 					//arm.armToTicks(Arm.WALL_TICKS);
 				}), new SleepAction(0.5)
 		));
+
+//		myBot.runAction(
+//				drive.actionBuilder(new Pose2d(0, 0, 0))
+//						.splineTo(new Vector2d(30, 30), Math.PI / 2)
+//						.splineTo(new Vector2d(0, 60), Math.PI)
+//						.setReversed(true)
+//						.splineTo(new Vector2d(30, 30), -Math.PI / 2)
+//						.splineTo(new Vector2d(0, 0), -Math.PI)
+//
+//
+//
+//						.build());
+
 
 //		TrajectoryActionBuilder square = drive.actionBuilder(new Pose2d(0,0, Math.toRadians(90)))
 //				.setTangent(90)
