@@ -69,6 +69,7 @@ public class MeepMeepTesting {
 				.endTrajectory();
 
 
+
 		TrajectoryActionBuilder forward = pushSample2.fresh()
 				.strafeTo(new Vector2d(46,-57)) // in to grab sample
 				.endTrajectory(); // should be -54
@@ -95,7 +96,7 @@ public class MeepMeepTesting {
 				.endTrajectory();
 
 		TrajectoryActionBuilder backUp = specimenPlace2_2.fresh()
-//				.strafeTo(new Vector2d(6, -42)) //  back up
+				.strafeTo(new Vector2d(3, -42)) //  back up
 				.endTrajectory();
 
 		TrajectoryActionBuilder moveTo3rd = backUp.fresh()
