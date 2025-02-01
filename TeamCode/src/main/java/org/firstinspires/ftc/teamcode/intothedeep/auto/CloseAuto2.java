@@ -37,7 +37,7 @@ public class CloseAuto2 extends LinearOpMode
 		PinpointDrive drive = robot.drive.mecanumDrive;
 
 		robot.claw.init();
-
+		robot.extender.init();
 
 
 		robot.arm.init();
@@ -120,7 +120,7 @@ public class CloseAuto2 extends LinearOpMode
 
 		TrajectoryActionBuilder scoreSpecimen3 = backAgain.fresh()
 				.strafeToLinearHeading(new Vector2d(1,-40),Math.toRadians(90)) // read to place specimen
-				.strafeTo(new Vector2d(1,-32)) // should be -34 was 27.75
+				.strafeTo(new Vector2d(1,-31.75)) // should be -34 was 27.75
 
 //				.strafeToLinearHeading(new Vector2d(2,-25.75),Math.toRadians(90)) // read to place specimen
 				.endTrajectory();
@@ -132,7 +132,7 @@ public class CloseAuto2 extends LinearOpMode
 
 
 		TrajectoryActionBuilder park = specimenPlace2_3.fresh()
-				.strafeTo(new Vector2d(34, -58)) // should be up to -63? weird
+				.strafeTo(new Vector2d(34, -60)) // should be up to -63? weird
 				.endTrajectory();
 
 
