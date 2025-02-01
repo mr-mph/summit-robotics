@@ -25,7 +25,7 @@ public class Drive {
 
 	public boolean initialized = false;
 
-	public MecanumDrive mecanumDrive;
+	public PinpointDrive mecanumDrive;
 	private final HardwareMap hardwareMap;
 
 	public Drive(HardwareMap hardwareMap) {
