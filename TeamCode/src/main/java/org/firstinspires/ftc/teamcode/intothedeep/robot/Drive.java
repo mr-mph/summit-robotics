@@ -82,7 +82,7 @@ public class Drive {
 		if (speedState.equals("slow")) {
 			SPEED = 0.3;
 		} else if (speedState.equals("fast")) {
-			SPEED = 0.8;
+			SPEED = 1;
 		} else {
 			SPEED = 0.5;
 		}
